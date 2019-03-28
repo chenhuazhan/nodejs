@@ -1,0 +1,76 @@
+<script>
+    $(function () {
+        "use strict";
+        //导航
+        var nav = document.getElementById("games");
+        var navCurrent = nav.children[0];
+        var ul = nav.children[1];
+        var allLis = ul.children;
+
+        var navCurrentIndex = 0;
+        var panel = document.getElementById("panel");
+        // 记录鼠标点击的位置
+        var beginX = 0;
+        var begin = 0,
+            end = 0,
+            timer = null
+        var hash = window.location.hash.substring(1)
+        console.log(hash);
+        if(hash !== '' && !isNaN(parseInt(hash))){
+            var index = hash -1
+            begin = $("#games>ul>li")[index].offsetLeft;
+            navCurrent.style.left = begin + "px";
+            var $panel = $("#panel");
+            $panel.css({"marginLeft":-index*(parseInt($panel.css("width"))/4)+"px"});
+        }
+
+        // 2. 遍历
+        for (var i = 0; i < allLis.length; i++) {
+            var li = allLis[i];
+            li.index = i;
+            // 2.1 监听鼠标进入
+            li.onmouseover = function () {
+                end = this.offsetLeft;
+            };
+
+            // 2.2 监听鼠标按下事件
+            li.onmousedown = function () {
+                beginX = this.offsetLeft;
+                window.location.hash = $(this).index() + 1
+            };
+
+            // 2.2 监听鼠标离开事件
+            li.onmouseout = function () {
+                end = beginX;
+            };
+            li.onclick = function () {
+                navCurrentIndex = this.parentNode.index;
+                return false;
+            };
+        }
+
+        // 3.缓动动画
+        $('#games>ul').hover(function () {
+            timer = setInterval(function () {
+                begin = begin + (end - begin) * 0.1;
+                navCurrent.style.left = begin + "px";
+            }, 10);
+        }, function () {
+            clearInterval(timer)
+        })
+
+
+        $("#games>ul>li").click(function () {
+            // 1.1修改被移入选项卡的背景颜色
+            $(this).addClass("current_li");
+            // 1.2还原其它兄弟选项卡的背景颜色
+            $(this).siblings().removeClass("current_li");
+            // 1.3获取当前移出选项卡的索引
+            var index = $(this).index();
+            var $panel = $("#panel");
+            $panel.stop().animate({"marginLeft":-index*(parseInt($panel.css("width"))/4)+"px"},1000);
+        });
+
+    });
+
+</script>

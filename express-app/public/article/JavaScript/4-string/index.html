@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>字符串</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+<h1>字符串的使用</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、字符串定义</a></h3>
+	1.1、使用String()构造函数
+		var str=new String("abc");
+	1.2、使用字面量
+		var str="abc";
+		<h3><a href="">2、获取字符串长度</a></h3>
+	var str="abc"; 
+	alert(str.length);//3
+		<h3><a href="">3、使用索引访问字符串元素</a></h3>
+	索引值从0开始，最大索引值为String.length-1。
+		<h3><a href="">4、字符串常用方法</a></h3>
+	4.1、charAt()
+		获取相应位置的单个字符（参数：字符索引），如果参数中的索引不在0和length-1之间，则返回空字符串。
+		var str="hello world";
+		console.log(str.charAt(1));//e
+		console.log(typeof str.charAt(-1));//string
+	4.2、charCodeAt()
+		获取相应位置的字符的Unicode编码（参数：字符索引），如果参数中的索引不在0和length-1之间，则返回NaN。
+		var str="hello world";
+		console.log(str.charAt(1));//101
+		console.log(str.charAt(-1));//NaN
+		求字符串的真实长度？
+		function getStrLength(str) {
+			// 1.定义变量
+			var len = 0, code = 0;
+			// 2. 遍历
+			for (var i = 0; i &lt; str.length; i++) {
+				// 2.1 Unicode码
+				code = str.charCodeAt(i);
+				// 2.2 判断
+				if (code >= 0 && code &lt;= 127) {
+					len += 1;     	//ASCII码字符占1个字符长度
+				} else {
+					len += 2;		//其他字符占2个字符长度
+				}
+			}
+			// 3. 返回长度
+			return len;
+		}
+	4.3、URI编码函数encodeURIComponent(str)
+	4.4、URI解码函数decodeURIComponent(str)
+	4.5、大小写转换
+		var str = "Hello World!";
+		console.log(str.toUpperCase());	 	//"HELLO WORLD!"
+		console.log(str.toLowerCase()); 	//"hello world!"
+	4.6、应用：上传图片的格式验证
+		<label>上传图片的格式验证:</label><input type="file" id="file">
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+<script src="js/pic_upload.js"></script>
+</body>
+</html>

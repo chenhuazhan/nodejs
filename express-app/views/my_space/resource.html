@@ -1,0 +1,19 @@
+{{extend './layout.html'}}
+{{ block 'style' }}
+{{include './css/resource.css.html'}}
+{{ /block }}
+
+{{block 'content'}}
+    <div class="row">
+        <section class="">
+            <div id="resource" class="linklist">
+                <ul>
+                </ul>
+            </div>
+        </section>
+    </div>
+{{/block}}
+
+{{block 'script'}}
+{{include './js/resource.js.html'}}
+{{/block}}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery静态方法</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+		
+	</style>
+	<script src="js/jQuery-1.12.4.js"></script>
+	<script src="js/index.js"></script>
+    
+</head>
+
+<body>
+<h1>jQuery静态方法</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、静态方法和实例方法</a></h3>
+	1.1、定义一个类:function ClassName() {}
+	1.2、直接给这个类添加一个方法，这种直接添加给类的方法就是静态方法
+		ClassName.staticMethod = function () {}
+		静态方法通过类名调用：ClassName.staticMethod();
+	1.3、通过prototype给这个类添加的方法是实例方法
+		ClassName.prototype.instanceMethod = function () {}
+		实例方法通过类的实例调用：var a = new ClassName(); a.instanceMethod();
+		<h3><a href="">2、$.each()方法</a></h3>
+	类似原生jsArray对象的forEach()方法，两者用法对比如下：
+	2.1、调用者：forEach方法通过数组实例调用，each方法通过jQuery类名调用
+	2.2、参数：arr.forEach(function(val,index){}); $.each(arr/obj,function(index,val){});
+	故forEach方法只能遍历数组，不能遍历伪数组,如对象，each()方法两者都可遍历
+	2.3、返回值：forEach方法返回undefined，each()方法返回each方法的第一个参数
+		$.each()静态方法不支持在回调函数中对遍历的数组进行处理,回调函数不支持返回值。
+	2.4、示例程序：
+		var arr=[1,2,3];
+		var obj={name:"chz",age:20};
+		var a=arr.forEach(function(val,index){
+			console.log(index,val);		
+		});
+		console.log(a);		//undefined
+		/*obj.forEach(function(val,index){
+			console.log(val,index);
+		});报错*/
+		a=$.each(arr,function(index,val){
+			console.log(index,val);
+		});
+		console.log(a);		//(3) [1, 2, 3]
+		a=$.each(obj,function(index,val){
+			console.log(index,val);
+		});
+		console.log(a);		//{name: "chz", age: 20}
+		<h3><a href="">3、$.map()方法</a></h3>
+	类似原生jsArray对象的map()方法，两者用法对比如下：
+	3.1、调用者：原生map()方法通过数组实例调用，jQuery map()方法通过jQuery类名调用
+	3.2、参数：
+		原生map()方法：arr.map(function(val,index,array){});function中的3个参数
+		第一个参数: 当前遍历到的元素
+        第二个参数: 当前遍历到的索引
+        第三个参数: 当前被遍历的数组
+		jQuery map()方法:$.map(arr/obj,function(val,index){});
+		第一个参数: 要遍历的数组或对象
+        第二个参数: 每遍历一个元素之后执行的回调函数
+        回调函数的参数:
+        第一个参数: 遍历到的元素
+        第二个参数: 遍历到的索引
+		原生map()方法只能遍历真数组，$.map()方法两者能遍历真数组和伪数组
+	3.3、返回值：
+		两种map()方法都支持在回调函数中对遍历的数据进行处理,回调函数支持返回值。回调函数没有返回值时，原生map()方法默认返回一个长度和调用者一致的数组，数组中的元素全为undefined。$.map()方法会返回一个空数组。
+		回调函数有返回值时，两者都返回回调函数的每一个返回值组成的数组，切不会改变原有的数组或对象。
+	3.4、示例程序：
+		var arr=[1,2,3];
+		var obj={name:"chz",age:20};
+		var a;
+		
+		a=arr.map(function(val,index,array){
+			console.log(val,index,array);
+		});
+		console.log(a);			//(3) [undefined, undefined, undefined]
+		a=arr.map(function(val,index,array){
+			return val*=2;
+		});
+		console.log(a,arr);		//(3) [2, 4, 6] ,(3) [1, 2, 3]
+		/*obj.forEach(function(val,index){
+			console.log(val,index);
+		});报错*/
+		a=$.map(arr,function(val,index){
+			console.log(val,index);
+		});
+		console.log(a);		//[]
+		a=$.map(arr,function(val,index){
+			return val*=2;
+		});
+		console.log(a,arr);	//(3) [2, 4, 6] ,(3) [1, 2, 3]
+		a=$.map(obj,function(val,index){
+			console.log(val,index);
+		});
+		console.log(a);		//[]
+		a=$.map(obj,function(val,index){
+			return val+="good";
+		});
+		console.log(a,obj);	//(2) ["chzgood", "20good"] ,{name: "chz", age: 20}
+		<h3><a href="">4、$.trim()方法</a></h3>
+	用于去除字符串两端的空格，传入一个需要去除空格的字符串，返回去除空格之后的字符串，不影响原字符串。
+		<h3><a href="">5、jQuery判断类型静态方法</a></h3>
+	$.isWindow()、$.isArray()、$.isFunction()
+	判断传入的对象是否是window对象/真数组/函数，返回true/false。
+		<h3><a href="">6、$.holdReady()方法</a></h3>
+	接收true/false参数，参数为true时，暂停ready入口函数执行
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图形、音频、视频</title>
+	<link href="css/index.css" rel="stylesheet">
+	<script src="js/index.js"></script>
+</head>
+<body>
+	<h1>H5图形、音频、视频常用知识总结</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3>1、canvas绘制步骤</h3>
+	1.1、根据id属性或其他选择器选中canvas元素对象：
+	&lt;canvas id="myCanvas" width="400" height="400">
+		您的浏览器不支持此功能
+	&lt;/canvas>
+	var canvas=document.getElementById("myCanvas");
+	1.2、调用getContext方法获取上下文，创建Context对象，以获取绘制环境：
+	var context=canvas.getContext("2d");
+	1.3、绘制图形
+		<h3>2、绘制图形</h3>
+	2.1、绘制路径型图形：
+		context.beginPath()	//新路径开始
+		context.moveTo(startX,startY)	//画笔移动到起点
+		
+		context.lineTo(endX,endY)  //直线要到达的终点
+		context.arcTo(controlX,controlY,endX,endY,radius)	//绘制两条切线之间的弧/曲线路径
+		context.quadraticCurveTo(controlX,controlY,endX,endY)	//绘制二次贝塞尔曲线路径
+		context.bezierCurveTo(controlX1,controlY1,controlX2,controlY2,endX,endY)		//绘制三次贝塞尔曲线路径
+		context.rect(startX,startY,width,height)	//绘制矩形
+		context.arc(centerX,centerY,radius,startDeg,endDeg,dir)	//绘制圆弧
+		参数说明：圆心坐标，半径，起始弧度，终止弧度，方向，0度在圆心正右边，方向默认为false，顺时针方向
+		context.arc(centerX,centerY,radius,0,2*Math.PI,flase)	//绘制圆
+		
+		context.lineCap		//线条端点样式，三个可选值：butt/round/square
+		context.lineJoin	//线条连接样式，三个可选值：miter/round/bevel
+		context.lineWidth	//线条宽度属性
+		context.strokeStyle  //线条颜色属性
+		
+		context.stroke()  	//上色，默认为黑色	
+	2.2、颜色填充
+		context.fillStyle	//填充色属性
+		context.fill()		//填充颜色，默认填充颜色为黑色
+		context.fillRect(startX,startY,width,height);  //绘制填充式矩形
+	2.3、绘制阴影
+		context.shadowColor	//阴影颜色
+		context.shadowBlur	//阴影模糊度
+		context.shadowOffsetX	//阴影水平距离
+		context.shadowOffsetY	//阴影垂直距离	
+	2.3、透明度：context.globalAlpha	//取值0~1	
+	2.4、渐变
+		var clg=context.createLinearGradient(startX,startY,endX,endY);	//设置线性渐变轴向
+		var crg=context.createRadialGradient(X1,Y1,R1,X2,Y2,R2);	//设置径向渐变同心圆
+		
+		clg.addColorStop(position(0~1),color)	//设置渐变轴各点的颜色，一般会设置2个或2个以上的点
+		crg.addColorStop(position(0~1),color)	//设置渐变直径各点的颜色，一般会设置2个或2个以上的点
+		context.fillStyle=clg;	//将渐变色用于填充色
+		context.fillStyle=crg;	//将渐变色用于填充色
+		context.StrokeStyle=clg;	//将渐变色用于线条颜色
+	2.5、图案填充
+		var pat=contextcreatePattern(imgDomObj,repeatType)
+		context.fillStyle=pat;	//将图案设置为填充样式
+	2.6、绘制图像
+		var imageObj=new Image();
+		imageObj.src=urlString;
+		imageObj.onload=function(){
+			context.drawImage(imageObj,startX,startY[,width,height])
+			context.drawImage(imageObj,cutStartX,cutStartY,cutWidth,cutHeight,drawStartX,drawStartY,drawWidth,drawHeight)
+		}
+	2.7、绘制文本
+		context.font	//文本样式、大小、字体，默认值为normal
+		context.textAlign	//文本对齐方式
+		context.fillText(textString,startX,startY);	//填充文本（实心字）
+		context.strokeText(text,startX,startY);	//文本描边（空心字）
+		var m=context.measureText(textString)	//测量文本尺寸，返回一个尺度对象
+		var width=m.width;
+		<h3>3、图形变换</h3>
+	context.translate(x,y)	//平移
+	context.rotate(deg)	//旋转(单位为弧度)
+	context.scale(x-ratio,y-ratio)		//缩放
+	context.save()	//保存状态
+	context.restore()	//恢复距离最近的状态，一个状态只能恢复一次
+		<h3>4、图形组合</h3>
+	context.globalCompositeOperation	//图形组合方式
+	当多个图形重叠时，默认为后来者居上
+		<h3>5、画布裁切 </h3>
+	一旦裁切了画布中的某个区域，则画布的其他区域所绘制的图形都不可见
+	context.clip()	//裁切距离最近闭合图形
+		<h3>6、清空区域 </h3>
+	context.clearRect(startX,startY,width,height);	//清空矩形区域	
+		<h3>7、音频和视频 </h3>
+	&lt;audio controls autoplay>
+		&lt;source src="text.ogg" type="audio/ogg">&lt;/source>
+		&lt;source src="text.mp3" type="audio/mpeg">&lt;/source>
+		您的浏览器不支持此功能
+	&lt;/audio>
+
+	&lt;video controls loop muted>
+		&lt;source src="text.ogg" type="video/ogg"></source>
+		&lt;source src="text.mp4" type="audio/mp4"></source>
+		您的浏览器不支持此功能
+	&lt;/video>
+	常用方法：
+		play()	开始播放音频/视频
+		pause()	暂停当前播放的音频/视频
+	常用属性：
+		src	设置或返回音频/视频元素的当前来源
+		autoplay	设置或返回是否在加载完成后随即播放音频/视频
+		controls	设置或返回音频/视频是否显示控件（比如播放/暂停等）
+		loop	设置或返回音频/视频是否应在结束时重新播放
+		paused	设置或返回音频/视频是否暂停
+		volume	设置或返回音频/视频的音量
+		defaultPlaybackRate	设置或返回音频/视频的默认播放速度
+		playbackRate	设置或返回音频/视频播放的速度
+		defaultMuted	设置或返回音频/视频默认是否静音
+		muted	设置或返回音频/视频是否静音
+		duration	返回当前音频/视频的长度（以秒计）
+		ended	返回音频/视频的播放是否已结束
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

@@ -1,0 +1,195 @@
+<style>
+
+/***********************左侧栏样式开始*************************/
+
+/***********************左侧栏头部样式开始*************************/
+#top {
+	width: 100%;
+	height: 270px;
+	border-radius: 10px;
+	padding: 20px 0 0 20px;
+	margin-top: 20px;
+	box-sizing: border-box;
+	background: url("/images/my_space/top_bg.png") no-repeat;
+	background-size: auto 100%;
+	position: relative;
+}
+#top h1 {
+	color: #6B0968;
+	font-size: 40px;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+}
+#top span {
+	font-family: "楷体";
+	font-size: 30px;
+	display: block;
+	color: orange;
+	position: absolute;
+}
+#top span:nth-child(2) {
+	left: 80px;
+	top: 180px;
+}
+#top span:nth-child(3) {
+	left: 120px;
+	top: 220px;
+}
+/***********************左侧栏头部时钟样式开始*************************/
+#clock{
+    width: 150px;
+    height: 150px;
+    background: url("/images/my_space/clock/clock.png") no-repeat center center;
+    background-size:150px 150px;
+    position: absolute;
+	right: 30%;
+	bottom: 5%;
+	
+}
+#hour, #min, #second{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 5px;
+    height: 150px;
+    margin-left: -3px;
+}
+#hour{
+    background: url("/images/my_space/clock/hour.png") no-repeat center center;
+	background-size:5px 150px;
+}
+#min{
+    background: url("/images/my_space/clock/minute.png") no-repeat center center;
+	background-size:5px 150px;
+}
+#second{
+    background: url("/images/my_space/clock/second.png") no-repeat center center;
+	background-size:5px 150px;
+}
+
+/***********************左侧栏头部时钟样式结束*************************/
+
+/***********************左侧栏头部样式结束*************************/
+
+/***********************左侧栏导航样式开始*************************/
+
+.navbar-hz, #home, #main {
+	border: 2px solid #ccc;
+}
+.navbar-hz {
+	margin-top: 20px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+#hz_nav{
+	width: 100%;
+}
+
+#hz_nav .active-tab a{
+	color: yellow;
+	background-color: #0E1ff0;
+}
+
+#hz_nav li:hover a{
+	color: yellow;
+	background-color: #0E1ff0;
+}
+
+/***********************左侧栏导航样式结束*************************/
+
+/***********************左侧栏主体样式开始*************************/
+#home, #main {
+	margin-top: -10px;
+	box-sizing: border-box;
+	background-color: #FFF;
+	//position: relative;
+	overflow: hidden;
+}
+
+#main{
+	display: none;
+}
+
+#main h2{
+	font-size: 26px;
+	margin:10px 30px;
+	line-height: 40px;
+	height: 50px;
+	border-bottom: 2px solid #e8e8e8;
+}
+#main .articleList{
+	width: 100%;
+	overflow: hidden;
+	padding: 10px 30px;
+}
+#main .articleList li {
+	width: 90%;
+	height: 40px;
+	border-bottom: 2px dashed #e8e8e8;
+	line-height: 40px;
+}
+#main .articleList li a {
+	font-size: 20px;
+	text-decoration: none;
+}
+#main .articleList li a:hover {
+	font-size: 24px;
+	color: lawngreen;
+}
+/***********************左侧栏主体样式结束*************************/
+
+/***********************左侧栏样式结束*************************/
+/***********************右侧栏样式开始*************************/
+.right {
+	
+}
+#person {
+	width: 95%;
+	margin: 20px auto;
+	box-sizing: border-box;
+	font-family: "楷体";
+	font-size: 18px;
+	line-height: 24px;
+	word-break:break-all;
+}
+#person>div{
+    float: left;
+}
+#person .person-introduce{
+    padding-left: 4px;
+}
+
+.collectionlinklist{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    overflow:hidden;
+    clear: both;
+}
+.collectionlinklist ul>li{
+    padding-left: 10px;
+    line-height: 36px;
+    border-bottom: 1px dashed #aaa;
+    margin-left: 10px;
+
+}/*
+@media screen and (min-width:700px){
+    .collectionlinklist ul>li{
+        width: 46%;
+        float: left;
+    }
+}*/
+.collectionlinklist ul>li>a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: chocolate;
+
+}
+.collectionlinklist ul>li>a:hover{
+    text-decoration: underline;
+
+}
+/***********************右侧栏样式结束*************************/
+
+
+</style>

@@ -1,0 +1,201 @@
+<style>
+    #games {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        height: 1140px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    #games #current_game{
+        width: 33%;
+        height: 35px;
+        background-color: orange;
+        border-radius: 2px;
+        position: absolute;
+    }
+    #games>ul {
+        position: relative;
+        width: 100%;
+        height: 35px;
+        font-size: 13px;
+        color: red;
+        border: 1px solid pink;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    #games>ul li {
+        width: 33%;
+        float: left;
+        cursor: pointer;
+        text-align: center;
+        line-height: 35px;
+        padding: 0 3px;
+        overflow: hidden;
+    }
+    #panel {
+        width: 400%;
+        overflow: hidden;
+        box-sizing: content-box;
+    }
+    #panel>div {
+        float: left;
+        width: 25%;
+        padding-top: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+
+    /***********************拍打灰太狼面板样式开始*************************/
+    .wolf-container{
+        width: 320px;
+        height: 480px;
+        background: url("/images/game/wolf/game_bg.jpg") no-repeat 0 0;
+        margin: 10px auto 10px;
+        position: relative;
+    }
+    .wolf-container>h1{
+        color: white;
+        margin-left: 60px;
+    }
+    .wolf-container>.progress{
+        width: 180px;
+        height: 16px;
+        background: url("/images/game/wolf/progress.png") no-repeat 0 0;
+        position: absolute;
+        top: 66px;
+        left: 63px;
+    }
+    .wolf-container>.start{
+        width: 150px;
+        line-height: 35px;
+        text-align: center;
+        color: white;
+        background: linear-gradient(#E55C3D,#C50000);
+        border-radius: 20px;
+        border: none;
+        font-size: 20px;
+        position: absolute;
+        top: 320px;
+        left: 50%;
+        margin-left: -75px;
+    }
+    .wolf-container>.rules{
+        width: 100%;
+        height: 20px;
+        background: #ccc;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        text-align: center;
+        cursor: pointer;
+    }
+    .wolf-container>.rule{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding-top: 100px;
+        box-sizing: border-box;
+        text-align: center;
+        display: none;
+    }
+    .rule>p{
+        line-height: 50px;
+        color: white;
+    }
+    .rule>a{
+        color: red;
+        font-size: 20px;
+    }
+    .wolf-container>.mask{
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding-top: 200px;
+        box-sizing: border-box;
+        text-align: center;
+        display: none;
+    }
+    .mask>h1{
+        color: #ff4500;
+        text-shadow: 3px 3px 0 #fff;
+        font-size: 40px;
+    }
+    .mask>button{
+        width: 150px;
+        line-height: 35px;
+        text-align: center;
+        color: white;
+        background: linear-gradient(#74ACCF,#007DDC);
+        border-radius: 20px;
+        border: none;
+        font-size: 20px;
+        position: absolute;
+        top: 320px;
+        left: 50%;
+        margin-left: -75px;
+    }
+    /***********************拍打灰太狼面板样式结束*************************/
+
+
+    /***********************贪吃蛇面板样式开始*************************/
+
+    .wrap {
+        width: 100%;
+        margin: 10px auto;
+        position: relative;
+    }
+    .wrap p {
+        position: absolute;
+        right: 5%;
+        top: 0;
+    }
+    #score {
+        text-align: center;
+        font-size: 20px;
+    }
+    #snake_map {
+        margin: 0 auto;
+    }
+    /*行样式*/
+    .snake-map-row {
+        height: 12px;
+    }
+    /*列样式*/
+    .snake-map-col {
+        height: 12px;
+        width: 12px;
+        box-sizing: border-box;
+        border: 1px solid lightgray;
+        background: rgb(250, 250, 250);
+        float: left;
+    }
+    .activeSnake {
+        background: black;
+    }
+    .egg {
+        background: red;
+        border-radius: 50%;
+    }
+    .snake-control{
+        width: 200px;
+        margin: 10px auto;
+        overflow: hidden;
+    }
+    .snake-control button{
+        margin: 5px;
+    }
+
+    /***********************贪吃蛇面板样式结束*************************/
+</style>

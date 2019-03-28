@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>函数</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+	<h1>函数的使用</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、函数声明和调用</a></h3>
+	1.1、使用function关键字直接声明
+		function functionName(参数1,参数2,...){
+			函数体;
+		}
+		例：
+		function add(num1,num2){
+			return num1+num2;
+		}
+	1.2、表达式声明
+		var functionName = function(参数1,参数2,...){
+			函数体;
+		}
+		例：
+		var add = function(num1,num2){
+			return num1+num2;
+		}
+	1.3、使用构造函数Function()
+		var functionName = new Function(参数1,参数2,...);
+		例：
+		var add = function(num1,num2,"return num1+num2;");
+	1.4、直接声明和表达式声明的区别
+		直接声明的函数可以全局调用，而表达式声明的函数只能在声明函数后的代码中调用。
+	1.5、函数调用
+		functionName(实参1,实参2,...);
+		例：
+		add(1,2);
+	1.6、匿名函数：没有函数名的函数
+		应用场景：绑定事件、定时器（匿名函数用作函数参数）、自调用函数（闭包）
+	1.7、回调函数：在一个函数中调用另一个函数或函数本身，一般用于递归。
+	1.8、箭头函数(ES6新增语法)
+		也是一种函数声明的方式,常用于回调函数，箭头函数中的this都会指向默认调用该函数的对象
+		let sum=(a,b)=>{return a+b;};
+		<h3><a href="">2、函数参数和返回值</a></h3>
+	2.1、函数参数可分为形参（用于占位）和实参（用于实际运算）。
+	2.2、调用函数时，实参个数必须多于或等于无预定义值得形参个数。
+	2.3、函数中有一个arguments对象，用于存储传入函数的实参。
+		具有一个length属性，存储实参个数；还有一个callee属性，该指针指向拥有这个argument对象的函数。
+		函数也有一个length属性，用于存储函数的形参个数。
+	2.4、不定参数(ES6新增语法)
+		function functionName(参数1,参数2，···，...values){
+			for(let value of values){console.log(value)}
+		}
+		...称为延展操作符，...values只能放在最后一个位置
+	2.5、函数参数默认值(ES6新增语法)
+		function functionName(a=10,b="hhh"){
+			函数体;
+		}
+	2.6、函数返回值
+		使用return语句，用于返回函数执行结果或退出函数。
+		<h3><a href="">3、改变函数this指向</a></h3>
+	3.1、fn.apply(obj,arr)
+		将fn函数视为obj的临时方法，即fn的调用者是obj,fn中的this会默认指向obj
+		两种情况除外：
+			a.在事件函数作用域中，this会指向事件源
+			b.在定时器作用域中，this会指向window对象
+		如果上两种情况使用的是箭头函数，则this又会默认指向obj
+	3.2、fn.call(obj,参数2,参数3,···)
+		类似于apply方法，除了参数形式不同，apply方法第二个参数是fn的形参数组
+		而call方法不能传入形参数组，只能按照fn的形参逐个列举。
+		<h3><a href="">4、变量作用域</a></h3>
+	在javascript中，ES6语法之前，变量作用域是基于函数的，其他的语句块都没有变量作用域的区分。
+	4.1、全局变量：不属于任一个函数内的变量。代码的任意位置均可访问。
+	4.2、局部变量：属于函数内的变量。只能在所属函数内部访问。
+	4.3、不使用var声明的所有变量都是全局变量。
+	4.4、变量退出作用域后自动销毁。
+	4.5、作用域链
+		优先使用距离作用域最近的变量，如果找到但该变量却在语句后面才声明，
+		对于var声明的变量，浏览器会将声明提前，然后将该变量当成undefined值进行运算。
+		对于let声明的变量，不会将声明提前。
+	4.6、易错题
+		4.6.1、声明提前
+		 var num = 10;
+		fun();
+		function fun(){
+			var num;
+			console.log(num);	//undefined
+			num = 20;
+		}
+		4.6.2、
+		var a = 18;
+		f1();
+		function f1(){
+			var b=9;
+			console.log(a);		//undefined
+			console.log(b);		//9
+			var a = '123';
+		}
+		4.6.3、
+		f1();
+		console.log(c);  // 9
+		console.log(b);  // 9
+		console.log(a); // 报错
+		function f1(){
+			var a = b = c = 9;		//相当于c=9;b=c;var a=b;只有a是使用var声明的
+			console.log(a); // 9
+			console.log(b); // 9
+			console.log(c); // 9
+		}
+	
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

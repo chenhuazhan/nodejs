@@ -1,0 +1,29 @@
+#t_mallnav{
+    width: 900px;
+    height: 63px;
+    background:url("../imgs/doubleOne.png") no-repeat right
+    center #fff;
+    border-radius: 5px;
+    position: relative;
+    margin: 0 auto;
+}
+
+#nav ul{
+    position: relative;
+}
+
+#t_mallnav ul li{
+    float: left;
+    width: 88px;
+    height: 63px;
+    text-align: center;
+    line-height: 70px;
+    cursor: pointer;
+}
+
+#t_mall{
+    width: 88px;
+    height: 63px;
+    background: url("../imgs/tMall.png") no-repeat;
+    position: absolute;
+}

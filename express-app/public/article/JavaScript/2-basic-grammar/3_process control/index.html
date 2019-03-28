@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>流程控制</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+<h1>流程控制</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、顺序结构</a></h3>
+	程序默认结构
+		<h3><a href="">2、选择结构</a></h3>
+	2.1、if语句(中括号内语句代表可选)
+		if(判断条件1){
+			语句块1
+		}[[else if(判断条件2){
+			语句块2
+		}]else{
+			语句块3
+		}]
+	2.2、switch语句
+		switch(变量){
+			case 变量值1:
+				语句块1;
+				break;
+			case 变量值2:
+				语句块2;
+				break;
+			...
+			default:
+				语句块n;
+		}
+		break用于跳出switch语句块，不再执行后面的代码，变量和变量值之间执行的是全等于的比较。即123!=="123"
+	2.3、小练习：实现一个简单的加减乘除取余二元计数器,第二个输入框输入运算符，其余2个输入框输入运算数据
+	<input type="number" placeholder="输入第一个运算数值" id="num1"><input type="text" placeholder="运算符" id="operator" size="2"><input type="number" placeholder="输入第二个运算数值" id="num2"><button onclick="operator()">=</button><span  id="outp"></span>
+	<script src="js/operator.js"></script>
+		<h3><a href="">3、循环结构</a></h3>
+	3.1、while循环
+		while(判断条件){
+			语句块;
+		}
+	3.2、do while循环
+		do{
+			语句块;
+		}while(判断条件)
+	3.3、for循环
+		for(语句1;判断条件;语句2){
+			语句块;
+		}
+	3.4、跳出循环语句块：break，常伴随if语句出现
+	3.5、跳出本次循环周期，继续循环的下一周期：continue，常伴随if语句出现
+		<h3><a href="">4、其他语句块</a></h3>
+	待补充
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+	
+</body>
+</html>

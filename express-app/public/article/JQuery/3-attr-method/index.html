@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery操作属性的方法</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	</style>
+	<script src="js/jQuery-1.12.4.js"></script>
+	<script src="js/index.js"></script>
+    
+</head>
+
+<body>
+<h1>jQuery操作属性的方法</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、一般属性的操作方法</a></h3>
+	1.1、attr()方法
+		传一个参数用于获取传入的属性值，如果调用者为一个集合，则返回集合中第一个对象的属性值
+		传两个参数用于设置属性值，如果调用者为一个集合，则设置集合中每一个对象的属性值，如果该属性不存在，则自动增加该属性
+	1.2、removeAttr()方法：传一个参数，用于移除所有找到的DOM对象的属性
+	1.3、prop()方法：用法和作用与attr()方法一致
+		区别：当作用于布尔类型属性时（如：checked属性)，获取到的是true/false值
+		而用attr()方法获取到的是属性名称/undefined
+	1.4、removeProp()方法：用法和作用与removeAttr()方法一致
+	1.5、注意点：
+		a.传入的属性名和属性值均为字符串的形式传入；
+		b.属性名和属性值的写法和在HTML标签内的写法完全一致；
+		c.重复设置同一属性会造成覆盖。
+		<h3><a href="">2、操作类属性相关方法</a></h3>
+	2.1、addClass(class|fn)添加类
+	2.2、removeClass([class|fn])删除类
+	2.3、toggleClass(class|fn[,sw])切换类：有就删除，没有就添加
+	2.4、注意点：
+		a.同时操作多个类时，多个类名之间用空格分隔
+		b.与attr(class,className1[ className2 ...] )的区别：
+			用attr方法设置class属性是一次性覆盖设置，新设置的类会覆盖掉原有的类
+			而用上面3个方法操作类属性时，不会影响原有的其他类。
+	2.5、hasClass(class) 检查当前的元素是否含有某个特定的类，如果有，则返回true。
+		<h3><a href="">3、内容/文本操作方法</a></h3>
+	html()、text()、val()：获取时不用传参，设置时传入需要设置的值作为参数
+		<h3><a href="">4、综合案例</a></h3>
+	<iframe src="example.html"></iframe>
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

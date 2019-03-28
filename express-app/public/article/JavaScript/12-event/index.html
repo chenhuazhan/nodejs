@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>事件</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+		#changemenu{
+			background-color: #ccc;
+			cursor: help;
+		}
+		#definedmenu{
+			display: none;
+			position:fixed;
+			left: 90%;
+			top: 0px;
+			width: 200px;
+			height: 30px;
+			line-height: 30px;
+			background-color: #ccc;
+			border: 1px solid lightgreen;
+			color: blue;
+			cursor: pointer;
+		}
+		.box{
+			width: 40%;
+			margin: 0 20px;
+			float: left;
+		}
+		.box div{
+			margin: 15px auto;
+			width: 70%;
+			text-align: center;
+		}
+		
+		.mouseDiv{
+			position: fixed;
+			width: 15px;
+			height: 20px;
+			color: lawngreen;
+			font-size: 18px;
+		}
+		#keybox{
+			width: 70px;
+			height: 60px;
+			text-align: center;
+			background-color: #ccc;
+			line-height: 30px;
+			position: absolute;
+			left: 40%;
+		}
+		.panel{
+			float: left;
+			widows: 30%;
+			margin: 0 10px;
+		}
+		
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+	<h1>JavaScript事件介绍</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、概述</a></h3>
+	Javascript是一门以事件驱动为核心的语言，它定义了多种类型的事件，丰富了用户交互的内容。
+	事件具有三要素：事件源、事件类型、事件处理程序
+	1.1、事件源：触发事件的目标对象，它通常是HTML文档中的某一个元素，或者是Document对象本身，也可以是Window对象本身。
+	1.2、事件类型：根据事件发生的动作来定义，如点击、双击、加载完成、鼠标移入、文本发生变化等，每种事件类型都有一个以on开头的事件名。
+	1.3、事件处理程序：实际上是一个函数，当事件发生后，绑定在事件源上的事件处理程序就会被运行。
+		<h3><a href="">2、如何定义一个具体的事件</a></h3>
+	2.1、获取事件源对象：如果事件源是HTML文档中的元素，则需要利用全局变量document来获取相关元素对象
+	2.2、绑定事件：事件名是以作为事件源对象属性的方式存在的
+		如果事件驱动程序是一个匿名函数，则直接将匿名函数赋值给事件源对象的事件名属性：btn.onclick=function(){};
+		如果事件驱动程序有函数名，则将函数名赋值给事件源对象的事件名属性：window.onload=fn;    function fn(){}
+		注意不要写成btn.onclick=fn();这样的结果是将fn的返回值赋值给事件源对象的事件名属性，
+		当fn的返回值是一个函数时才可以这样写，但这样驱动程序还是fn这个函数吗？
+		上面的方式绑定多个事件时会造成覆盖现象，只有最后一个绑定的函数才有效，下面介绍可以同时绑定多个事件处理函数的方法：
+		IE方式
+			attachEvent(事件名称, 函数)，绑定事件处理函数
+			detachEvent(事件名称, 函数)，解除绑定
+		DOM方式
+			addEventListener(事件名称,函数, 捕获)
+			removeEventListener(事件名称, 函数, 捕获)
+		兼容性处理：
+			function myAddEvent(obj, ev, fn){
+				if(obj.attachEvent){
+					obj.attachEvent('on'+ev, fn);
+				}else{
+					obj.addEventListener(ev, fn, false);
+				}
+			}
+	2.3、书写事件处理函数
+	2.4、this的应用：this所在的函数绑定了哪个对象, this就指向这个对象（元素/事件源）
+	2.5、排他思想的应用：对于一些类似于选项卡的特效，在同一时间内只能有一个对象具有选中状态，而同一类型的其他对象必须还原为非选中状态
+		<h3><a href="">3、event对象</a></h3>
+	事件发生时，事件的详细信息会存储在event对象中，可以在事件处理函数中将event作为参数传入，以获取事件的详细信息，如：鼠标位置、键盘按键代码
+		obj.onclick=function(event){
+			var e=event||window.event; 	//兼容性处理
+			console.log(e);
+			e.clientX,e.clientY;        //光标相对网页的水平和垂直坐标（以可视区域为基准）
+			e.pageX,e.pageY;        	//光标相对网页的水平和垂直坐标（不适合IE678，以整个文档区域为基准）
+			e.screenX,e.screenY;        //光标相对屏幕的水平和垂直坐标
+			e.type;						//事件类型
+			e.target;					//事件被传送到的对象：obj；
+			e.width,e.height;   		//窗口或框架的宽高
+			e.data;             		//返回拖拽对象的URL字符串
+		};
+		补充：获取屏幕分辨率：window.screen.width/height
+		<h3><a href="">4、事件默认操作</a></h3>
+	对于超链接的点击、表单的提交和重置等事件，会有默认的操作，这些默认操作可以通过js代码来取消。
+	法1：return false;
+	案例演示：屏蔽右键菜单，弹出自定义右键菜单  <span id="changemenu">菜单事件oncontextmenu</span>
+		<div id="definedmenu">我是自定义菜单</div>
+		<h3><a href="">5、事件冒泡</a></h3>
+	事件冒泡来源于事件传递机制，对于大部分类型的事件，当事件源对象触发事件时，事件也会传递到其父级元素上，假如其父级元素也定义了相同的事件，则父级元素上绑定的事件也会被执行，这在很多情况下是有违设计者初衷的，因此，需要采取措施来阻止事件的冒泡。
+	阻止事件冒泡方法：
+	if(event && event.stopPropagation){ // w3c标准
+           	event.stopPropagation();
+        }else{ // IE系列 IE 678
+           	event.cancelBubble = true;
+        }
+		<div class="nws">
+			<div style="background:#CCC;" onclick="alert(this.style.background);" class="box">
+				<div style="background:green;" onclick="alert(this.style.background);">
+    				<div style="background:red;" onclick="alert(this.style.background);">冒泡</div>
+    			</div>
+			</div>
+			<div style="background:#CCC;" id="noBubble1"  class="box">
+				<div style="background:green;" id="noBubble2">
+    				<div style="background:red;" id="noBubble3">不冒泡</div>
+    			</div>
+			</div>
+		</div>
+		<script src="js/cancel.js"></script>
+		<h3><a href="">5、鼠标事件</a></h3>
+	鼠标相对窗口可视区域的位置获取：
+		function getPos(event){
+			var e=event||window.event; 
+			return {x: e.clientX, y: e.clientY};
+		}
+	鼠标位置相对文档的位置获取：
+		function getPos(event){
+			var e=event||window.event; 	
+			var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+			var scrollLeft=document.documentElement.scrollLeft||document.body.scrollLeft;
+			return {x: e.clientX+scrollLeft, y: e.clientY+scrollTop};
+		}
+	案例演示：<button id="btn1">开启鼠标跟随效果</button><script src="js/mouse.js"></script>
+	<a href="example/1.html">基本拖拽</a>、<a href="example/2.html">带框拖拽</a>、<a href="example/3.html">吸附效果拖拽</a>、<a href="example/4.html">滚动条</a>
+		<h3><a href="">6、键盘事件</a></h3>
+	主要有onkeydown、onkeyup两种事件，使用e.keyCode获取用户按下键盘的哪个按键
+	其他属性：ctrlKey、shiftKey、altKey
+		<div id="keybox">键盘控制左右移动</div>
+	案例演示：
+		
+		<div class="nws" style="height: 80px;">
+			<div class="panel">
+				<input type="text" placeholder="回车提交留言"/><br>
+				<textarea rows="5" cols="40"></textarea>
+			</div>
+			<div  class="panel">
+				<input type="text" placeholder="control+回车提交留言"/><br>
+				<textarea rows="5" cols="40"></textarea>
+			</div>
+			<div  class="panel">
+				<input type="text" placeholder="鼠标点击或回车提交留言"/>
+				<input type="button" value="发布" /><br>
+				<textarea rows="5" cols="40"></textarea>
+			</div>
+		</div><script src="js/key.js"></script>
+		<h3><a href="">7、Window事件</a></h3>
+	onresize:窗口或框架大小发生改变
+		<h3><a href="">8、、事件捕获</a></h3>
+	setCapture();
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

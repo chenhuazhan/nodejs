@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student management system</title>
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{ include './css/index.css.html'}}
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 main">
+            <h2 class="sub-header">添加用戶</h2>
+            <form action="/user/new" method="post">
+                <div class="form-group">
+                    <label for="">昵称</label>
+                    <input type="text" class="form-control" id="" name="nickname" required minlength="2" maxlength="10"  placeholder="Nickname" >
+                </div>
+                <div class="form-group">
+                    <label for="">邮箱</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="">密码</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

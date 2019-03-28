@@ -1,0 +1,58 @@
+{{include '../common/header.html'}}
+{{include './css/index.css.html'}}
+<section id="games">
+    <div id="current_game"></div>
+    <ul>
+        <li class="currentli">狂拍灰太狼</li>
+        <li>贪吃蛇</li>
+        <li>资源</li>
+    </ul>
+
+    <div id="panel">
+        <div id="wolf">
+            <h3 class="text-center text-primary">狂拍灰太狼</h3>
+            <div class="wolf-container">
+                <h1 class="score">0</h1>
+                <div class="progress"></div>
+                <button class="start">开始游戏</button>
+                <div class="rules">游戏规则</div>
+                <div class="rule">
+                    <p>游戏规则:</p>
+                    <p>1.游戏时间:60s</p>
+                    <p>2.拼手速,殴打灰太狼+10分</p>
+                    <p>3.殴打小灰灰-10分</p>
+                    <a href="#" class="wolf-close">[关闭]</a></div>
+                <div class="mask">
+                    <h1>GAME OVER</h1>
+                    <button class="reStart">重新开始</button>
+                </div>
+            </div>
+        </div>
+        <div id="snake">
+            <h3 class="text-center text-primary">贪吃蛇</h3>
+            <div class="wrap">
+                <div class="snake-control">
+                    <button class="btn btn-primary" id="Start">开始</button>
+                    <button class="btn btn-warning" id="Pause">暂停</button>
+                    <button class="btn btn-danger" id="Refresh">重来</button>
+                    <br>
+                    <button class="btn btn-success" id="Speed">加速</button>
+                    <!-- 记录吃了多少个蛋 -->
+                    &nbsp;&nbsp;&nbsp; <span style="font-size:20px;color:red"> score:<span id="score"
+                                                                                           style="color:black">0</span> </span>
+                </div>
+
+                <!-- 贪吃蛇的行走路径地图 -->
+                <div id="snake_map"></div>
+            </div>
+        </div>
+        <div id="other">
+            <h3>其他</h3>
+        </div>
+    </div>
+</section>
+{{include './js/index.js.html'}}
+{{include './js/wolf.js.html'}}
+{{include './js/snake.js.html'}}
+</body>
+</html>

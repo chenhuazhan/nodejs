@@ -1,0 +1,20 @@
+<html>
+<body>
+	<form> 
+		Select a User:<select name="users" onchange="showUser(this.value)">
+		<option style="display:none"></option>
+		<option value="1">Peter Griffin</option>
+		<option value="2">Lois Griffin</option>
+		<option value="3">Joseph Swanson</option>
+		<option value="4">Glenn Quagmire</option>
+		</select>
+	</form>
+	<h2><span id="name_text"></span><span id="firstname"></span>&nbsp;<span id="lastname"></span></h2>
+	<table>
+	<tr><td id="job_text" align="right"></td><td id="job"></td></tr>
+	<tr><td id="age_text" align="right"></td><td id="age"></td></tr>
+	<tr><td id="hometown_text" align="right"></td><td id="hometown"></td></tr>
+	<table>
+	<script src="responsexml.js"></script>
+</body>
+</html>

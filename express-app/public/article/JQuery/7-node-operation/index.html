@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery操作DOM节点</title>
+	<link href="css/index.css" rel="stylesheet">
+	<script src="js/jQuery-1.12.4.js"></script>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+<h1>jQuery操作DOM节点</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、新建节点</a></h3>
+	直接将HTML代码传人jQuery核心函数，如：newjqobj=$("&lt;span&gt;我是新增节点&lt;/span&gt;");
+		<h3><a href="">2、添加节点</a></h3>
+	2.1、内部插入
+		将元素添加到指定元素内部的最后
+			$(selector).append(newjqobj);
+			$(selector).appendTo(oldjqobj);
+		将元素添加到指定元素内部的最前面
+			$(selector).prepend(newjqobj);
+			newjqobj.prependTo($(selector));
+	2.2、外部插入
+		将元素添加到指定元素外部的后面
+			$(selector).after(newjqobj);
+			newjqobj.insertAfter($(selector));
+		将元素添加到指定元素外部的前面
+			$(selector).before(newjqobj);
+			newjqobj.insertBefore($(selector));
+	2.3、同一个新建节点被执行多次插入操作时，以最后一次插入为准。
+		<h3><a href="">3、删除节点</a></h3>
+	3.1、删除指定元素:jqobj.remove()、jqobj.detach()
+		两者都可以接受一个选择器参数，当调用者是一个集合时，用于缩小删除范围，不传参则默认删除所有方法调用者。
+		两者都会返回调用方法的jQuery对象，而不是被删除的jQuery对象
+		利用remove删除之后再重新添加,原有的事件无法响应
+		利用detach删除之后再重新添加,原有事件可以响应
+	3.2、删除指定元素的内容和子元素, 指定元素自身不会被删除：jqobj.empty()
+		没有参数和返回值。
+		<h3><a href="">4、复制节点clone(true/false)</a></h3>
+	如果传入false就是浅复制, 如果传入true就是深复制,默认值为false
+	浅复制只会复制元素, 不会复制元素的事件,深复制会复制元素和元素的事件
+		<h3><a href="">5、替换节点</a></h3>
+	$(selector).replaceWith(newjqobj):将$(selector)中的所有元素替换为newjqobj
+	newjqobj.replaceAll(selector):用newjqobj替换掉所有selector匹配到的元素
+		<h3><a href="">6、获取特殊节点的相关方法</a></h3>
+	获取匹配的jQuery对象中的第一个jQuery对象：$(selector).first()
+	获取匹配的jQuery对象中的最后一个jQuery对象：$(selector).last()
+	获取匹配的jQuery对象集合再次过滤的结果：$(selector).filter(selector)；
+	获取匹配的jQuery对象中的指定索引的jQuery对象：$(selector).eq(index);
+	获取匹配的jQuery对象中的指定索引的DOM对象：$(selector).get(index);
+	获取匹配的jQuery对象中的所有子节点的jQuery对象：$(selector).children();
+	获取匹配的jQuery对象中匹配的所有子节点的jQuery对象：$(selector).children(selector);
+	搜索匹配的jQuery对象中匹配的所有子孙节点的jQuery对象：$(selector).find(selector);
+	兄弟节点jQuery对象：
+		下一个：next([selector])
+		下面的全部：nextAll([selector])
+		上一个：prev([selector])
+		上面的全部：prevAll([selector])
+		上下全部：siblings([selector])
+		两个之间：prevUntil([selector])、nextUntil([selector])
+	父/祖先节点jQuery对象：
+		offsetParent()：返回第一个用于定位的父节点。
+		parent([selector])：返回匹配的父节点。
+		parents([selector])：返回匹配的祖先节点。
+		parentsUntil([selector])：返回匹配的祖先节点（不包含）之前匹配的祖先节点。
+	jqobj.index()可返回jqobj相对于同辈jQuery对象的索引值
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

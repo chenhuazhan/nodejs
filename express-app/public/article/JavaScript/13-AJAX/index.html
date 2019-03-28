@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>AJAX</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+	<h1>使用AJAX技术局部刷新页面</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+	Asynchronous JavaScript and XML（异步的 JavaScript 和 XML），一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
+		<h3><a href="">1、使用Ajax五部曲</a></h3>
+	1.1、新建Ajax对象
+		兼容性处理：
+			var oAjax;
+			if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+			    oAjax=new XMLHttpRequest();
+			}else{// code for IE6, IE5
+			    oAjax=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+	1.2、设置请求方式和请求地址
+		open(method，url，async)方法的三个参数
+			method：请求的类型；GET 或 POST
+            url：文件在服务器上的位置
+            async：true（异步）或 false（同步）
+		请求方式为GET方法时，请求参数需要接在url后面：
+			oAjax.open("GET","url?key1=value1 & key2=value2 & t="+(new Date().getTime()),true);
+			此处传入一个随机的参数t是为了防止低版本IE浏览器的缓存问题
+		请求方式为GET方法时，请求参数需要放在请求头中，即下一步才需要处理请求参数：
+			oAjax.open("POST","url",true);
+	1.3、发送请求
+		请求方式为GET方法时，直接调用方法：oAjax.send();
+		请求方式为GET方法时，先设置请求头，再调用并将请求参数传入send()方法中
+			oAjax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			oAjax.send("key1=value1 & key2=value2 & t="+(new Date().getTime())");
+			此处传入一个随机的参数t是为了防止低版本IE浏览器的缓存问题
+	1.4、监听状态的变化
+		Ajax对象的readyState属性值表示请求处理的5个阶段：
+			0: 请求未初始化
+            1: 服务器连接已建立
+            2: 请求已接收
+            3: 请求处理中
+            4: 请求已完成，且响应已就绪
+			if(oAjax.readyState === 4){// 判断是否请求成功
+                if(oAjax.status >= 200 && oAjax.status &lt; 300 || oAjax.status === 304){
+                    // 处理返回的结果
+                }else{
+                    console.log("没有接收到服务器返回的数据");
+                }
+            }
+	1.5、处理返回的结果
+		当使用 async=false 时，不要编写onreadystatechange函数，直接处理返回的结果
+		Ajax的responseText属性以字符串形式存储返回的文本数据（json数据包括在内），responseXML属性返回的存储XML数据，其返回的是一个xml的document对象，可以使用js中各种选择节点的方法对该document对象进行查询操作。
+		<h3><a href="">2、如何处理XML数据</a></h3>
+	2.1、XML文件格式了解
+		&lt;?xml version="1.0" encoding="UTF-8" ?>
+		&lt;root_node>
+			&lt;primary_node1>
+				······
+			&lt;/primary_node1>
+			&lt;primary_node2>
+				······
+			&lt;/primary_node2>
+			······
+		&lt;/root_node>
+	说明：xml文档第一行标明xml版本号和文档编码，接着是一个根节点，根节点可随意命名，其他子节点必须嵌套在根节点中
+	2.2、php处理xml文件
+		2.2.1、直接复制xml文件内容：
+			header("content-type:text/xml; charset=utf-8");		
+			header("Cache-control:no-cache,no-store,must-revalidate"); 
+			header("Pragma:no-cache"); 
+			header("Expires:-1"); 
+			//以上代码设置文档类型，字符编码，防止缓存
+			echo file_get_contents("test.xml");  
+		2.2.2、根据请求参数有选择地复制xml文件内容：
+			$q=$_GET["q"];
+			$xmlDoc = new DOMDocument();					//新建xml文档对象
+			$xmlDoc->load("cd_catalog.xml");				//加载xml文档
+			$x=$xmlDoc->getElementsByTagName('ARTIST');		//选择相应标签
+			for ($i=0; $i&lt;=$x->length-1; $i++){			//遍历选中节点
+				if ($x->item($i)->nodeType==1){				//判断节点类型
+					if ($x->item($i)->childNodes->item(0)->nodeValue == $q){ 	//判断内容是否等于请求参数
+						$y=($x->item($i)->parentNode);		//取出符合条件的节点
+					}
+				}
+			}
+			$cd=($y->childNodes);
+			//打印符合条件的节点内容
+			for ($i=0;$i&lt;$cd->length;$i++){ //Process only element nodes
+				if ($cd->item($i)->nodeType==1){ 
+					echo($cd->item($i)->nodeName);
+					echo(": ");
+					echo($cd->item($i)->childNodes->item(0)->nodeValue);
+					echo("&lt;br />");
+				} 
+			}
+	2.3、js处理xml
+		var xmldoc=oAjax.responseXML;
+		var node=xmldoc.getElement.querySelector("selector");
+		var nodes=xmldoc.getElement.TagName("tagName");
+		var text=node.innerHTML();
+		···
+		<h3><a href="">3、处理json数据</a></h3>
+	无论返回的数据是什么类型，oAjax.responseText都可以将其以字符串形式存储在其中，但如果返回的是xml类型的数据，推荐使用responseXML来处理，对于普通的文本数据，则直接取oAjax.responseText的值然后进行切割、拼接等处理即可。
+	3.1、json了解：json是javascript对象的一种特殊形式，其本质是一个字符串，在标准格式的json中，对象中的key值以字符串形式来存储。
+	3.2、JSON字符串和js对象互转
+		js对象转换为JSON字符串，使用 JSON.stringify()方法：
+			var jsonstr = JSON.stringify({a: 'Hello', b: 'World'});
+		JSON字符串转换为js对象，使用 JSON.parse()方法：
+			var jsonobj = JSON.parse('{"a": "Hello", "b": "World"}');
+			兼容问题：原生的js JSON.parse方法在低版本的IE中不支持，可以使用json2.js框架中的JSON.parse()方法，用法一致
+		注意：以上方法只能转换标准格式的json字符串，(非)标准json字符串转换为js对象： var jsonobj = eval('('+jsonstr+')');
+	3.3、php处理json文件
+		全部复制（不用设置header）：
+			echo file_get_contents("json_test.txt");
+		<h3><a href="">4、Ajax方法封装</a></h3>
+	传参：请求类型、请求地址、请求数据、超时时间、请求成功回调函数、请求失败回调函数
+	传参灵活性：以对象方式传入参数
+	封装函数：
+		function ajax(option) {
+		    var str = objToStr(option.data); // 将对象转换为字符串
+		    var oAjax, timer;
+		    if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		        oAjax=new XMLHttpRequest();
+		    }else{// code for IE6, IE5
+		        oAjax=new ActiveXObject("Microsoft.XMLHTTP");
+		    }
+		    if(option.method.toLowerCase() === "get"){
+		        oAjax.open(option.method, option.url+"?"+str, true);
+		        oAjax.send();
+		    }else{
+		        oAjax.open(option.method, option.url,true);
+		        oAjax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		        oAjax.send(str);
+		    }
+		    oAjax.onreadystatechange = function (ev2) {
+		        if(oAjax.readyState === 4){
+		            clearInterval(timer);
+		            if(oAjax.status >= 200 && oAjax.status &lt; 300 || oAjax.status === 304){
+		                option.success(oAjax);
+		            }else{
+		                option.error(oAjax);
+		            }
+		        }
+		    }
+		    if(option.timeout){	// 判断外界是否传入了超时时间
+		        timer = setInterval(function () {
+		            oAjax.abort();		//中断请求
+		            clearInterval(timer);
+		        }, option.timeout);
+		    }
+		}
+		function objToStr(data) {		//对象转字符串函数
+		    data = data || {}; 			// 如果没有传参, 为了添加随机因子,必须自己创建一个对象
+		    data.t = new Date().getTime();
+		    var res = [];
+		    for(var key in data){
+		        // 在URL中是不可以出现中文的, 如果出现了中文需要转码，可以调用encodeURIComponent方法
+		        res.push(encodeURIComponent(key)+"="+encodeURIComponent(data[key])); 
+		    }
+		    return res.join("&"); 
+		}
+		<h3><a href="">5、jQuery的ajax()方法</a></h3>
+	$.ajax({
+	    url: "test.php",
+	    type: "get",	//不区分大小写
+	    data: "key1=value1 & key2=value2",
+	    success: function(msg){},
+	    error: function (xhr) {}
+	});
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

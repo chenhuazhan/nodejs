@@ -1,0 +1,371 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>深入应用BOM和DOM</title>
+	<link href="css/index.css" rel="stylesheet">
+	<link href="css/clock.css" rel="stylesheet">
+	<link href="css/t_mall.css" rel="stylesheet">
+
+<style>
+	#box1{
+		width: 360px;
+		height: 60px;
+		background-color: red;
+		margin-left: 70px;
+	}
+	
+	#box3{
+        font-size: 20px;
+        color: red;
+        text-align: center;
+    }
+	
+	#box4{
+        width: 750px;
+        height: 400px;
+        border: 1px solid red;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #pic{
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    #to_top, #to_bottom{
+        width: 100%;
+        height: 50%;
+        /*background-color: greenyellow;*/
+        position: absolute;
+        left: 0;
+        cursor: pointer;
+    }
+
+    #to_top{
+        top: 0;
+    }
+
+    #to_bottom{
+        bottom: 0;
+    }
+	#box5{
+		width: 140px;
+		margin: 0 auto;
+	}
+	#name1{
+        font-size: 20px;
+        margin-top: 20px;
+		text-align: center;
+    }
+	#box6{
+        width: 90px;
+        height: 90px;
+        background-color: red;
+		margin-left: 70px;
+    }
+	#box7{
+		width: 340px;
+		height: 250px;
+		border: 1px solid #ccc;
+		margin: 10px auto;
+		overflow: hidden;
+	}
+	#box7 .left,#box7 .right{
+		width: 65px;
+		float: left;
+	}
+	#box7 .left li,#box7 .right li{
+		width: 65px;
+		height: 27px;
+		line-height: 27px;
+		border-bottom: 1px dashed gray;
+		text-align: center;
+	}
+	#box7 .left li a,#box7 .right li a{
+		text-decoration: none;
+		color: greenyellow;
+	}
+	
+	#box7 .center{
+		width: 205px;
+		float: left;
+		border-left: 1px solid #ccc;
+		border-right: 1px solid #ccc;
+	}
+	#box7 .center a{
+		display: none;
+	}
+	#box7 .center a:first-child{
+		display: block;
+	}
+	.current{
+		background: red;
+		color: #e8e8e8;
+	}
+</style>
+<script src="js/index.js"></script>
+
+</head>
+
+<body >
+<h1 id="bod">深入应用BOM和DOM</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、获取整个文档</a></h3>
+	兼容性写法:var d=document.body||document.documentElement;
+	document.comatMode属性值代表的是浏览器兼容模式，其取值为CSS1Compat时对应严格模式，BackCompat对应怪异模式。
+		<h3><a href="">2、获取元素样式</a></h3>
+	2.1、获取行内样式属性值：ele.style.xxx或ele.style["xxx"],前者方便常用于获取属性，后者灵活，常用于更改属性
+		封装一个更改元素CSS属性的函数如下：
+		function changeCssStyle(obj,attr,value){
+			obj.style[attr]=value;
+		}
+	2.2、获取所有CSS属性值（兼容性写法）：
+		function getStyleAttr(obj,attr){
+			if(obj.currentStyle){      //IE/Opera
+				return obj.currentStyle[attr];
+			}else{
+				return window.getComputedStyle(obk,null)[attr];  //W3C标准浏览器，第二个参数为伪类，没有则设置为null
+			}
+		}
+		<h3><a href="">3、获取元素只读尺寸属性</a></h3>
+	3.1、offsetWidth和offsetHeight
+		分别获取元素自身的宽度和高度，包括内容、边框和内边距。
+		即：offsetWidth=borderLeft+paddingLeft+width+paddingRight+borderRight
+	3.2、offsetLeft和offsetTop
+		和第一个有定位的父级盒子左边和上边相邻边框的距离。
+	3.3、offsetParent返回第一个有定位的父级盒子
+	3.4、以offsetLeft和style.left来分析offsetXXX和style.XXX的区别
+		a)前者可以获取所有样式，后者只能获取行内样式；
+		b)style.left只能作用于有定位的元素，而offsetLeft可以作用于任何元素；
+		c)前者返回值为数字，后者返回值为带单位的字符串
+		d)前者为只读属性，后者可读写。
+	3.5、clientWidth和clientHeight
+		获取可见区域宽高，不包括边框和不能显示的部分
+		获取网页可见区域宽高浏览器兼容处理：
+			function client() {
+				if(window.innerWidth){ // ie9+ 最新的浏览器
+					return {
+						width: window.innerWidth,
+						height: window.innerHeight
+					}
+				}else if(document.compatMode === "CSS1Compat"){ // W3C
+					return {
+						width: document.documentElement.clientWidth,
+						height: document.documentElement.clientHeight
+					}
+				}
+				return {
+					width: document.body.clientWidth,
+					height: document.body.clientHeight
+				}
+			}
+	3.6、clientLeft和clientTop
+		返回对应元素边框宽度，不指定边框或不定位该元素，其值为0.
+	3.7、scrollWidth和scrollHeight
+		获取元素可滚动区域宽高，不包括边框但包括不能显示的部分
+	3.8、scrollLeft和scrollTop
+		元素被卷去（隐藏）的左边宽度和上边高度
+		获取网页滚动相关属性的浏览器兼容处理：
+			function scroll() {
+				if(window.pageYOffset !== null){ie9+ 最新的浏览器
+					return {
+						top: window.pageYOffset,
+						left: window.pageXOffset
+					}
+				}else if(document.compatMode === "CSS1Compat"){ // W3C
+					return {
+						top: document.documentElement.scrollTop,
+						left: document.documentElement.scrollLeft
+					}
+				}
+				return {
+					top: document.body.scrollTop,
+					left: document.body.scrollLeft
+				}
+			}
+		补充：scrollTo(x,y)滚动内容左上角到指定坐标
+		<h3><a href="">4、动画效果</a></h3>
+	4.1、动画要点：
+		动画要改变的量、起点、目标点、速度（步长、间隔时间）、单位、定时器的开启和关闭、临界值的处理。
+	4.2、演示：
+		<button id="animate1">匀速动画</button><button id="animate2">缓动动画</button>
+    	<div id="box6"></div><script src="js/7.js"></script>
+	4.3、匀速动画效果
+		4.3.1、运动公式： 起始值 += 步长
+		4.3.2、函数封装：
+			单一值且单位为px的简单函数封装：
+			function constant(obj, target, speed) {
+				clearInterval(obj.timer);		// 1. 清除定时器
+				var dir = obj.offsetLeft &lt; target ? speed : -speed;// 2. 判断方向
+				obj.timer = setInterval(function () {// 3. 设置定时器
+					obj.style.left = obj.offsetLeft + dir + "px";
+					if(Math.abs(target - obj.offsetLeft) &lt; Math.abs(dir)){
+						clearInterval(obj.timer);
+						obj.style.left = target + "px";
+						console.log(obj.offsetLeft, target);
+					}
+				}, 20);
+			}
+	4.4、缓动动画效果
+		4.4.1、运动公式： 起始值 += (结束值 - 起始值) * 缓动系数 
+		4.4.2、函数封装：
+			单一值且单位为px的简单函数封装：
+			function buffer(obj, attr, target) {
+				clearInterval(obj.timer);
+				obj.timer = setInterval(function () {
+					var begin = parseInt(getCSSAttrValue(obj, attr));	//  获取初始值
+					var speed = (target - begin) * 0.2;					//求出步长
+					speed = (target > begin) ? Math.ceil(speed) : Math.floor(speed);// 判断是否向上取整
+					obj.style[attr] = begin + speed + "px";
+					obj.innerText = begin;
+					if(begin === target){
+					    clearInterval(obj.timer);
+					}
+				}, 20);
+			}
+			<a href="example/animated_animation/index.html">多值（使用json）、回调、透明度函数封装：</a>
+			function buffer(obj, json, fn) {
+				clearInterval(obj.timer);			
+				var begin = 0, target = 0, speed = 0;
+				obj.timer = setInterval(function () {
+					var flag = true;				// 旗帜
+					for(var k in json){
+						if("opacity" === k){ 		// 透明度
+							begin =  Math.round(parseFloat(getCSSAttrValue(obj, k)) * 100) || 100;
+							target = parseInt(json[k] * 100);
+						}else { 					// 其他情况
+							begin = parseInt(getCSSAttrValue(obj, k)) || 0;
+							target = parseInt(json[k]);
+						}
+						speed = (target - begin) * 0.2;									//求出步长
+						speed = (target > begin) ? Math.ceil(speed) : Math.floor(speed);// 判断是否向上取整
+						if("opacity" === k){ 											// 透明度
+							obj.style.opacity = (begin + speed) / 100;					// w3c的浏览器
+							obj.style.filter = 'alpha(opacity:' + (begin + speed) +')';	// ie 浏览器
+						}else {
+							obj.style[k] = begin + speed + "px";
+						}
+						if(begin !== target){
+							flag = false;
+						}
+					}
+					if(flag){						// 清除定时器
+						clearInterval(obj.timer);
+						if(fn){						// 判断有没有回调函数
+						    fn();
+						}
+					}
+				}, 20);
+			}	
+		<h3><a href="">5、案例演示</a></h3>
+	5.1、鼠标进入以下盒子时，求鼠标相对该盒子的坐标
+		<div id="box1"></div><script>
+			var box1=$("box1");
+			box1.onmousemove=function(event){
+				var e=event||window.event;
+				var x=e.clientX-box1.offsetLeft;
+				var y=e.clientY-(box1.offsetTop-scroll().top);
+				this.innerText="x:"+x+" y:"+y;
+			}
+			box1.onmouseout=function(event){
+				this.innerText="";
+			}
+		</script>
+	5.2、<a href="example/Magnifier/index.html">放大镜特效</a>
+	5.3、<a href="example/progress_bar/index.html">进度条特效</a>
+	5.4、<a href="example/commodity_window/index.html">橱窗特效</a>
+	5.5、<a href="example/mask/index.html">蒙版效果</a>
+	5.6、毕业倒计时
+	<div id="box3"  class="nws"></div><script src="js/2.js"></script>
+	5.7、仿真时钟
+	<div id="clock" class="nws">
+       <div id="hour"></div>
+       <div id="min"></div>
+       <div id="second"></div>
+   	</div><script src="js/clock.js"></script>
+	5.8、长图滚动
+	<div id="box4"  class="nws">
+        <img id="pic" src="imgs/timg.jpg" alt="">
+        <span id="to_top"></span>
+        <span id="to_bottom"></span>
+    </div><script src="js/4.js"></script>
+	5.9、点名器
+	<div id="box5"  class="nws">
+		<button id="begin">开始点名</button><button id="end">结束点名</button>
+    	<div id="name1"></div>
+	</div><script src="js/5.js"></script>
+	5.10、定时器加排他思想动画轮播效果：
+		<div id="box7" class="nws">
+    		<ul class="left">
+    		    <li class="current"><a href="#">美食1</a></li>
+    		    <li><a href="#">美食2</a></li>
+    		    <li><a href="#">美食3</a></li>
+    		    <li><a href="#">美食4</a></li>
+    		    <li><a href="#">美食5</a></li>
+    		    <li><a href="#">美食6</a></li>
+    		    <li><a href="#">美食7</a></li>
+    		    <li><a href="#">美食8</a></li>
+    		    <li><a href="#">美食9</a></li>
+    		</ul>
+    		<div class="center">
+    		    <a href="#"><img src="imgs/img1.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img2.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img3.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img4.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img5.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img6.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img7.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img8.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img9.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img10.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img11.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img12.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img14.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img15.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img16.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img17.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img18.jpg" width="200" height="250"></a>
+    		    <a href="#"><img src="imgs/img19.jpg" width="200" height="250"></a>
+    		</div>
+    		<ul class="right">
+    		    <li><a href="#">美食10</a></li>
+    		    <li><a href="#">美食11</a></li>
+    		    <li><a href="#">美食12</a></li>
+    		    <li><a href="#">美食13</a></li>
+    		    <li><a href="#">美食14</a></li>
+    		    <li><a href="#">美食15</a></li>
+    		    <li><a href="#">美食16</a></li>
+    		    <li><a href="#">美食17</a></li>
+    		    <li><a href="#">美食18</a></li>
+    		</ul>
+		</div><script src="js/8.js"></script>
+	5.11、<a href="example/star_bg/index.html">星星海背景</a>
+	5.12、<a href="example/photo_wall/index.html">照片墙</a>
+	5.13、<a href="example/t_mall_nav/index.html">天猫弹性导航</a>
+	5.14、<a href="example/Merry-go-round/index.html">旋转木马</a>
+	5.15、<a href="example/central_nav/index.html">中部导航吸顶</a>
+	5.16、<a href="example/aside_banner/index.html">侧边横幅</a>
+	5.17、<a href="example/return_to_top/index.html">返回顶部</a>
+	5.18、<a href="example/Waterfall_onresize/index.html">瀑布流布局onresize节流</a>
+	5.19、<a href="example/selecte_content/index.html">获取选中内容</a>
+	5.20、<a href="example/infinite_relay/index.html">无限轮播</a>
+	5.21、<a href="example/linkage/index.html">联动特效</a>
+	5.22、<a href="example/floor/index.html">楼层特效</a>
+	5.23、<a href="example/music_nav/index.html">音乐导航</a>
+	5.24、<a href="example/sowing_map/index.html">新型轮播图</a>
+	
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

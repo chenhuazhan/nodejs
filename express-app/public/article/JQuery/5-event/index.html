@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery事件</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+		iframe{
+			border:none;
+		}
+	</style>
+	<script src="js/jQuery-1.12.4.js"></script>
+	<script src="js/index.js"></script>
+	<script>
+		$(function(){
+			$("button").eq(0).click(function(){
+				$("#example").attr("src","="movielist.html");
+			});
+			$("button").eq(1).click(function(){
+				$("#example").attr("src","tab.html");
+			});
+		});
+	</script>
+</head>
+
+<body>
+<h1>jQuery事件</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、事件绑定</a></h3>
+	1.1、jQuery中有两种绑定事件方式
+		jqobj.eventName(fn)：编码效率略高/ 部分事件jQuery没有实现,所以不能添加
+		jqobj.on("eventName", fn):编码效率略低/ 所有js事件都可以添加
+		jqobj.bind("eventName", fn):内部使用on方法实现
+	1.2、注意点:
+        三种方式可以混用，都可以同时添加多个相同或者不同类型的事件,不会覆盖
+		<h3><a href="">2、事件移除</a></h3>
+	off()方法对应on()方法，用于事件移除
+		如果不传递参数, 会移除所有的事件：jqobj.off();
+		如果传递一个参数, 会移除所有指定类型的事件：jqobj.off("eventName");
+		如果传递两个参数, 会移除所有指定类型的指定事件：jqobj.off("eventName", fn);
+	unbind()方法对应bind()方法，用于事件移除
+		<h3><a href="">3、事件冒泡和默认行为的阻止</a></h3>
+	3.1、阻止事件冒泡：
+		在事件的回调函数中return false;或者事件回调函数接收event参数，调用event.stopPropagation()方法
+	3.2、阻止默认行为：
+		监听该事件并return false;或者事件回调函数接收event参数，调用event.preventDefault()方法
+		<h3><a href="">4、事件自动触发</a></h3>
+	jqobj.trigger("eventName");会触发事件冒泡和默认行为（a标签例外）
+	jqobj.triggerHandler("eventName");不会触发事件冒泡和默认行为
+	补充：自定义事件，使用jqobj.on("eventName",fn)定义事件，自定义事件只能自动触发
+		<h3><a href="">5、事件命名空间</a></h3>
+	使用jqobj.on("eventName",fn)定义事件时，可以将命名空间绑定在事件类型上：jqobj.on("eventName.space",fn)
+	命名空间有助于分辨事件的定义者,想要事件的命名空间有效,必须满足两个条件:
+		a.事件是通过on来绑定的
+		b.通过trigger触发事件
+	利用trigger触发子元素带命名空间的事件, 那么父元素带相同命名空间的事件也会被触发,而父元素没有命名空间的事件不会被触发
+    利用trigger触发子元素不带命名空间的事件,那么子元素所有相同类型的事件和父元素所有相同类型的事件都会被触发
+		<h3><a href="">6、事件委托</a></h3>
+	6.1、什么是事件委托?
+        委托其他元素帮忙监听事件, 然后将事件执行结果反馈给委托者
+	6.2、事件委托依赖于事件冒泡，被委托者必定是委托者的父级元素。
+	6.3、jQuery事件委托实现方法：jqobj.delegate("selector", "evenName", fn);
+		其中jqobj是被委托者，它帮忙监听selector选中的元素的evenName事件，然后执行fn函数
+		fn函数中的this会指向selector选中的元素，即事件的触发者，而不是jqobj，即监听者。
+		delegate方法内部也是使用on方法实现，相当于jqobj.on("evenName","selector",  fn);
+	6.4、事件委托使用场景：某些在页面加载完毕后才动态创建的元素需要提前绑定事件时，因为脚本初始执行时不可能找到这些动态创建的元素，无法直接绑定事件，这时需要将事件委托给父级元素。
+	6.5、事件委托解绑使用undelegate()
+		<h3><a href="">7、两对鼠标移入移出事件对比</a></h3>
+	7.1、mouseover/mouseout事件, 子元素被移入移出也会触发父元素的事件
+	7.2、mouseenter/mouseleave事件, 子元素被移入移出不会触发父元素的事件（推荐使用）
+		<h3><a href="">8、综合案例</a></h3>
+	<button>电影列表</button>、<button>tab选项卡效果</button>
+		<iframe src="movielist.html" width=800 height=510 id="example"></iframe>
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

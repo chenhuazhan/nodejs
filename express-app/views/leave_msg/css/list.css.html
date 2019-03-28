@@ -1,0 +1,349 @@
+<style>
+    body {
+        background-color: #f5f5f9;
+        color: #393939;
+        font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+    }
+    .user-container{
+        margin-bottom: 100px;
+    }
+    .fixed-nav{
+        padding: 0px!important;
+    }
+    .fixed-nav>*{
+        padding: 0px 20px;
+    }
+    .bar-icon a{
+        color: #888888;
+    }
+    .bar-icon a:hover{
+        color: #ffffff;
+        text-decoration: none;
+    }
+    .bar-icon icon:before{
+        font-size: 20px;
+    }
+    .user-bar{
+        min-width: 280px;
+        vertical-align: center;
+    }
+    .user-bar *{
+        float: left;
+    }
+    .user-bar .user-name{
+        color: #8367ff;
+        font-size: 20px;
+    }
+    .user-bar .user-setting{
+        color: #ffffff;
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 16px;
+    }
+    .user-bar .user-head-img{
+        width: 54px;
+        height: 54px;
+        padding: 2px;
+        background-color: #fff;
+        border-radius: 50%;
+        margin: 3px 16px;
+    }
+    .user-bar button{
+        margin-top: 11px;
+    }
+        /*.container>header{*/
+        /*margin: 40px auto 0px;*/
+        /*overflow: hidden;*/
+    /*}*/
+    .msg-input-container{
+        width: 100%;
+        overflow: hidden;
+        margin: 90px auto 10px;
+        background-color: #e8e8e8;
+    }
+    .msg-input{
+        margin-right: 100px;
+    }
+    .msg-input textarea{
+        display: block;
+        width: 100%;
+        padding: 0px 90px 0 0;
+        height: 80px;
+        resize: none;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        overflow-wrap: break-word;
+        line-height: 18px;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    .msg-btn{
+        width: 80px;
+        padding: 8px 10px 0;
+        float: right;
+        background-color: #eee;
+    }
+    .msg-btn button{
+        width: 100%;
+        margin-bottom: 6px;
+    }
+
+    /*****留言列表样式开始*****/
+    .msg-list {
+        width: 100%;
+        background: white;
+        overflow: hidden;
+    }
+    .msg-list .item{
+        padding: 10px 20px;
+        position: relative;
+    }
+    .msg-list .item + .item{
+        border-top: 2px solid #ccc;
+    }
+    .msg-list .msg-left{
+        width: 56px;
+        float: left;
+        overflow: hidden;
+    }
+    .user-head-img>div, .msg-list .msg-left .creator-head-img{
+        height: 50px;
+        width: 50px;
+        display: inline-block;
+        background: url("/images/avatar/default.png") no-repeat center center;
+        -webkit-background-size: 50px 50px;
+        background-size: 50px 50px;
+        border-radius: 50%;
+        border: 2px solid rgba(255,0,0,.3);
+        display: inline-block;
+    }
+
+    .msg-list .msg-right{
+        float: left;
+        margin-left: -60px;
+        padding-left: 60px;
+        width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    .msg-list .msg-right .creator-name{
+        font-size: 22px;
+        font-family: "Arial Narrow","楷体",'微软雅黑', "宋体", Helvetica, sans-serif;
+        color: #121112;
+        padding: 4px 10px;
+    }
+    .msg-list .msg-right .creator-name .layui-icon-male:before{
+        color: #2e3eee;
+        font-size: 26px;
+    }
+    .msg-list .msg-right .creator-name .layui-icon-female:before{
+        color: #ee4dcb;
+        font-size: 26px;
+    }
+    .msg-list .msg-right .created-time{
+        clear: both;
+        font-size: 14px;
+        line-height: 24px;
+        color: #ccc;
+        display: block;
+        padding-left: 10px;
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+    }
+    .msg-list .msg-right .operate-bar{
+        font-size: 16px;
+        line-height: 22px;
+        color: #ccc;
+        display: block;
+        float: left;
+        width: 50%;
+    }
+    .msg-list .msg-right .operate-bar .like{
+        color: #999;
+        display: block;
+        float: right;
+        width: 50px;
+        text-align: right;
+        cursor: pointer;
+    }
+    .msg-list .msg-right .operate-bar .like.active:before{
+        color: orangered;
+        display: inline-block;
+        animation: thumbUp 0.4s steps(4);
+        -webkit-animation: thumbUp 0.4s steps(4);
+    }
+    @keyframes thumbUp {
+        from {
+            font-size: 14px;
+            transform: rotate(0deg);
+        }
+        to {
+            font-size: 24px;
+            transform: rotate(-25deg);
+        }
+    }
+    @-webkit-keyframes thumbUp {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(-25deg);
+        }
+    }
+
+    .operate-bar .reply,.operate-bar .delete{
+        color: #999;
+        display: block;
+        float: right;
+        width: 50px;
+        text-align: right;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .operate-bar .delete{
+        font-size: 20px;
+    }
+    .msg-list .msg-right .comment-content{
+        padding: 10px 0;
+    }
+    .msg-list .msg-right .comment-content{
+        padding: 10px 0;
+        font-size: 16px;
+    }
+    .reply-list .reply-item{
+        background-color: #f9f9f9;
+        border-left: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+    }
+    .reply-list .reply-item header{
+        font-size: 14px;
+        color: #4edc1c;
+        line-height: 20px;
+    }
+    .reply-list .reply-item .reply-creator-name{
+        float: left;
+        font-size: 18px;
+        color: #ffb800;
+    }
+    .reply-list .reply-item .reply-created-time{
+        float: right;
+        width: 130px;
+        text-align: right;
+        font-size: 14px;
+        line-height: 24px;
+        color: #ccc;
+    }
+    .reply-list .reply-item .reply-content{
+        text-indent: 2em;
+        font-size: 18px;
+    }
+
+    /*****留言列表样式结束*****/
+
+
+
+    .item .item-body {
+        line-height: 25px;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+    .item-body-left{
+        width: 45px;
+        height: 56px;
+        float: left;
+        background: url("/imgs/default-man-icon.png") no-repeat;
+        -webkit-background-size: 45px 51px;
+        background-size: 45px 51px;
+        border-radius: 50%;
+    }
+    .item-body-right{
+        width: 86%;
+        float: right;
+    }
+    .item-body-right .creator-name{
+        font-size: 18px;
+        color: #ee9d95;
+        word-wrap:break-word;
+        word-break:normal;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+    }
+    .item-body-right .comment-content{
+        -webkit-line-clamp: 3;
+        word-wrap:break-word;
+        word-break:normal;
+    }
+    .item .item-foot {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .item-foot .time {
+        float: left;
+        font-size: 13px;
+        color: #ccc;
+    }
+
+    .item-foot .handle {
+        float: right;
+        font-size: 13px;
+    }
+
+    .handle a {
+        text-decoration: none;
+        color: #ccc;
+        padding-left: 25px;
+        margin-left: 10px;
+    }
+    .handle a.active {
+        color: #dd1010
+    }
+    .handle a span{
+        padding-left: 4px;
+        font-size: 16px;
+    }
+
+
+    .reply-input{
+        display: inline-block;
+        width: 86%;
+        margin-right: 10px;
+    }
+
+    .page {
+        width: 1000px;
+        height: 40px;
+        background: #9f5024;
+        margin: 0 auto;
+        text-align: right;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .page > .page_number {
+        text-decoration: none;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+        line-height: 20px;
+        color: #2b2b2b;
+    }
+
+    .page > .page_number:hover {
+        background-color: red;
+    }
+
+    .page > .current {
+        background-color: red;
+    }
+
+</style>

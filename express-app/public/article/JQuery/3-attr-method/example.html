@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+	<style>
+		.tored{
+			width:200px;
+			height:30px;
+			background:red;
+		}
+		.togreen{
+			width:200px;
+			height:30px;
+			background:green;
+		}
+		#div1{
+			width:250px;
+			height:30px;
+			background:red;
+		}
+		#ddiv1{
+			width:200px;
+			height:30px;
+			background:green;
+		}
+	</style>
+	<script src="js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<div id="div1">点我设置我的id属性为ddiv1</div>
+<div id="div2"></div>
+<button id="btn1">设置div2style属性</button><button id="btn2">移除div2style属性</button>
+<div id="div3" class="tored">点我切换类</div>
+<script>
+	$(function(){
+		$("#div1").click(function(){
+			$(this).attr("txt1","txt1生效");
+			$(this).attr("id","ddiv1");
+			$(this).text("我现在是ddiv1了");
+		});
+		$("#btn1").click(function(){
+			$("#div2").attr("style","width:300px;height:30px;background:red;");
+		});
+		$("#btn2").click(function(){
+			$("#div2").removeAttr("style");
+		});
+		$("#div3").click(function(){
+			$(this).toggleClass("tored togreen");
+			//$(this).toggleClass("tored").toggleClass("togreen");  等效
+		});
+	});
+</script>
+</body>
+</html>
+
+

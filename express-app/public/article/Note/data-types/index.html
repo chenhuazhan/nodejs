@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>数据类型</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+<h1>深入理解Javascript数据类型</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、数据、变量的基本理解</a></h3>
+	1.1、什么是数据？
+		数据可以解释为内存中存储的信息，本质上是0101...
+	1.2、什么是变量？
+		顾名思义，变量即可变化的量
+		变量对应内存中存储数据的一小块内存空间，由变量名和变量值组成
+		变量名对应内存中的数据存储的位置，变量名对应存储的数据值。
+		<h3><a href="">2、JS常用数据类型</a></h3>
+	2.1、类型分类
+		数据类型分类：
+			基本类型（存储于栈中）：Number、String、boolean、undefined、null
+			对象类型（存储于堆中）：Object、Array、Function
+		变量类型：
+			基本类型：存储基本数据类型的变量，变量值为数据的真实值
+			引用类型：存储对象数据类型的变量，变量值为数据在堆中的地址
+	2.2、typeof检测结果
+		typeof value会返回一个字符串，即typeof typeof value === 'string'
+		常用数据的检测结果
+			console.log(typeof 3 === 'number')				//true
+			console.log(typeof 'number' === 'string')			//true	
+			console.log(typeof true === 'boolean')				//true
+			console.log(typeof undefined === 'undefined')		//true	
+			console.log(typeof null === 'object')				//true
+			console.log(typeof {} === 'object')				//true
+			console.log(typeof function(){} === 'function')		//true
+			console.log(typeof (new Function()) === 'function')	//true	
+			console.log(typeof [] === 'object')				//true
+			console.log(typeof [])							//object
+			console.log(typeof (new Array()))					//object
+			console.log(typeof (new Number(1)))				//object
+			function Person(age){this.age=age;}
+			console.log(typeof (new Person()))					//object	
+	2.3、instanceof检测结果
+		instanceof用于检测引用类型的数据/变量
+		A instanceof B，即是问A是不是B的实例对象，如果是返回true，否则返回false
+		例如任意的数组对象都是Array的实例，同时Array和Function又是Object的实例
+		所有引用类型instanceof Object结果都为true
+		<h3><a href="">3、undefined vs null</a></h3>
+	3.1、相同点：
+		undefined 和 null即作为一种数据类型又作为该类型的唯一值，其含义似乎都是没有东西
+	3.2、不同点：
+		一个变量，如果没有定义，使用时会报not defined错误:Uncaught ReferenceError: a is not defined
+		如果定义了但未赋值或者赋值为undefined，则其为undefined类型且值为undefined
+		undefined值与字符串进行加法时会自动转换为字符串'undefined'，其他运算一般会自动转换为NaN
+		如果定义了且赋值为null，则其为null类型，常用于一个对象的初始值或清空一个对象（垃圾回收）
+		undefined值与字符串进行加法时会自动转换为字符串'null'，其他运算一般会自动转换为0
+		<h3><a href="">4、类型转换</a></h3>
+	包括自动类型转换（隐式）、强制类型转换（显式）
+	4.1、转为String
+		Number和Boolean类型以及NaN使用.toString()方法强制转换，返回一个新的字符串，不会影响原始值。
+		String()函数可以转换所有简单数据类型为String类型。
+		使用+运算符加任意一个字符串实现自动类型转换，结果返回一个字符串。
+	4.2、转为Number
+		Number()函数：
+		如果字符串为纯数字，则将字符串转换为数字，如果字符串为空串或全为空格的字符串或值为null，则转换为0，其他字符串、undefined值都会转换为NaN。true值转换为1，false值转换为0。
+		parseInt()和parseFloat()函数：提取字符串中前面的有效整数和有效小数
+	4.3、转为Boolean
+		在Number类型中，只有0和NaN是false，其他数值都是true。
+		任何非空字符串都是true
+		任何对象都是true、null和undefined是false
+	注意：alert一个自定义对象或基对象，系统会自动调用一个toString()方法，结果是[object Object]
+		<h3><a href="">5、变量类型准确检验</a></h3>
+	5.1、使用Object.prototype.toString.call()方法
+		var obj = 1;
+		Object.prototype.toString.call(obj) === '[object Number]'; //true
+		obj = new Number(1);
+		Object.prototype.toString.call(obj) === '[object Number]'; //true
+		obj = [];
+		Object.prototype.toString.call(obj) === '[object Array]'; //true
+		obj = new Array();
+		Object.prototype.toString.call(obj) === '[object Array]'; //true
+		Object.prototype.toString.call(obj) === '[object Object]'; //false
+	5.2、校验函数:
+		var isUndefined = function(obj) {
+			//or: return typeof obj === 'undefined';
+			return obj === void 0;  //低版本ie中undefined变量可以被修改，所以使用void 0 获取真实的undefined值
+		};
+		// boolean值，number值和string值需要考虑两种情况，值为字面量时使用typeof和Object.prototype.toString能检测; 
+		// 值为构造函数构建的时候需要使用Object.prototype.toString或者instanceof检测
+		var isBoolean = function(obj) {	return Object.prototype.toString.call(obj) == '[object Boolean]';};
+		var isNumber = function(obj) {	return Object.prototype.toString.call(obj) == '[object Number]';};
+		var isString = function(obj) {	return Object.prototype.toString.call(obj) == '[object String]';	};
+		var isNaN = function(obj) {	return obj !== obj;	};
+		//typeof 操作符在引用类型的变量里能对function有效。
+		var isFunction = function(obj) {
+			//or:  return Object.prototype.toString.call(obj) == '[object Function]';
+			return typeof obj === 'function';
+		};
+		var isDate = function(obj) {	return Object.prototype.toString.call(obj) == '[object Date]';	};
+		var isArray = function(obj) {	return Object.prototype.toString.call(obj) == '[object Array]';	};
+		var isObject = function(obj) {
+			//or: return obj === Object(obj);
+			return Object.prototype.toString.call(obj) == '[object Object]';
+		};
+		var isRegExp = function(obj) {
+			//or: return obj === Object(obj);
+			return Object.prototype.toString.call(obj) == '[object RegExp]';
+		};
+		var has = function(obj, key) {
+			return Object.prototype.hasOwnProperty.call(obj, key);
+		};
+		//判断数组，字符串，对象是否为空
+		var isEmpty = function(obj) {
+			if (obj == null) return true;
+			if (isArray(obj) || isString(obj)) return obj.length === 0;
+			for (var key in obj) if (has(obj, key)) return false;
+			return true;
+		};
+		
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

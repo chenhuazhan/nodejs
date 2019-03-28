@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JS对象</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+		#box1{
+    	    width: 250px;
+    	    height: 300px;
+    	    background-color: orangered;
+    	    margin: 10px auto;
+    	    padding: 20px;
+    	}
+	
+    	#box_top{
+    	    font-size: 23px;
+    	    color: #fff;
+    	    margin-bottom: 40px;
+    	}
+	
+    	#box_bottom{
+    	    width: 90%;
+    	    height: 70%;
+    	    background-color: orange;
+    	    margin: 0 auto;
+    	    font-size: 100px;
+    	    color: #fff;
+    	    display: flex;
+    	    justify-content: center;
+    	    align-items: center;
+    	}
+	</style>
+<script src="js/index.js"></script>
+</head>
+<body>
+	<h1>Javascript中的对象和面向对象</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、直接量对象</a></h3>
+	JS中的直接量对象使用一对大括号来表示，大括号中包含一组键值对；
+	JS中的对象实际上就是键值对的集合。其值可以是数据和函数，分别对应对象的属性和方法。
+	var person={
+		//属性
+		name:"chz",
+		age:22,
+		//方法
+		say:function(){alert("hello!");}
+	};
+	person.name = "张三";			//修改属性
+	console.log(person.name);		//访问属性
+	person.say();					//访问方法
+	使用for...in遍历对象
+	for(var key in person){
+		console.log(key+":"+person[key]);
+	}
+		<h3><a href="">2、构造函数产生对象</a></h3>
+	2.1、使用Object构造
+		// 定义构造函数，最原始的方法，该构造函数没有参数
+		function Person() {
+			var obj = new Object();
+			// 属性
+			obj.name = null;
+			obj.age = null;
+			// 方法
+			obj.study = function () {
+				console.log(this.name + "在学习");	//使用this访问当前对象的属性
+			};
+			return obj;	//返回对象
+		}
+		// 使用构造函数产生对象，注意此处没有使用new
+		var person =  Person();
+	2.2、使用this构造
+		// 构造函数，对象属性作为参数传入
+		function Dog(name, age) {
+			this.name = name;
+			this.age = age;
+			this.eat = function (someThing) {
+				console.log(this.name + "在吃" + someThing);
+			};
+		}
+		// 使用构造函数产生对象，注意此处需要使用new，传参个数可少于构造函数的参数
+		var smallDog = new Dog("小花");
+		console.log(smallDog);
+		smallDog.eat("骨头");
+		var bigDog = new Dog("大花", 10);
+		console.log(bigDog === smallDog);
+	2.3、使用this的构造函数产生对象的改进
+		// 构造函数,其中option是一个直接量对象
+		function Dog(option) {
+			this.name = option.name;
+			this.age = option.age;
+			this.eat = function (someThing) {
+				console.log(this.name + "在吃" + someThing);
+			};
+		}
+		var smallDog = new Dog({name:"小花", age:1});
+			<h3><a href="">3、对象的属性和方法</a></h3>
+	3.1、对象的方法也是一种属性值为函数的特殊属性
+	3.2、访问属性的两种方式：点操作符(obj.attr)和中括号+引号操作符(obj['attr'])
+		不能使用点操作符的两种情况：
+		a.属性名中包含空格、'-'等特殊字符时
+		b.属性名不确定时，例如将属性名存储在一个变量里、将属性名作为函数参数
+	3.3、对象产生后，可以任意修改或添加其属性和方法
+		var obj = {
+			name: "张三",
+			eat: function(){alert("吃");}
+		};
+		obj.age = 19;						//添加一个age属性并赋值为19
+		obj.eat = function(){alert("喝");};	//修改对象的eat方法
+		obj.run = function(){alert("跑");};	//添加一个run方法
+	3.4、如果要访问对象中没有的属性或方法，则返回undefined
+		如果调用一个未定义的方法，则会报xxx is not a function错误
+		<h3><a href="">4、JS常用内置对象</a></h3>
+	4.1、窗口对象window
+	4.2、文档对象document
+	4.3、日期对象Date
+		4.3.1、常用方法
+			var date=new Date();	//<button onclick="javascript:alert(new Date())">获取标准时间</button>
+			date.getFullYear();		//<button onclick="javascript:alert(new Date().getFullYear())">获取完整年份</button>
+			date.getMonth();		//<button onclick="javascript:alert(new Date().getMonth())">获取月（0-11）</button>
+			date.getDate();		//<button onclick="javascript:alert(new Date().getDate())">获取日（1-31）</button>
+			date.getDay();			//<button onclick="javascript:alert(new Date().getDay())">获取星期几（0-6）</button>
+			date.getHours();		//<button onclick="javascript:alert(new Date().getHours())">获取小时（0-23）</button>
+			date.getMinutes();		//<button onclick="javascript:alert(new Date().getMinutes())">获取分钟（0-59）</button>
+			date.getSeconds();		//<button onclick="javascript:alert(new Date().getSeconds())">获取秒（0-59）</button>
+			date.getMilliseconds();	//<button onclick="javascript:alert(new Date().getMilliseconds())">获取毫秒</button>
+			date.getTime();		//<button onclick="javascript:alert(new Date().getTime())">获取时间戳（毫秒）</button>
+			var nextDate = new Date('2019/01/01 20:19:00');//自定义时间
+		4.3.2、经典案例
+			<div id="box1" class="nws">
+        		<div id="box_top"></div>
+       			 <div id="box_bottom"></div>
+   			 </div>
+			<script src="js/date1.js"></script>
+	4.4、数学对象Math
+		Math常用函数：
+			Math.ceil();向上取整
+			Math.floor();向下取整
+			Math.round();四舍五入
+			Math.abs();取绝对值
+			Math.random();取0-1之间的随机数
+	4.5、数值对象Number
+	4.6、数组对象Array
+	4.7、字符串对象String
+	4.8、布尔对象Boolean
+	4.9、基对象Object
+	4.10、函数对象Function
+	4.11、函数参数对象Arguments
+	4.12、正则对象RegExp
+	4.13、异常对象Error
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

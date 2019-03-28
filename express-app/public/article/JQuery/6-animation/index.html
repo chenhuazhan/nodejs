@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery动画</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+        .right{
+            float: right;
+            position: fixed;
+            right: 0;
+            top: 200px;
+        }
+        img{
+            display: none;
+        }
+		iframe{
+			border:none;
+		}
+	</style>
+	<script src="js/jQuery-1.12.4.js"></script>
+	<script src="js/index.js"></script>
+    <script>
+		$(function(){
+			$("button").eq(0).click(function(){
+				$("#example").attr("src","foldable_menu.html");
+			});
+			$("button").eq(1).click(function(){
+				$("#example").attr("src","drop-down_menu.html");
+			});
+			$("button").eq(2).click(function(){
+				$("#example").attr("src","icon.html");
+			});
+			$("button").eq(3).click(function(){
+				$("#example").attr("src","cycle_rolling.html");
+			});
+		});
+	</script>
+</head>
+
+<body>
+<h1>jQuery动画</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、显示和隐藏</a></h3>
+	效果是宽高以一个角为参考点一起持续变大或缩小
+	显示：show()、隐藏：hide()、切换：toggle()
+	参数：([time[,fn]])
+		<h3><a href="">2、展开和收起</a></h3>
+	效果是宽或高以一条边为参考持续变大或缩小
+	展开：slideDown()、收起：slideUp()、切换：slideToggle()
+	参数：([time[,fn]])
+		<h3><a href="">3、淡入淡出</a></h3>
+	淡入：fadeIn()、淡出：fadeOut()、切换：fadeToggle()
+	参数：([time[,fn]])
+	淡入到：fadeTo(),参数：([time[,opacity,fn]]),例：jqobj.fadeTo(1000,0.4,function(){});
+		<h3><a href="">4、自定义动画animate()</a></h3>
+	第一个参数: 接收一个对象, 可以在对象中修改属性
+	第二个参数: 指定动画时长
+	第三个参数: 指定动画节奏, 默认就是swing(可省略)
+	第四个参数: 动画执行完毕之后的回调函数(可省略)
+	操作属性可接受3种方式：
+	直接赋值（属性名:纯数值），如：marginLeft: 500
+	累加（属性名:"+=纯数值"），如：width: "+=100"
+	关键字赋值，如：width: "hide"、width: "toggle"
+		<h3><a href="">5、动画延迟和停止</a></h3>
+	delay(time)方法用于告诉系统延迟时长
+	stop()方法可以接收两个参数
+	立即停止当前动画, 继续执行后续的动画:jqobj.stop();jqobj.stop(false);jqobj.stop(false, false);
+	立即停止当前和后续所有的动画:jqobj.stop(true);jqobj.stop(true, false);
+	立即完成当前的, 继续执行后续动画:jqobj.stop(false, true);
+	立即完成当前的, 并且停止后续所有的:jqobj.stop(true, true);
+		<h3><a href="">6、动画效果展示</a></h3>
+		<button>折叠菜单</button>、<button>下拉菜单</button>、<button>图标特效</button>、<button>无限循环滚动</button>
+		<iframe src="foldable_menu.html" width=580 height=650 id="example"></iframe>
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+	
+	<img src="images/right_ad.png" class="right">
+	<script>
+        $(function () {
+            // 1.监听网页的滚动
+            $(window).scroll(function () {
+                // 1.1获取网页滚动的偏移位
+                var offset = $("html,body").scrollTop();
+                // 1.2判断网页是否滚动到了指定的位置
+                if(offset >= 100){
+                    // 1.3显示广告
+                    $("img").show(1000);
+                }else{
+                    // 1.4隐藏广告
+                    $("img").hide(1000);
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

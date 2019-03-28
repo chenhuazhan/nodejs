@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student management system</title>
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{ include './css/index.css.html'}}
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 main">
+            <h2 class="sub-header">用户管理系统</h2>
+            <a class="btn btn-success" href="/user/new">添加用户</a>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>头像</th>
+                        <th>#</th>
+                        <th>昵称</th>
+                        <th>邮箱</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{ each users }}
+                    <tr>
+                        <td><img src="{{ $value.avatar}}" height="24"></td>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $value.nickname }}</td>
+                        <td>{{ $value.email }}</td>
+                        <td>
+                            <a href="/user/edit?id={{ $value._id }}">编辑</a>
+                            <a href="/user/delete?id={{ $value._id }}">删除</a>
+                        </td>
+                    </tr>
+                    {{ /each }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

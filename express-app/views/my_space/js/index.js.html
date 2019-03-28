@@ -1,0 +1,125 @@
+<script>
+    $(function () {
+        "use strict";
+        //加载文章列表
+        loadArticleList();
+        //加载收藏列表
+        loadList("#collection ul", "source/link.json");
+
+        $("#toTop").click(function () {
+            $("html,body").animate({
+                "scrollTop": 0
+            }, 200);
+        });
+
+        $("#loginClick").click(function () {
+            $("#mask").css("display", "block");
+            return false;
+        });
+
+        $("#login .closeLogin").click(function () {
+            $("#mask").fadeOut(200);
+        });
+    });
+
+
+    function loadArticleList() {
+        //获取文章列表信息
+        $.ajax({
+            type: "get",
+            url: "source/article-list.json",
+            success: function (msg) {
+                var $articleNav = $("#hz_nav ul");
+                var $articlePanel = $("#main");
+                var articleTypes = [];
+                var articleLists = [];
+                var currentArticleType = null;
+                $.each(msg, function (index, value) {
+                    articleTypes.push(index);
+                    articleLists.push(value);
+                });
+                for (var i = 0; i < articleTypes.length; i++) {
+
+                    var $ul = $("<ul></ul>");
+                    for (var j = 0; j < articleLists[i].length; j++) {
+                        $("<li  class='article'><a href='/article/" + articleLists[i][j].link + "'>" + articleLists[i][j].title + "</a></li>").prependTo($ul);
+                        $ul.appendTo($articlePanel);
+                        $ul.addClass("articleList");
+                    }
+                    $ul.css("display", "none");
+
+                    var $li = $('<li><a href="javascript:;">' + articleTypes[i] + '</a></li>');
+
+                    $li.appendTo($articleNav);
+                    $li.click(function () {
+                        if (currentArticleType === articleTypes[$(this).index()]) return;
+                        $(this).addClass("active-tab");
+                        $(this).siblings().removeClass("active-tab");
+                        var index = $(this).index();
+                        $articlePanel.find("ul").eq(index).fadeIn(600);
+                        $articlePanel.find("ul").eq(index).siblings().css("display", "none");
+                        currentArticleType = articleTypes[$(this).index()];
+                        window.location.hash = currentArticleType;
+                    });
+                }
+                if (window.location.hash.substring(1)) {
+                    $("#home").css("display", "none");
+                    $("#main").css("display", "block");
+                    var index = articleTypes.indexOf(window.location.hash.substring(1));
+                    console.log(index, window.location.hash.substring(1), articleTypes);
+                    $articlePanel.find("ul").eq(index).fadeIn(600);
+                }
+                //查看文章
+                $("#hz_nav>ul").click(function () {
+                    $("#home").css("display", "none");
+                    $("#main").css("display", "block");
+
+                });
+                //回到主页
+                $("#home_bar").click(function () {
+                    $("#home").css("display", "block");
+                    $("#main").css("display", "none");
+                    $("#hz_nav>ul>li").removeClass("active-tab");
+                    window.location.hash = "";
+                    return false;
+                });
+            },
+            error: function (xhr) {
+                //alert(xhr.status);
+            }
+        });
+    }
+
+
+    function loadList($parent, jsonLink) {
+        $.ajax({
+            url: jsonLink,
+            type: "get",
+            success: function (msg) {
+                for (var i = 0; i < msg.length; i++) {
+                    var $li = $("<li><a href='" + msg[i].link + "'>" + msg[i].name + "</a></li>");
+                    $li.appendTo($parent);
+                }
+            },
+            error: function (xhr) {
+                var $li = $("<li>暂时无法获取数据<br>请稍后尝试刷新网页</li>");
+                $li.css("color", "red").css("text-align", "center").css("paddingLeft", 0);
+                $li.appendTo($parent);
+            }
+        });
+    }
+
+    // 生成时间方法
+    function formartDate(time) {
+        var date = new Date(time * 1000);
+        // 2018-4-3 21:30:23
+        var arr = [date.getFullYear() + "-",
+            date.getMonth() + 1 + "-",
+            date.getDate() + " ",
+            date.getHours() + ":",
+            date.getMinutes() + ":",
+            date.getSeconds()
+        ];
+        return arr.join("");
+    }
+</script>

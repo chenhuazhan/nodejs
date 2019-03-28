@@ -1,0 +1,33 @@
+#clock{
+    width: 400px;
+    height: 400px;
+    background: url("../imgs/clock.jpg") no-repeat;
+	background-size: 400px 400px;
+    margin: 10px auto;
+
+    position: relative;
+}
+
+#hour, #min, #second{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 20px;
+    height: 400px;
+    margin-left: -10px;
+}
+
+#hour{
+    background: url("../imgs/hour.png") no-repeat center center;
+	background-size: 20px 400px;
+}
+
+#min{
+    background: url("../imgs/minute.png") no-repeat center center;
+	background-size: 20px 400px;
+}
+
+#second{
+    background: url("../imgs/second.png") no-repeat center center;
+	background-size: 20px 400px;
+}

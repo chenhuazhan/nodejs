@@ -1,0 +1,118 @@
+<style>
+    #close{
+        position: absolute;
+        right: 0px;
+        top:0px;
+        cursor: pointer;
+    }
+	#fj{border: 2px solid red;}
+    #fj li{float: left;margin-left: 10px;}
+    #big_img{ margin-left: 10px; }
+    #des{margin: 10px;color: orangered;font-size: 20px;}
+	
+	#box2{
+		border: 1px solid #cccccc;
+		width: 360px;
+        height: 70px;
+
+        padding-top: 300px;
+
+        background: url("imgs/01big.jpg") no-repeat;
+	}
+	#sb{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+	#e_coder{
+        width: 50px;
+        height: 50px;
+
+        background: url("imgs/e_coder_normal.png") no-repeat;
+
+        position: fixed;
+        top: 40%;
+        right: 20px;
+        cursor: pointer;
+    }
+    #e_app{
+        position: absolute;
+        left: -150px;
+        top: -50px;
+        display: none;
+    }
+</style>
+
+		
+7、案例小实战：图标切换、关闭小广告、图片切换、显示和隐藏图片、相册、电商多图切换、二维码的显示和隐藏
+<div class="nws ibdiv">
+	<img id="logo" src="imgs/tb1.png" alt="" width="100">
+	<div id="box1" class="ibdiv">
+		<img id="icon1" src="imgs/gg.png" alt="" width="100">
+		<img id="close"  src="imgs/close.jpg" alt="" width="30">
+	</div>
+	<div class="ibdiv">
+		<img id="icon2" src="imgs/icon_01.png" alt="">
+    	<p></p>
+    	<button id="prev">上一张</button>
+    	<button id="next">下一张</button>
+	</div>
+	<div class="ibdiv">
+    	<img src="imgs/img_01.jpg" width="80" id="displayimg">
+		<p></p>
+		<button id="btn">隐藏</button>
+	</div>
+	<br>
+	<div class="ibdiv" id="fj">
+		<!--大图描述-->
+    	<p id="des">蒲公英</p>
+    	<!--大图展示-->
+    	<img id="big_img" src="imgs/1.jpg" alt="" width="540">
+    	<!--小图列表-->
+    	<ul >
+    	    <li>
+    	        <a href="imgs/1.jpg" title="蒲公英">
+    	            <img src="imgs/1.jpg" width="100" alt="蒲公英">
+    	        </a>
+    	    </li>
+    	    <li>
+    	        <a href="imgs/2.jpg" title="热气球">
+    	            <img src="imgs/2.jpg" width="100" alt="热气球">
+    	        </a>
+    	    </li>
+    	    <li>
+    	        <a href="imgs/3.jpg" title="别致小屋">
+    	            <img src="imgs/3.jpg" width="100" alt="别致小屋">
+    	        </a>
+    	    </li>
+    	    <li>
+    	        <a href="imgs/4.jpg" title="高山湖水">
+    	            <img src="imgs/4.jpg" width="100" alt="高山湖水">
+    	        </a>
+    	    </li>
+    	    <li>
+    	        <a href="imgs/5.jpg" title="高速公路">
+    	            <img src="imgs/5.jpg" width="100" alt="高速公路">
+    	        </a>
+    	    </li>
+    	</ul>
+
+	</div>
+	<div id="box2" class="ibdiv">
+       <ul id="sb">
+           <li id="li01"><img src="imgs/01.jpg" alt=""></li>
+           <li id="li02"><img src="imgs/02.jpg" alt=""></li>
+           <li id="li03"><img src="imgs/03.jpg" alt=""></li>
+           <li id="li04"><img src="imgs/04.jpg" alt=""></li>
+           <li id="li05"><img src="imgs/05.jpg" alt=""></li>
+       </ul>
+   </div>
+	<div class="ibdiv" id="e_coder">
+        <div id="e_app">
+            <img src="imgs/e_coder.jpg" width="150">
+        </div>
+	</div>
+</div>
+<script src="js/exam.js"></script>
+8、<a href="otherexamples/index.html">其他案例演示</a>

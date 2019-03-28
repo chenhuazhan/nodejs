@@ -1,0 +1,92 @@
+{{ include '../common/header.html' }}
+{{ include './css/list.css.html' }}
+
+<section class="user-container">
+    <header  class="fixed-top">
+        <div class="layui-container">
+            <ul class="fixed-nav layui-nav layui-row">
+                <li class="main-page-bar bar-icon layui-nav-item layui-col-md2 layui-col-sm3">
+                    <a href="/my_space"> <i class="layui-icon layui-icon-home"></i>&nbsp;主页</a>
+                </li>
+                <li class="leave-msg-bar bar-icon layui-nav-item layui-col-md2 layui-hide-xs layui-show-sm-inline-block">
+                    <a href="/music_player"> <i class="layui-icon layui-icon-headset"></i>&nbsp;音乐</a>
+                </li>
+                <li class="game-bar bar-icon layui-nav-item layui-col-md3 layui-col-lg4 layui-hide-sm layui-hide-xs layui-show-md-block">
+                    <a href="/game"> <i class="layui-icon layui-icon-theme"></i>&nbsp;小游戏</a>
+                </li>
+                <li class="user-bar layui-nav-item layui-col-sm4 layui-col-lg3">
+                    <cite class="user-name on-line layui-hide-xs layui-hide">{{ user_info ? user_info.nickname: '' }}</cite>
+                    <div class="user-head-img "><div class="lazy-load-img"></div></div>
+                    <icon class="user-setting on-line layui-icon layui-icon-set layui-hide" title="个人设置"></icon>
+                    <button class="want-logout on-line layui-btn layui-btn-radius layui-btn-warm  layui-hide ">登出
+                    </button>
+                    <button class="layui-btn layui-btn-radius layui-btn-normal want-login off-line  layui-hide">登陆
+                    </button>
+                    <button class="layui-btn layui-btn-radius layui-btn-warm  want-register off-line  layui-hide">注册
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <main  class="layui-container">
+        <div class="msg-input-container">
+            <div class="msg-btn">
+                <button class="msg-send layui-btn layui-btn-warm layui-btn-disabled layui-btn-sm" title="请输入留言内容">发送</button><br>
+                <button class="msg-clear layui-btn layui-btn-primary layui-btn-sm">清空</button>
+            </div>
+            <div class="msg-input">
+                <textarea title="留言输入框" name="" node-type="textEl" pic_split="1" range="0&amp;0"  extra="pic_id=005OQkcpgy1fwelg34unhj3064064dfw &amp;gif_ids=" data-multiimage-status="editing"></textarea>
+            </div>
+        </div>
+        <div class="msg-list">
+            <!--<div class="item layui-clear" data-id="1">-->
+                <!--<div class="msg-left">-->
+                    <!--<div class="creator-head-img"></div>-->
+                <!--</div>-->
+                <!--<div class="msg-right">-->
+                    <!--<div class="creator-name">chz</div>-->
+                    <!--<span class="created-time">2018-11-3 21:53:35</span>-->
+                    <!--<span class="operate-bar">-->
+                        <!--<icon class="like active layui-icon layui-icon-praise" title="点赞"><span>12</span></icon>-->
+                        <!--<icon class="reply layui-icon layui-icon-reply-fill" title="回复"  data-id="1"></icon>-->
+                        <!--<icon class="delete layui-icon layui-icon-delete" title="删除"  data-id="1'"></icon>-->
+                    <!--</span>-->
+                    <!--<div class="reply-container layui-clear ">-->
+                        <!--<input type="text" name="title" required lay-verify="required" placeholder="请输入回复内容"-->
+                               <!--class="layui-input reply-input">-->
+                        <!--<button class="layui-btn">回复</button>-->
+                    <!--</div>-->
+                    <!--<div class="comment-content layui-clear ">lllllllllllllllllllllllllllllllllllll</div>-->
+                    <!--<div class="reply-list">-->
+                        <!--<div class="reply-item">-->
+                            <!--<header>-->
+                                <!--<span class="reply-creator-name">111 </span><span> 回复</span>-->
+                                <!--<span class="reply-created-time">2018-11-3 21:53:35</span>-->
+                            <!--</header>-->
+                            <!--<div class="reply-content layui-clear">-->
+                                <!--ggg-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+    </main>
+
+</section>
+
+<section class="aside-btn-container">
+    <div class="to-top layui-icon layui-icon-top" title="回到顶部" style="display: none;"></div>
+    <div class="to-home layui-icon layui-icon-home" title="回到首页"></div>
+    <div class="more-operate layui-icon layui-icon-add-1" title="更多操作"></div>
+    <div class="more-menu" style="display: none;">
+        <div class="switch">切换到分页版</div>
+    </div>
+</section>
+
+
+{{ include '../login_plugin/index.html' }}
+{{ include './js/list.js.html' }}
+</body>
+</html>

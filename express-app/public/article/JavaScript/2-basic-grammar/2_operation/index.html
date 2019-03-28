@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>基本运算符操作</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+<h1>基本运算符操作</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、算术运算符</a></h3>
+	1.1、加法运算符+
+		1.1.1、Number+Number=Number<button onclick="alert(5+2)">5+2</button>
+		1.1.2、String+unknown=String<button onclick="alert('55'+NaN)">'5'+NaN</button>
+		1.1.3、NaN+unknown(非String)=NaN<button onclick="alert(5+NaN)">5+NaN</button><button onclick="alert(true+NaN)">true+NaN</button>
+		1.1.4、非Number且非String类型相加会自动转为Number再运算<button onclick="alert(5+true)">5+true</button><button onclick="alert(5+null)">5+null</button><button onclick="alert(undefined+null)">undefined+null</button>
+	1.2、减法运算符-
+		1.2.1、Number-Number=Number
+		1.2.2、NaN-unknown=NaN、unknown-NaN=NaN=NaN<button onclick="alert(5-NaN)">5-NaN</button>
+		1.2.3、非Number类型相减会自动转为Number再运算（字符串类型不再例外）<button onclick="alert(5-'2')">5-'2'</button><button onclick="alert(5-'2')">5-'chz'</button>
+	1.3、乘法运算符*（规律和减法一样）<button onclick="alert(5*2)">5*2</button><button onclick="alert('5'*2)">'5'*2</button>
+	1.4、除法运算符/（正常除法，并非整除，分母不能为0，否则返回Infinity，其他规律同减法）<button onclick="alert(5/2)">5/2</button><button onclick="alert(5/0)">5/0</button>
+	1.5、取余运算符%（分母不能为0，否则返回NaN，其他规律同减法）<button onclick="alert(5%2)">5%2</button><button onclick="alert(5%0)">5%0</button>
+		<h3><a href="">2、正负运算符</a></h3>
+	2.1、正号运算符+：对原数据无影响
+	2.2、负号运算符-：对原数据取负值
+		<h3><a href="">3、赋值运算符</a></h3>
+	3.1、简单赋值运算符=：值赋值、地址赋值
+		=左边必须是变量，多个赋值运算符组成的赋值表达式具有右结合性。
+	3.2、复杂赋值运算符+=、-=、*=、/=、%=
+		先计算=右边的内容，例如a*=3+5相当于a=a*(3+5)
+		<h3><a href="">4、自运算符</a></h3>
+	4.1、自增运算符++
+		++i和i++都相当于i=i+1
+	4.2、自减运算符--
+		--i和i--都相当于i=i-1
+	4.3、位置问题
+		变量在运算符前：先用后变；a=2+b++相当于a=2+b;b=b+1;
+		变量在运算符后：先变后用：a=2+++b相当于b=b+1;a=2+b;
+		<h3><a href="">5、关系运算符</a></h3>
+	大于         >     值比较
+	小于         &lt;     值比较
+	大于等于     >=    值比较
+	小于等于     &lt;=    值比较
+	等于         ==    值比较
+	不等于       !=    值比较
+	全等于       ===   类型和值比较
+	不全等于     !==   类型和值比较
+	注意点：两边都是字符串对比时，比较双方的Unicode码，其他情况下，非数值比较会先转为数值再进行比较。
+	NaN!=NaN<button onclick="alert(NaN!=NaN)">NaN!=NaN</button>虽然：<button onclick="alert(null<=0)">null<=0</button><button onclick="alert(null>=0)">null>=0</button>然而，null!=0<button onclick="alert(null!=0)">null!=0</button><button onclick="alert(undefined!=0)">undefined!=0</button>
+	数值即不大于NaN也不小于NaN
+		<h3><a href="">6、逻辑运算符</a></h3>
+	6.1、与运算符&&，全真才真
+		短路写法：左边为假，右边代码将不再运行
+		返回值：左边为假，则返回左边，否则返回右边
+	6.2、或运算符||，全假才假
+		短路写法：左边为真，右边代码将不再运行
+		返回值：左边为真，则返回左边，否则返回右边
+	6.3、非运算符！，颠倒黑白
+		两次非运算会返回原始数据的Boolean类型值，即相当于使用了Boolean()函数
+		<h3><a href="">7、逗号表达式，</a></h3>
+	多个表达式连接组成逗号表达式，最后一个表达式的值为整个逗号表达式的值
+	a=(a1=1+2,a2=2+3,a3=3+4);结果为a=a3;
+		<h3><a href="">8、条件运算符(三目运算符)?:;</a></h3>
+	condition?value1:value2; ?问号左边条件为真，取冒号左边的值，否则取冒号右边的值。
+		<h3><a href="">9、位运算符&、|、^</a></h3>
+		<h3><a href="">10、运算符的优先级</a></h3>
+	<img src="imgs/priority.png">
+		<h3><a href="">11、运算符的结合性</a></h3>
+	除了赋值运算符是右结合性外，其他大部分运算符都是左结合性
+		<h3><a href="">12、小练习</a></h3>
+	用户从键盘输入3个整数, 找到最大值并输出?<button onclick="max()">开始输入</button>
+		<script src="js/max.js"></script>
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+
+</body>
+</html>

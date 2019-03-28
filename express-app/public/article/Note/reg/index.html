@@ -1,0 +1,144 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb18030" />
+<title>常用javascript正则表达式验证</title>
+<style type="text/css">
+    body{
+      background-color:#F5F5F5;
+      font-size:14px;
+    }
+    span{
+      color:red;
+      font-size:12px;
+    }
+</style>
+</head>
+<body>
+<!--验证非负数-->
+请输入非负数<input type="text" name="param" id="param" size="12"/>&nbsp;&nbsp;
+	<input type="button" value="确定" onClick="check1()"/><span id="msg"></span><br>
+	<script>
+		function check1(){
+			var pattern=/^[+]?([1-9][0-9]*|0)(\.[0-9]+)?$/;
+			var s=document.getElementById("param").value;
+			if(!pattern.test(s)){
+				document.getElementById("msg").innerHTML="*必须输入非负数！";
+			}else{
+				document.getElementById("msg").innerHTML="*校验通过！";
+			}
+		}
+	</script>
+<hr>
+<!--验证用户名和密码-->
+用户名：<input type="text" name="name" id="name" size="12"/><span id="msg_name"></span><br>
+密&nbsp;&nbsp;&nbsp;码：<input type="password" name="pwd" id="pwd" size="12"/><span id="msg_pwd"></span><br>
+<input type="button" value="确定" onClick="check2()"/>
+<script>
+    function check2(){
+        var pattern_name=/^[a-zA-Z\d]\w{5,9}$/;
+        //以字母或数字开头，包括字母数字下划线，长度为6-10位
+        var pattern_pwd=/^[a-zA-Z\d_]{6,10}$/;
+        //只能包括字母数字或下划线，长度为6-10位
+        var name=document.getElementById("name").value;
+        var pwd=document.getElementById("pwd").value;
+        if(!pattern_name.test(name)){
+            document.getElementById("msg_name").innerHTML="*必须以字母或数字开头，包括字母、数字或下划线，长度为6~10位！";
+        }else{
+        	 document.getElementById("msg_name").innerHTML="*用户名校验通过！";
+        }
+        if(!pattern_pwd.test(pwd)){
+        	document.getElementById("msg_pwd").innerHTML="*只能包括字母、数字或下划线，长度6~10位！";
+        }else{
+        	 document.getElementById("msg_pwd").innerHTML="*密码校验通过！";
+        }
+    }
+ </script>
+<hr>
+<!--验证Email地址-->
+请输入Email地址： <br/>
+<input type="text" name="email" id="email_text" size="20"/>&nbsp;&nbsp;<input type="button" value="确定" onClick="check3()"/>
+<span id="email_msg"></span><br>
+<script>
+    function check3(){
+        var pattern=/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]/;
+        var s=document.getElementById("email_text").value;
+        if(!pattern.test(s)){
+            document.getElementById("email_msg").innerHTML="*Email地址不合法！";
+        }else{
+        	document.getElementById("email_msg").innerHTML="*校验通过！";
+        }
+    }
+</script>
+<hr>
+<!--验证固定电话号码-->
+请输入固定电话号码<input type="text" name="telephone" id="telephone" size="20"/>&nbsp;&nbsp;
+<input type="button" value="确定" onClick="check4()"/><span id="telephone_tip"></span>
+<script>
+    function check4(){
+        var pattern=/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+        var s=document.getElementById("telephone").value;
+        if(!pattern.test(s)){
+            document.getElementById("telephone_tip").innerHTML="*电话号码不合法！";
+        }else{
+        	document.getElementById("telephone_tip").innerHTML="*校验通过！";
+        }
+    }
+</script>
+<hr>
+<!--验证日期时间类型-->
+请输入日期时间类型： <br/>
+<div>按照yyyy-mm-dd HH:MM:SS格式<br/>
+或者yyyy/mm/dd HH:MM:SS格式
+</div>
+<input type="text" name="date" id="date" size="20"/>&nbsp;&nbsp;
+<input type="button" value="确定" onClick="check5()"/><span id="date_tip"></span><br>
+<script>
+     function check5(){
+        var pattern=/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+        var s=document.getElementById("date").value;
+        var flag=true;
+        r=s.match(pattern);
+        if(r==null){
+             flag=false;
+        }else{
+             var date=new Date(r[1],r[3]-1,r[4],r[5],r[6],r[7]);
+             flag=(date.getFullYear()==r[1])&&((date.getMonth()+1)==r[3])&&(date.getDate()==r[4])&&(date.getHours()==r[5])&&(date.getMinutes()==r[6])&&(date.getSeconds()==r[7]);
+        }
+        if(flag==false){
+             document.getElementById("date_tip").innerHTML="*日期时间不合法！";
+        }else{
+        	 document.getElementById("date_tip").innerHTML="*校验通过！";
+        }
+    }
+</script>
+敏感词过滤（微信/QQ/盗号/黑客）<br>
+<textarea id="txt1" rows="3" cols="40"></textarea><br>
+<input id="btn1" type="button" value="过滤" /><br>
+<textarea id="txt2" rows="3" cols="40"></textarea><br>
+<script>
+	var oTxt1=document.getElementById('txt1');
+	var oTxt2=document.getElementById('txt2');
+	var oBtn1=document.getElementById('btn1');
+	oBtn1.onclick=function (){
+		var re=/微信|QQ|盗号|黑客/g;
+		oTxt2.value=oTxt1.value.replace(re, '***');
+	};
+</script>
+
+过滤HTML标签<br>
+<textarea id="txt3" rows="3" cols="40"></textarea><br>
+<input id="btn3" type="button" value="转换" /><br>
+<textarea id="txt4" rows="3" cols="40"></textarea>
+<script>
+	var oTxt3=document.getElementById('txt3');
+	var oTxt4=document.getElementById('txt4');
+	var oBtn3=document.getElementById('btn3');
+	oBtn3.onclick=function (){
+		var re=/<[^<>]+>/g;
+		oTxt2.value=oTxt1.value.replace(re, '');
+	};
+</script>
+</body>
+</html>
+

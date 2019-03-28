@@ -1,0 +1,45 @@
+<script>
+    $(function () {
+        "use strict";
+
+
+
+        //加载资源列表
+        loadList("#resource ul", "/source/book.json");
+
+
+        $("#toTop").click(function () {
+            $("html,body").animate({
+                "scrollTop": 0
+            }, 200);
+        });
+        $("#loginClick").click(function () {
+            $("#mask").css("display", "block");
+            return false;
+        });
+
+        $("#login .closeLogin").click(function () {
+            $("#mask").fadeOut(200);
+        });
+    });
+
+
+    function loadList($parent, jsonLink) {
+        $.ajax({
+            url: jsonLink,
+            type: "get",
+            success: function (msg) {
+                for (var i = 0; i < msg.length; i++) {
+                    var $li = $("<li><a href='/" + msg[i].link + "'>" + msg[i].name + "</a></li>");
+                    $li.appendTo($parent);
+                }
+            },
+            error: function (xhr) {
+                var $li = $("<li>暂时无法获取数据<br>请稍后尝试刷新网页</li>");
+                $li.css("color", "red").css("text-align", "center").css("paddingLeft", 0);
+                $li.appendTo($parent);
+            }
+        });
+    }
+
+</script>

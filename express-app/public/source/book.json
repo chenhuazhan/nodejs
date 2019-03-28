@@ -1,0 +1,33 @@
+[{
+	"name":"CSS3.0参考手册",
+	"link":"source/CSS_manual.chm"
+},{
+	"name":"CSS权威指南",
+	"link":"source/CSS_authoritative_guide.pdf"
+},{
+	"name":"HTML5权威指南",
+	"link":"source/HTML5_authoritative_guide.pdf"
+},{
+	"name":"JavaScript权威指南",
+	"link":"source/JavaScript_authoritative_guide.pdf"
+},{
+	"name":"JavaScriptDOM编程艺术",
+	"link":"source/JavaScript_DOM_Programming_art.pdf"
+},{
+	"name":"JavaScript高级程序设计",
+	"link":"source/JavaScript_Advanced_programming.pdf"
+},{
+	"name":"JavaScript设计模式与开发实践",
+	"link":"source/JavaScript_Design_patterns_and_development_practice.pdf"
+},{
+	"name":"Web前端黑客技术揭秘",
+	"link":"source/Web_front-end_hacker_technology_secret.pdf"
+},{
+	"name":"Web入侵安全测试与对策",
+	"link":"source/Web_intrusion_security_testing_and_Countermeasures.pdf"
+},{
+	"name":"Web安全深度剖析",
+	"link":"source/Web_security_depth_analysis.pdf"
+}
+
+]

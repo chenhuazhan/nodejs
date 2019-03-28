@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初识jQuery</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+		
+	</style>
+	<script src="js/jQuery-1.12.4.js"></script>
+	<script src="js/index.js"></script>
+    
+</head>
+
+<body>
+<h1>初识jQuery</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、jQuery本质</a></h3>
+	(function( window, undefined ) {
+        var jQuery = function( ) {
+            return new jQuery.prototype.init( );
+        }
+        jQuery.prototype = {
+            constructor: jQuery
+        }
+        jQuery.prototype.init.prototype = jQuery.prototype;
+        window.jQuery = window.$ = jQuery;
+    })( window );
+	
+	1.1.jQuery的本质是一个闭包
+		jQuery为什么要使用闭包来实现?为了避免多个框架的冲突
+	1.2、jQuery采用了面向对象的方法，jQuery是原始类名，$符号和jQuery等价
+    1.3.jQuery如何让外界访问内部定义的局部变量：window.xxx = xxx;
+    1.4.jQuery为什么要给自己传递一个window参数?
+       为了方便后期压缩代码，提升查找的效率
+    1.5.jQuery为什么要给自己接收一个undefined参数?
+       为了方便后期压缩代码
+       IE9以下的浏览器undefined可以被修改, 为了保证内部使用的undefined不被修改, 所以需要接收一个正确的undefined
+		<h3><a href="">2、jQuery核心方法</a></h3>
+	jQuery = function( selector, context ) {
+		return new jQuery.fn.init( selector, context, rootjQuery );
+	}
+	传参处理：
+	2.1、不传参或传递空字符串、null、undefined、NaN、0、false时，返回一个空的jQuery对象
+	2.2、$(callback)：如果传入的参数是一个函数，则在document上绑定一个ready事件监听函数，当DOM结构加载完成时执行。ready事件触发要早于load事件，ready事件并不是浏览器的原生事件。该函数称为jQuery的入口函数
+	2.3、$(selectorStr [,context])，接收一个字符串选择器，返回一个jQuery对象，没匹配到则返回一个空jQuery对象。
+		这里的context选择器称为"上下文"，其格式有以下几种：
+		写法例如:		$('p','#p_wrap') 		//在遍历时缩小范围id
+					$('p','div')      			//DOM元素
+					$('p', $('div'))  			//jQuery对象
+					$('domElement', this)      	//用于当前指定的DOM元素范围内
+	2.4、$(html [,ownerDocument])，$(html, props)
+		如果传入的是html代码片段，就会用这些代码创建新的DOM元素，
+		然后创建并返回一个包含这个元素引用的jQuery对象。
+		如果html代码是一个单独的标签，jQuery源码的实现是使用浏览器原生方法
+		document.creatElement()创建一个DOM元素；
+		如果是比较复杂的html片段，jQuery源码实现使用浏览器的innerHtml机制创建DOM元素，
+		这个过程由两个方法完成的。
+		若html代码是一个单独标签，第二个参数可以是props,props是一个包含了属性、事件的普通对象。
+		在调用document.createElement()创建DOM元素后，props会被传给jQuery方法.attr(),
+		然后由attr()负责把参数props中的属性、事件设置到新创建的元素上。
+	2.5、$(element)，$(elementArray)，如果传入一个DOM元素或DOM元素数组，则把DOM元素封装到jQuery对象中并返回。
+	2.6、$(object),传入一个普通的JavaScript对象，则把该对象封装到jQuery对象中并返回。
+	2.7、$(jQuery object)如果传入一个jQuery对象，则创建该jQuery对象的一个副本并返回(相当于克隆,深拷贝？)。
+	2.8、传入一个基本数据类型，会将传入的基本数据类型存储到jQuery对象中返回	
+		<h3><a href="">3、jQuery入口函数</a></h3>
+	3.1、4种等效写法
+		$(function(){});
+		jQuery(function(){});
+		$(document).ready(function(){});
+		jQuery(document).ready(function (){});
+	3.2、jQuery入口函数 vs window.onload
+		执行顺序：jQuery入口函数在window.onload之前执行
+			window.onload会等到DOM元素加载完毕,并且图片也加载完毕才会执行
+			jQuery会等到DOM元素加载完毕,但不会等到图片也加载完毕就会执行
+			故通过jQuery入口函数不可以拿到图片元素的宽高
+		覆盖问题：
+			window.onload如果多次赋值,则后面编写的会覆盖前面编写的
+			jQuery中编写多个入口函数,后面的不会覆盖前面的
+		jQuery中的$(window).load()方法对应window.onload
+		<h3><a href="">4、$符号使用冲突问题</a></h3>
+	4.1、释放$的使用权：直接调用jQuery.noConflict()方法
+		注意点: 释放操作必须在编写其它jQuery代码之前编写，释放之后就不能再使用$,改为使用jQuery
+	4.2、自定义一个访问符号：var jq=jQuery.noConflict()
+		注意，这个自定义的符号也要遵循js标识符命名规范
+		
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

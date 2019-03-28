@@ -1,0 +1,391 @@
+<script>
+    var init_status = false, load_limit = 8,load_page = 1, load_more = true
+    var _that,leave_msg = {
+        userInfo: JSON.parse('{{user}}'.replace(/&#34;/g,'"')),
+        init: function () {
+            _that = this
+            _that.userAuth()
+            _that.getMsgList()
+        },
+        /**
+         * @desc 身份认证
+         */
+        userAuth: function () {
+            var openid = _that.userInfo.openid || common.getCookie('openid') || ''
+            if(!_that.userInfo || JSON.stringify(_that.userInfo) == '{}'){
+                if (openid) {
+                    common.requestAjax({
+                        url: '/api/user/auth',
+                        data: {
+                            openid: openid
+                        },
+                        show_request: false
+                    },function (data) {
+                        $('.user-name').text(data.nickname)
+                        $('.on-line').removeClass('layui-hide')
+                        $('.user-head-img>div').attr('data-original', data.avatar)
+                        $('.lazy-load-img').lazyload()
+                        _that.userInfo = data
+                    },function (result) {
+                        alert(result.msg)
+                        common.delCookie('username', '/')
+                        common.delCookie('openid', '/')
+                        $('.off-line').removeClass('layui-hide')
+                    })
+                } else {
+                    $('.off-line').removeClass('layui-hide')
+                }
+            } else {
+                $('.on-line').removeClass('layui-hide')
+                $('.user-head-img>div').attr('data-original', _that.userInfo.avatar)
+                $('.lazy-load-img').lazyload()
+            }
+
+        },
+        /**
+         * @desc  获取留言列表数据
+         * @return
+         */
+        getMsgList: function () {
+            common.requestAjax({
+                url: '/api/leave_msg/get',
+                data: {
+                    page: load_page,
+                    pageSize: load_limit
+                },
+                show_request: (init_status ? false : true)
+            },function (data) {
+                common.removeLoadMore()
+                if (data.length > 0) {
+                    $.each(data, function (i, v) {
+                        $('.msg-list').append(_that.buildMsgList(v));
+                    })
+                    $('.lazy-load-img').lazyload()
+                    load_more = true
+                    load_page++
+                    init_status = true
+                } else {
+                    load_more = false
+                    if (init_status) {
+                        common.showNoMore()
+                    } else {
+                        common.showNoData('.msg-list')
+                    }
+                }
+            })
+        },
+        /**
+         * @desc  获取留言节点模板字符串
+         * @param obj
+         * @return str
+         */
+        buildMsgList: function (obj) {
+            console.log(obj);
+            var template_str = '<div class="item layui-clear" data-id="' + obj._id + '">\n' +
+                '                <div class="msg-left">\n' +
+                '                    <div class="creator-head-img lazy-load-img" data-original="' + obj.creator.avatar + '">' +
+                '                   </div>\n' +
+                '                </div>\n' +
+                '                <div class="msg-right">\n' +
+                '                    <div class="creator-name">' + obj.creator.nickname +
+                (obj.creator.gender == 0 ? '&nbsp;&nbsp;': ('&nbsp;&nbsp;<icon class="layui-icon ' + (obj.creator.gender == 1 ? 'layui-icon-male' : 'layui-icon-female') + '"></icon>')) +
+                '                    </div>\n' +
+                '                    <span class="created-time">' + common.formatDate(obj.created_time) + '</span>\n' +
+                '                    <span class="operate-bar">\n' +
+                '                        <icon class="like ' +
+                ((leave_msg.userInfo.openid != '' && (obj.likes).indexOf(leave_msg.userInfo.openid) !== -1) ? ' active ' : ' ') +
+                ' layui-icon layui-icon-praise" title="点赞"><span>' + obj.likes.length + '</span></icon>\n' +
+                '                        <icon class="reply layui-icon layui-icon-reply-fill" title="回复"  data-id="' + obj.id + '"></icon>\n'
+            template_str += ((obj.creator.openid !== _that.userInfo.openid) ? '' : '<i class="delete layui-icon layui-icon-delete" title="删除"  data-id="' + obj._id + '"></i>\n') +
+                '                    </span>\n' +
+                '                    <div class="reply-container layui-clear layui-hide">\n' +
+                '                        <input type="text" placeholder="请输入回复内容"\n' +
+                '                               class="reply-input layui-input">\n' +
+                '                        <button class="want-reply layui-btn layui-btn-disabled" title="请输入回复内容">回复</button>\n' +
+                '                    </div>\n' +
+                '                    <div class="comment-content layui-clear ">' + common.formatContent(obj.content) + '</div>\n' +
+                '                    <div class="reply-list">\n'
+            if (obj.replies.length > 0) {
+                $.each(obj.replies, function (i, v) {
+                    template_str += _that.buildReplyList(v);
+                })
+            }
+            template_str += '        </div>\n'
+            '                </div>\n' +
+            '            </div>'
+            return template_str;
+        },
+        /**
+         * @desc 获取回复节点模板字符串
+         * @param obj
+         * @return str
+         */
+        buildReplyList: function (obj) {
+            console.log(obj);
+            var template_str = '<div class="reply-item">\n' +
+                '    <header>\n' +
+                '        <span class="reply-creator-name">' + obj.creator + ' </span><span> &nbsp;回复：</span>\n' +
+                '        <span class="reply-created-time">' + common.formatTime(obj.created_time) + '</span>\n' +
+                '    </header>\n' +
+                '    <div class="reply-content layui-clear">\n' +
+                common.formatContent(obj.content) +
+                '    </div>\n' +
+                '</div>\n'
+            return template_str
+        },
+        /**
+         * @desc  新建留言
+         * @param content
+         */
+        createLeaveMsg: function (content) {
+            if (_that.userInfo.openid) {
+                common.requestAjax({
+                    type: 'post',
+                    url: '/api/leave_msg/add',
+                    data: {
+                        content: content,
+                        openid: _that.userInfo.openid
+                    }
+                },function (data) {
+                    common.removeNoData()
+                    data.creator = _that.userInfo
+                    $(".msg-list").prepend(_that.buildMsgList(data))
+                    $('.lazy-load-img').lazyload()
+                })
+                $(".msg-input textarea").val("")
+                $(".msg-input").keyup()
+            } else {
+                alert('请登录')
+            }
+        },
+        /**
+         * @desc  删除留言
+         * @param $this_leave_msg
+         */
+        deleteLeaveMsg: function ($this) {
+            common.requestAjax({
+                url: '/api/leave_msg/delete',
+                data: {
+                    id: $this.data('id'),
+                    openid: _that.userInfo.openid
+                }
+            },function (data) {
+                $this.parents('div.item').remove()
+                if($('.msg-list').height() <= $(window).height() && load_more){
+                    common.showLoadMore('.msg-list')
+                    _that.getMsgList()
+                }
+
+                if($('.msg-list div.item').length == 0){
+                    common.showNoData('.msg-list')
+                }
+            })
+        },
+        /**
+         * 新建回复
+         * @param $this
+         * @param msg_id
+         */
+        wantReply: function ($this){
+            if (_that.userInfo.openid) {
+                var msg_id = $this.parents('.item').data('id')
+                _that.createReply($this,msg_id)
+            } else {
+                alert('请登录')
+            }
+        },
+        createReply: function ($this, msg_id) {
+            common.requestAjax({
+                type: 'post',
+                url: '/api/leave_msg/reply',
+                data: {
+                    content: $this.parents('.item').find('.reply-input').val(),
+                    replay_to: msg_id,
+                    openid: _that.userInfo.openid
+                }
+            },function (data) {
+                $this.parents('.item').find('.reply-list').append(_that.buildReplyList(data))
+                $this.parents('.item').find('.reply-container').addClass('layui-hide')
+            })
+            $this.parents('.item').find('.reply-input').val('')
+            $this.parents('.item').find('.reply-input').keyup()
+        },
+        /**
+         * 点赞/取消点赞
+         * @param $this
+         */
+        thumb: function ($this) {
+            common.requestAjax({
+                url: '/api/leave_msg/like',
+                data: {
+                    like_to: $this.parents('.item').data('id'),
+                    openid: _that.userInfo.openid
+                }
+            },function (data) {
+                var count = parseInt($this.find('span').text())
+                $this.find('span').text(parseInt(data) + count)
+                $this.toggleClass('active')
+            })
+        }
+    }
+
+    leave_msg.init()
+
+    $('body').on('keyup', '.msg-input textarea', function (e) {
+        if ($(this).val().length <= 0) {
+            $('.msg-send').addClass('layui-btn-disabled')
+            $('.msg-send').attr('title', '请输入留言内容')
+        } else {
+            $('.msg-send').removeClass('layui-btn-disabled')
+            $('.msg-send').attr('title', '')
+        }
+    })
+
+    $('body').on('keyup', '.reply-input', function (e) {
+        if ($(this).val().length <= 0) {
+            $(this).parents('.item').find('.want-reply').addClass('layui-btn-disabled')
+            $(this).parents('.item').find('.want-reply').attr('title', '请输入回复内容')
+        } else {
+            $(this).parents('.item').find('.want-reply').removeClass('layui-btn-disabled')
+            $(this).parents('.item').find('.want-reply').attr('title', '')
+            if(e.keyCode === 13){
+                leave_msg.wantReply($(this))
+            }
+        }
+    })
+
+    //滚动加载/回到顶部
+    $(window).scroll(function () {
+        if ($(window).height() + $(this).scrollTop()  >= $(document).height() && load_more){
+            load_more = false
+            common.showLoadMore('.msg-list')
+            _that.getMsgList()
+        }
+        if($(this).scrollTop() >= 300){
+            $('.to-top').slideDown()
+        }else {
+            $('.to-top').slideUp()
+        }
+    })
+
+    // 监听发布按钮的点击
+    $('.msg-send').click(function () {
+        _that.createLeaveMsg($('.msg-input textarea').val())
+    })
+
+    //监听清空输入框按钮点击
+    $('.msg-clear').click(function () {
+        $('.msg-input textarea').val('')
+        $('.msg-send').addClass('layui-btn-disabled')
+    })
+    // 监听点赞点击
+    $('body').delegate('.like', 'click', function () {
+        if (_that.userInfo.openid) {
+            var $this = $(this)
+            _that.thumb($this)
+        } else {
+            alert('请登录')
+        }
+    });
+
+    // 监听删除点击
+    $('body').delegate('.delete', 'click', function () {
+        if (_that.userInfo.openid) {
+            var $this = $(this)
+            _that.deleteLeaveMsg($this)
+        }
+    })
+
+    //监听回复图标点击
+    $('body').delegate('.reply', 'click', function () {
+        var $this = $(this)
+        $this.parents('.item').find('.reply-container').toggleClass('layui-hide')
+    })
+    //监听回复按钮点击
+    $('body').delegate('.want-reply', 'click',function () {
+        leave_msg.wantReply($(this))
+    })
+
+
+
+    $('.want-register').click(function () {
+        $('#particles-js').slideDown();
+        switchStatus('register', 'api/user/register')
+        setTimeout(function () {
+            var myEvent = new Event('resize');
+            window.dispatchEvent(myEvent);
+        }, 1000)
+
+    })
+
+    $('.want-login').click(function () {
+        $('#particles-js').slideDown()
+        switchStatus('login', '/api/user/login')
+        setTimeout(function () {
+            var myEvent = new Event('resize');
+            window.dispatchEvent(myEvent);
+        }, 1000)
+    })
+
+    $('.want-logout').click(function () {
+        $.ajax({
+            type: 'get',
+            url: '/api/user/logout',
+            data:{
+                openid: _that.openid
+            },
+            success: function () {
+                common.delCookie('username', '/')
+                common.delCookie('openid', '/')
+                window.location.href = '/leave_msg'
+            },
+            error: function () {
+                alert('登出失败')
+            }
+        })
+
+    })
+
+    $('#particles-js').click(function (_e) {
+        if (_e.target.toString() == '[object HTMLCanvasElement]') {
+            $(this).slideUp()
+        }
+    })
+
+    $('.login').submit(function (e) {
+        if ($('#user_name').val() == '') {
+            alert('请输入用户名')
+            return false
+        }
+        if ($('#password1').val() == '') {
+            alert('请输入密码')
+            return false
+        }
+        if ($('#submit_type').val() == 2 && $('#password1').val() !== $('#password2').val()) {
+            alert('两次输入的密码不一致')
+            return false
+        }
+        e.preventDefault()
+        var formData = $(this).serialize()
+        console.log(formData)
+        console.log($('.login')[0].action);
+        common.requestAjax({
+            type: 'post',
+            url: $('.login')[0].action,
+            data: formData,
+            show_request:  false
+        },function (data) {
+            console.log(data);
+            window.location = '?openid=' + data.openid
+        })
+    })
+
+    $('.to-top').click(function () {
+        var obj = document.documentElement || document.body
+        $(obj).animate({'scrollTop':0},400)
+    })
+    $('.more-operate').click(function () {
+        $('.more-menu').fadeToggle()
+    })
+
+</script>

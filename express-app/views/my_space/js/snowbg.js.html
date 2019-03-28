@@ -1,0 +1,72 @@
+<script>
+	var rightaside=document.getElementById("rightaside");
+	
+	var snowNum=50;
+	var f=new Array("#AAAACC","#DDDDFF","#CCCCDD","#F3F3F3","#F0FFFF"),          //颜色表
+		e=new Array("Arial Black","Arial Narrow","Times","Comic Sans MS"),       //字体表
+		m=0.6,
+		a=30,         //top:-a
+		b=10,
+		c=1,
+		j=new Array(),
+		k,l,x,
+		n=new Array(),o=new Array(),p=new Array();
+	for(i=0;i<=snowNum;i++){//绘制雪花文本  
+		var span=document.createElement("span");
+		rightaside.appendChild(span);
+		span.id="s"+i;
+		span.style.position="absolute";
+		span.style.top=(-a)+"px";
+		span.innerHTML="*";
+	}
+	function setY(z){
+		return Math.floor(z*Math.random());
+	}
+	
+	
+	k=rightaside.clientHeight;
+	l=rightaside.clientWidth;
+	
+	var h=a-b;             //雪花大小、移动速度       
+	for(i=0;i<=snowNum;i++){
+		o[i]=0;
+		p[i]=Math.random()*15;
+		n[i]=0.03+Math.random()/10;
+		j[i]=document.getElementById("s"+i);j[i].style.fontFamily=e[setY(e.length)];
+		j[i].size=setY(h)+b;
+		j[i].style.fontSize=j[i].size;j[i].style.color=f[setY(f.length)];
+		j[i].sink=m*j[i].size/5;
+		if(c==1){j[i].posx=setY(l-j[i].size)}
+		if(c==2){j[i].posx=setY(l/2-j[i].size)}
+		if(c==3){j[i].posx=setY(l/2-j[i].size)+l/4}
+		if(c==4){j[i].posx=setY(l/2-j[i].size)+l/2}
+		j[i].posy=setY(2*k-k-2*j[i].size);
+		j[i].style.left=j[i].posx+"px";
+		j[i].style.top=j[i].posy+"px";
+	}
+	w(o,n,j,p,k,l,snowNum);
+function w(o,n,j,p,k,l,c,snowNum){
+	for(i=0;i<=snowNum;i++){
+		o[i]+=n[i];j[i].posy+=j[i].sink;
+		j[i].style.left=j[i].posx+p[i]*Math.sin(o[i])+"px";
+		j[i].style.top=j[i].posy+"px";
+		if(j[i].posy>=k-2*j[i].size||parseInt(j[i].style.left)>(l-3*p[i])){
+			if(c==1){
+				j[i].posx=setY(l-j[i].size);
+			}
+			if(c==2){
+				j[i].posx=setY(l/2-j[i].size);
+			}
+			if(c==3){
+				j[i].posx=setY(l/2-j[i].size)+l/4;
+			}	
+			if(c==4){
+				j[i].posx=setY(l/2-j[i].size)+l/2;
+			}
+			j[i].posy=0;
+		}
+	}
+	var x=setTimeout("w(o,n,j,p,k,l,c,snowNum)",50);
+}
+
+</script>

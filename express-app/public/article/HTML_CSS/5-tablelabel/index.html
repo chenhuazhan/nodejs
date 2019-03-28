@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>表格元素</title>
+<meta charset="utf-8">
+<style>
+body{font-size:16px;}
+h1{text-align:center;}
+summary{font-size:24px; font-family:monospace}
+table{ border:black 1px solid; background-color:black; color:red;}
+td{background-color:white;}
+</style>
+</head>
+<body>
+<pre>
+<h1>表格的构造</h1>
+<details>
+<summary>1、生成基本表格table、tr、td</summary>
+  table元素表示整个表格，tr元素表示一行，td元素表示一个单元格。
+  <img src="imgs/table.png">
+  <img src="imgs/tr.png">
+  <img src="imgs/td.png">
+</details>
+<details>
+<summary>2、添加表头单元格th</summary>
+  <img src="imgs/th.png">
+  一行中可以混用td和th元素
+</details>
+<details>
+<summary>3、添加表格结构thead、tfoot、tbody</summary> 
+  thead表示表格的标题行；tfoot元素标记组成表脚的行；如果没有thead，则所有tr都会视为表格主体——tbody的一部分，即使文档中没有插入tbody，大多数浏览器会自动插入tbody，这时可能导致table>tr这类选择器失效。
+  <img src="imgs/thead.png">
+  <img src="imgs/tfoot.png">
+  <img src="imgs/tbody.png">
+</details>
+<details>
+<summary>4、制作不规则表格</summary>
+  使用td和th元素的属性来实现，跨列使用rowspan属性，跨行使用colspan属性，其值为整数，单位为行数或列数，存在上限。若值为百分比，则有些浏览器将100%代表整行或整列，但这不是H5标准的内容，没有得到一致实现。
+  <table>
+    <tr><td>1</td><td>2</td><td>3</td></tr>
+	<tr><td rowspan="2">4</td><td>5</td><td>6</td></tr>
+	<tr><td>7</td><td>8</td><td>9</td></tr>
+  </table>
+  <table>
+    <tr><td>1</td><td>2</td><td>3</td></tr>
+	<tr><td colspan="3">4</td><td>5</td><td>6</td></tr>
+	<tr><td>7</td><td>8</td><td>9</td></tr>
+  </table>
+</details>
+<details>
+<summary>5、表头与单元格的关联</summary>
+  将td和th元素的headers属性设置为对应表头单元格的id属性值
+</details>
+<details>
+<summary>6、添加表格标题caption</summary>
+  一个表格只能包含一个caption元素，其无论定义在表格的什么地方，都会居中显示在表格上方。
+</details>
+<details>
+<summary>7、基于列处理表格</summary>
+  HTML表格是基于行的，对列应用样式有点不便，解决方法是使用colgroup和col元素。
+</details>
+<details>
+<summary>8、添加表格边框border</summary>
+</details>
+<details>
+<summary>9、表格制作案例</summary>
+</details>
+</pre>
+</body>
+</html>

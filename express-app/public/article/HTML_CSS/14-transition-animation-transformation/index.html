@@ -1,0 +1,424 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>过渡、动画和变换</title>
+<style>
+	body{white-space: pre-wrap; font-size: 16px;}
+	h1{font-size: 24px; text-align: center;}
+	#test1{width: 30px; height: 30px;background-color: red; float:left;}
+	#test1:hover{width: 100px; height: 100px;transition-duration: 5s;transition-property: all;}
+	#test2{width: 30px; height: 30px;background-color: green;transition-duration: 5s;transition-property: width,height,background-color; float:left;}
+	#test2:hover{width: 100px; height: 100px; background-color: blue;}
+	#test3{clear: both;}
+	*{
+            margin: 0;
+            padding: 0;
+	}
+     
+    .transition{
+            width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            background-color: pink;
+            border: 1px solid #000;
+        }
+	.transition li{
+            list-style: none;
+            width: 100px;
+            height: 50px;
+            margin-bottom: 10px;
+            background-color: blue;
+            transition-property: margin-left;
+            transition-duration: 10s;
+        }
+    .transition:hover li{
+            margin-left: 700px;
+        }
+	.transition li:nth-child(1){
+            /*告诉系统过渡动画的运动的速度*/
+            transition-timing-function: linear;
+        }
+	.transition li:nth-child(2){
+            transition-timing-function: ease;
+        }
+	.transition li:nth-child(3){
+            transition-timing-function: ease-in;
+        }
+	.transition li:nth-child(4){
+            transition-timing-function: ease-out;
+        }
+    .transition li:nth-child(5){
+            transition-timing-function: ease-in-out;
+        }
+	#test4{
+            width: 100px;
+            height: 50px;
+            background-color: red;
+
+            /*1.告诉系统需要执行哪个动画*/
+            animation-name: chz;
+            /*3.告诉系统动画持续的时长*/
+            animation-duration: 3s;
+			animation-direction:alternate;
+			animation-iteration-count: infinite;
+			
+        }
+	#test4:hover{
+		animation-play-state: paused;
+	}
+        /*2.告诉系统我们需要自己创建一个名称叫做chz的动画*/
+        @keyframes chz {
+            from{
+                margin-left: 0;
+            }
+            to{
+                margin-left: 500px;
+            }
+        }
+	.pause { animation-play-state: paused;}
+	.run { animation-play-state: running;}
+	.transform1{
+        width: 800px;
+        height: 500px;
+        border: 1px solid #000;
+        margin: 0 auto;
+    }
+    .transform1 li{
+        list-style: none;
+        width: 100px;
+        height: 50px;
+        background-color: red;
+        margin: 0 auto;
+        margin-top: 50px;
+        text-align: center;
+        line-height: 50px;
+    }
+    .transform1 li:nth-child(2){
+        /*其中deg是单位, 代表多少度*/
+        transform: rotate(45deg);
+    }
+    .transform1 li:nth-child(3){
+        /*
+        第一个参数:水平方向
+        第二个参数:垂直方向
+        */
+        transform: translate(100px, 0px);
+    }
+    .transform1 li:nth-child(4){
+        /*
+        第一个参数:水平方向
+        第二个参数:垂直方向
+        注意点:
+        如果取值是1, 代表不变
+        如果取值大于1, 代表需要放大
+        如果取值小于1, 代表需要缩小
+        如果水平和垂直缩放都一样, 那么可以简写为一个参数
+        */
+        /*transform: scale(0.5, 0.5);*/
+        transform: scale(1.5);
+    }
+    .transform1 li:nth-child(5){
+        /*
+        注意点:
+        1.如果需要进行多个转换, 那么用空格隔开
+        2.2D的转换模块会修改元素的坐标系, 所以旋转之后再平移就不是水平平移的
+        */
+        transform: rotate(45deg) translate(100px, 0px) scale(1.5, 1.5);
+        /*transform: translate(100px, 0px);*/
+    }
+	.transform2{
+        width: 200px;
+        height: 200px;
+        border: 1px solid #000;
+        margin: 100px auto;
+        position: relative;
+    }
+    .transform2 li{
+        list-style: none;
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        /*
+        第一个参数:水平方向
+        第二个参数:垂直方向
+        注意点
+        取值有三种形式
+        具体像素
+        百分比
+        特殊关键字
+        */
+        /*transform-origin: 200px 0px;*/
+        /*transform-origin: 50% 50%;*/
+        /*transform-origin: 0% 0%;*/
+        /*transform-origin: center center;*/
+        transform-origin: left top;
+    }
+    .transform2 li:nth-child(1){
+        /*
+        默认情况下所有的元素都是以自己的中心点作为参考来旋转的, 我们可以通过形变中心点属性来修改它的参考点
+        */
+        background-color: red;
+        transform: rotate(30deg);
+    }
+    .transform2 li:nth-child(2){
+        background-color: green;
+        transform: rotate(50deg);
+    }
+    .transform2 li:nth-child(3){
+        background-color: blue;
+        transform: rotate(70deg);
+    }
+	.transform3{
+        width: 310px;
+        height: 438px;
+        border: 1px solid #000;
+        background-color: skyblue;
+        margin: 100px auto;
+        perspective: 500px;
+		border-radius:15px;
+    }
+    .transform3 img{
+        transform-origin: center bottom;
+        transition: transform 1s;
+    }
+    .transform3:hover img{
+        transform: rotateX(80deg);
+    }
+	.nav{
+        width: 400px;
+        height: 40px;
+        margin: 0 auto;
+        margin-top: 100px;
+        background-color: black;
+		white-space: normal;
+    }
+    .nav>li{
+        list-style: none;
+        float: left;
+        width: 120px;
+        height: 40px;
+        background-color: green;
+        margin-left: 10px;
+        text-align: center;
+        line-height: 40px;
+        position: relative;
+    }
+    .sub{
+        /*不显示元素*/
+        /*display: none;*/
+        width: 120px;
+        position: absolute;
+        left: 0;
+        top: 40px;
+    }
+    .sub li{
+        list-style: none;
+        background-color: deeppink;
+        transform: rotateY(180deg);
+        transition: all 1s;
+		/*设置透明度*/
+        opacity: 0;
+    }
+    /*
+    .nav>li:hover .sub{
+        display: block;
+    }
+    */
+    .nav>li:hover .sub li{
+        transform: none;
+        opacity: 1;
+    }
+    .nav>li:hover .sub li:nth-child(1){
+        transition-delay: 0ms;
+    }
+    .nav>li:hover .sub li:nth-child(2){
+        transition-delay: 200ms;
+    }
+    .nav>li:hover .sub li:nth-child(3){
+        transition-delay: 400ms;
+    }
+    .nav>li:hover .sub li:nth-child(4){
+        transition-delay: 600ms;
+    }
+    .nav>li:hover .sub li:nth-child(5){
+        transition-delay: 800ms;
+    }
+
+    .nav>li .sub li:nth-child(5){
+        transition-delay: 0ms;
+    }
+    .nav>li .sub li:nth-child(4){
+        transition-delay: 200ms;
+    }
+    .nav>li .sub li:nth-child(3){
+        transition-delay: 400ms;
+    }
+    .nav>li .sub li:nth-child(2){
+        transition-delay: 600ms;
+    }
+    .nav>li .sub li:nth-child(1){
+        transition-delay: 800ms;
+    }
+    .textpanel{
+        width: 400px;
+        height: 300px;
+        background-color: red;
+        margin: 0 auto;
+		white-space: normal;
+    }
+</style>
+</head>
+
+<body>
+<h1>使用过渡、动画和变换</h1>
+	<h3>1、使用过渡</h3>
+	<img src="imgs/2t1a.png">
+	过渡效果一般是鼠标悬停时表现出来的一种效果，一般用伪类选择器:hover改变CSS属性来实现。
+	1.1、过渡三要素
+        1.1.1必须要有属性发生变化
+        1.1.2必须告诉系统哪个属性需要执行过渡效果
+		1.1.3必须告诉系统过渡效果持续时长
+	1.2、注意点
+		当多个属性需要同时执行过渡效果时用逗号隔开即可
+	<img src="imgs/transition.png">
+	当transition属性仅放于:hover选择器之中时，过渡效果只有正向过渡，即鼠标一离开元素，立即恢复原始状态，没有反向过渡效果，如下面的红色正方形元素，如果需要两向都有过渡效果，需要在原始状态选择器中添加transition属性，或原始状态选择器和伪类选择器都加上transition属性，如下面的绿色正方形。
+	<div id="test1"></div> <div id="test2"></div><div id="test3"></div>
+	transition-time-function属性的5个值曲线图：
+	<img src="imgs/transitionline.png">
+	曲线运动效果：
+	<ul class="transition">
+		<li>linear</li>
+		<li>ease</li>
+		<li>ease-in</li>
+		<li>ease-out</li>
+		<li>ease-in-out</li>
+    </ul>
+	1.3、过渡连写格式
+		transition: 过渡属性 过渡时长 运动速度 延迟时间;
+
+	1.4、过渡连写注意点
+		2.1和分开写一样, 如果想给多个属性添加过渡效果也是用逗号隔开即可
+		2.2连写的时可以省略后面的两个参数, 因为只要编写了前面的两个参数就已经满足了过渡的三要素
+		2.3如果多个属性运动的速度/延迟的时间/持续时间都一样, 那么可以简写为：transition:all 0s;
+	1.5、编写过渡套路
+		3.1不要管过渡, 先编写基本界面
+		3.2修改我们认为需要修改的属性
+		3.3再回过头去给被修改属性的那个元素添加过渡即可
+	1.6、过渡模块案例展示：<a href="elastic.html">弹性效果</a>、<a href="accordion.html">手风琴效果</a>
+	<h3>2、使用动画</h3>
+	动画的创建需要包含两部分，一个是动画的CSS属性，另一个是动画关键帧,动画关键帧使用@keyframes创建，@keyframes定义动画的名称以及动画的关键帧。
+	动画关键帧有大致可分为3种：
+	1.仅指定最后一帧；
+	@keyframes animationname{
+		to{...}
+	}
+	2.指定初始和结束帧；
+	@keyframes animationname{
+		from{...}
+		to{...}
+	}
+	3.指定中间帧。(0%和100%可分别代替from和to)
+	@keyframes animationname{
+		from{...}
+		50%{...}
+		75%{...}
+		to{...}
+	}
+	<img src="imgs/animation.png">
+	往返无限动画示例：
+	<div id="test4"></div>
+	<button id="btn1" onClick="controler()">暂停</button>
+	<script>
+		function controler(){
+			var btn1=document.getElementById("btn1");
+			var da=document.getElementById("test4");
+			if(btn1.innerText=="暂停"){
+				da.className="pause";
+				btn1.innerText="继续";
+			}else{
+				da.className="run";
+				btn1.innerText="暂停";
+			}
+			
+		}
+	</script>
+	动画是有一定的状态的:1.等待状态、2.执行状态、3.结束状态
+	animation-fill-mode作用:指定动画等待状态和结束状态的样式
+ 	取值:
+		none: 不做任何改变
+		forwards: 让元素结束状态保持动画最后一帧的样式
+		backwards: 让元素等待状态的时候显示动画第一帧的样式
+		both: 让元素等待状态显示动画第一帧的样式, 让元素结束状态保持动画最后一帧的样式
+	<a href="animation-fill-mode.html">animation-fill-mode属性示例</a>
+	1.动画模块连写格式
+	animation:动画名称 动画时长 动画运动速度 延迟时间 执行次数 往返动画;
+	2.动画模块连写格式的简写:animation:动画名称 动画时长;
+	3.动画案例展示：<a href="cloudlayout.html">云层效果</a>、<a href="infiniterolling.html">无限滚动</a>
+	<h3>3、使用变换</h3>
+	所谓变换，就是旋转、缩放、倾斜和平移某个元素
+	<ul class="transform1">
+		<li>正常的</li>
+		<li>旋转的</li>
+		<li>平移的</li>
+		<li>缩放的</li>
+		<li>综合的</li>
+	</ul>
+	<img src="imgs/transform.png">
+	trandform-orgin属性允许指定变换的形变中心点。指定形变中心点需要为x轴和y轴各定义一个值，默认值为元素的中心（center center）。
+	<ul class="transform2">
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<img src="imgs/transform-origin.png">
+	旋转轴向:默认情况下所有元素都是围绕Z轴进行旋转,rotate(45deg)等同于rotateZ(45deg);
+		想围绕哪个轴旋转, 那么只需要在rotate后面加上哪个轴即可
+	当旋转轴向改为x轴或，y轴时，透视属性可以改善视觉效果：
+		1.什么是透视
+            近大远小
+        2.注意点
+            一定要注意, 透视属性必须添加到需要呈现近大远小效果的元素的父元素上面
+<div class="transform3"><img src="imgs/pk.png" alt=""></div>
+	综合练习-翻转菜单:
+	<ul class="nav">
+    <li>一级菜单
+        <ul class="sub">
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+        </ul>
+    </li>
+    <li>一级菜单
+        <ul class="sub">
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+        </ul>
+    </li>
+    <li>一级菜单
+        <ul class="sub">
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+            <li>二级菜单</li>
+        </ul>
+    </li>
+</ul><div class="textpanel">我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字</div>
+	正常情况下的转换是2D转换，此外还有3D转换
+	什么是2D和3D
+		2D就是一个平面, 只有宽度和高度, 没有厚度
+		3D就是一个立体, 有宽度和高度, 还有厚度
+		默认情况下所有的元素都是呈2D展现的
+		2.如何让某个元素呈3D展现
+		和透视一样, 想看到某个元素的3d效果, 只需要给他的父元素添加一个transform-style属性, 然后设置为preserve-3d即可
+	<a href="squaretransition.html">正方体/长方体</a>、<a href="3D.html">3D旋转练习</a>
+</body>
+</html>

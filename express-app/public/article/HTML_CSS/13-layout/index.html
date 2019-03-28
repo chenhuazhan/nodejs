@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS页面布局</title>
+	<link href="css/index.css" rel="stylesheet">
+	<script src="js/index.js"></script>
+</head>
+<body>
+	<h1>CSS页面布局</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3>1、浮动流布局</h3>
+	1.1、浮动流布局相关CSS属性:float,clear
+		网页元素默认为不浮动，float：none;
+	1.2、定义了float属性且float属性不为none的页面元素会脱离标准流
+		不区分块级/行内/行内块级元素，都视为块级元素
+		<h3>2、清除浮动的5种方法</h3>
+	2.1、clear:both
+		直接给后一个盒子增加属性clear:both;会导致一些margin问题
+	2.2、外墙法
+		在两个盒子之间增加一个块级元素，并设置其属性clear:both 
+		外墙法可以让第二个盒子使用margin-top属性，但不能让第一个盒子使用margin-bottom属性， 
+		可设置墙高实现两个盒子之间的margin效果 
+	2.3、内墙法
+		在前一个盒子所有子元素之后增加一个块级元素，并设置其属性clear:both 
+		内墙法可以让第二个盒子使用margin-top属性，也可以让第一个盒子使用margin-bottom属性 
+		可设置墙高实现两个盒子之间的margin效果，内墙可以撑起第一个盒子的高度 
+	2.4、伪元素选择器法
+		什么是伪元素选择器？ 
+			给指定标签的内容前面(::before)或后面(::after)增加一个子元素(行内元素) 
+			格式： 
+			选择器::before{ 
+				content:文本内容; 
+				属性:值; 
+			} 
+		清除浮动example： 
+			div::after{ 
+				content:"我是伪元素选择器增加的文本内容";(在清除浮动时没必要加此属性) 
+				display:block; 
+				height:0px; 
+				visibility:hidden;(设置显示模式为隐藏) 
+				clear:both; 
+			} 
+		兼容IE6，要给标签增加属性*zoom:1; 
+			div{ 
+				*zoom:1; 
+			} 
+	2.5、overflow:hidden的作用
+		(1)隐藏超出容器的内容 
+		(2)清除浮动：直接给第一个盒子添加overflow:hidden属性，效果与内墙法相识 
+			兼容IE6，要给标签增加属性*zoom:1; 
+		(3)给嵌套关系的外盒子设置overflow:hidden属性，可防止在没设置边框属性的情况下， 
+			外盒子因内盒子设置margi-top而被顶下来 
+		<h3>3、定位流布局</h3>
+	3.1、定位流布局相关CSS属性
+		position,top,bottom,left,right,z-index
+		网页默认为静态定位，position:static
+	3.2、相对定位:relative
+		不脱离标准流，区分块级/行内/行内块级元素 
+		相对原始位置移动，不会影响其他元素的位置 
+		添加margin属性时只会作用于原始位置，这时会影响其他元素的位置 
+		适用于元素的微调或配合绝对定位使用 
+	3.3、绝对定位:absolute
+		脱离标准流，与浮动流相似，不区分块级/行内/行内块级元素，都视为块级元素 
+		定位参考对象：距离当前元素最近的一个有定位属性的祖先元素，若没有，则默认body元素为参考对象 
+			(1)当元素以body元素为参考对象时，元素是以网页首次在浏览器中显示出来的大小作为参考点 
+				而不是以整个网页的大小作为参考点 
+			(2)绝对定位的元素会忽略参考对象的padding属性 
+				子绝父相配合定位 
+				水平居中技巧：position:absolute;left:50%;margin-left:-(width/2)px;  
+	3.4、固定定位:fixed
+		与设置背景关联属性background-attachment:fixed相似
+		脱离标准流，不区分块级/行内/行内块级元素，都视为块级元素 
+		不会随滚动条的滚动而滚动，常用于导航条，返回顶部按钮，对联广告位
+	3.5、定位流元素的覆盖关系
+		默认情况下：定位流元素会覆盖非定位流元素，后编写的定位流会覆盖前面编写的定位流元素 
+		z-index属性：默认为0，控制定位流元素的覆盖关系，属性值大覆盖属性值小的 
+		<h3>4、伸缩布局</h3>
+	CSS3引入的布局模式Flexbox布局，主要思想是让容器有能力让其子项目能够改变其宽度，高度，以最佳方式填充可用空间。Flex容器使用Flex项目可以自动放大与收缩，用来填补可用的空闲空间
+	4.1、伸缩布局相关CSS属性
+		display:flex;					首先要设置容器display属性为flex
+		容器伸缩布局相关CSS属性
+			flex-direction: row;			默认情况下主轴按照从左向右排列
+			flex-direction: row-reverse;	修改主轴方向: 从右向左
+			flex-direction: column			修改主轴方向: 从上至下
+			justify-content: flex-start;	默认情况下主轴按照按照起点对齐
+			justify-content: flex-end;		终点对齐
+			justify-content: center;		居中对齐
+			justify-content: space-between;	两端对齐: 两端没有间隙
+			justify-content: space-around;	环绕对齐: 两端有间隙, 间隙会随着父元素的改变而改变
+			如果修改了主轴方向, 那么主轴的起点终点也会发生变化
+			align-items:flex-start、flex-end、center 此属性和上面的justify-content相对，表示伸缩项在次轴上的排列方式。
+			align-items: baseline;			基本线对齐
+			align-items: stretch;			拉伸对齐, 如果子元素没有高度会拉伸到和父元素一样
+			侧轴的方向会随着主轴的方向变化
+			flex-wrap: nowrap;		默认情况下伸缩布局会尽可能的在一行显示内容, 不会换行
+			伸缩容器容纳不下伸缩项目时，各伸缩项目会根据默认的收缩比例进行缩小以适应伸缩容器的宽度
+			flex-wrap: wrap;			换行
+			flex-wrap: wrap-reverse;	换行并反转
+			align-content: flex-start/flex-end/center/space-between/space-around;
+			多行时在侧轴方向的对齐属性，这个属性将对每一行起作用而不是每个伸缩项目
+            align-content: stretch;		各行将会伸展以占用额外空间
+			
+		容器内部元素伸缩布局相关CSS属性
+			align-self		同align-items可覆盖父元素设置的algin-items
+			order			伸缩项排序，默认值是0，可取负数
+			flex-grow: 0.5;	在伸缩容器有多余空间时,把多余空间分配给各个子元素
+			默认值是0, 如果设置的值是0~1之间的小数, 会按照1来计算
+			flex-shrink: 1;	默认为 1,在伸缩容器空间不够时,让各个子元素收缩以适应有限的空间
+			flex-basis		设置伸缩项宽度
+				注意点:
+				a.flex-basis的优先级比width高
+				b.如果flex-basis和width其中一个是auto, 那么非auto优先级更高
+			flex是flex-grow，flex-shrink，flex-basis三个属性的缩写。
+			第二个和第三个参数是可选值。默认值是0 1 auto
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

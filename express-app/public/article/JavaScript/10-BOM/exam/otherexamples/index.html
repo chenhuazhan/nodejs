@@ -1,0 +1,421 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>常用事件补充</title>
+<link href="css/index.css" rel="stylesheet">
+<style>
+	body{
+        background: url("images/1.jpg") no-repeat;
+		background-size:100% 640px;
+		background-attachment: fixed;
+    }
+	#box1{
+        background-color: rgba(255, 255, 255, .5);
+    }
+	#box1 ul{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        cursor: pointer;
+    }
+
+
+    #box1 ul li img{
+        width: 180px;
+        height: 120px;
+        margin: 10px 0;
+    }
+	
+	#panel{
+        width: 400px;
+        box-shadow: 0 0 10px #000;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .panel-header{
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .panel-footer{
+        text-align: center;
+        margin-top: 10px;
+    }
+	
+	#prompt{
+        font-size: 13px;
+        color: darkgray;
+    }
+
+    #score{
+        border:1px solid darkgray;
+    }
+
+    .right{
+        background: url("images/right.png") no-repeat 5px center;
+        background-size:15px 15px;
+        padding-left: 20px;
+        color: lightgreen !important;
+    }
+
+    .error{
+        background: url("images/error.png") no-repeat 5px center;
+        background-size:15px 15px;
+        padding-left: 20px;
+        color: red !important;
+    }
+	
+	#tab a{
+	    text-decoration: none;
+	    color: #000;
+	}
+	
+	#tab{
+	    width: 498px;
+	    height: 120px;
+	    border: 1px solid #ccc;
+	    margin: 20px auto;
+	
+	    /*overflow: hidden;*/
+	}
+	
+	#tab_header{
+	    background-color: #e8e8e8;
+	    height: 28px;
+	    line-height: 28px;
+	}
+	
+	#tab_header ul{
+	    width: 500px;
+	   /* display: flex;
+	    justify-content: space-around;
+	    align-items: center;*/
+	}
+	
+	#tab_header ul li{
+	    float: left;
+	    width: 98px;
+	    /*background-color: red;*/
+	    text-align: center;
+	
+	    /*先占满*/
+	    padding: 0 1px;
+	
+	    border-bottom: 1px solid #cccccc;
+	
+	    cursor: pointer;
+	}
+	
+	#tab_header ul li.selected{
+	    background-color: #fff;
+	    border-bottom: none;
+	
+	    /*左右线条*/
+	    border-left:1px solid #ccc;
+	    border-right:1px solid #ccc;
+	
+	    padding: 0;
+	}
+	
+	#tab_header ul li:nth-child(1){
+	    border-left:none;
+	}
+	
+	
+	#tab_header ul li:nth-last-child{
+	    border-right:none;
+	}
+	
+	#tab_header ul li:hover{
+	    font-weight:bolder;
+	    color: orangered;
+	}
+	
+	
+	/*内容区域*/
+	#tab_content{
+	}
+	
+	#tab_content .dom{
+	    padding-top: 20px;
+	    display: none;
+	}
+	
+	#tab_content .dom ul li{
+	    float: left;
+	    width: 220px;
+	    text-align: center;
+	    margin: 5px;
+	}
+	
+	#tab_content .dom ul li a:hover{
+	    color: orangered;
+	}
+	
+	#comment{
+		width: 300px;
+		margin: 20px auto;
+		border: 1px solid green;
+		padding: 10px 35px;
+	}
+	#comment ul li{
+		border-bottom: 1px dashed #e8e8e8;
+		padding: 5px auto;
+		color: orange;
+	}
+	#comment ul li button{
+		float: right;
+	}
+	
+	#top{
+	    padding: 20px;
+	}
+
+	#bottom{
+	    position: relative;
+	}
+
+	.box{
+	    width: 220px;
+	    height: 360px;
+	    margin: 0 15px 15px 0;
+	    background-color: #e8e8e8;
+	}
+
+	.box p:last-child{
+	    font-size: 13px;
+	    color: orangered;
+	}
+</style>
+</head>
+
+<body>
+<h1>常用事件补充</h1>
+1、换肤,获取选中的图片，将选中图片设置为body的背景图片
+	<div id="box1" class="nws">
+        <ul>
+            <li><img src="images/1.jpg" alt=""></li>
+            <li><img src="images/2.jpg" alt=""></li>
+            <li><img src="images/3.jpg" alt=""></li>
+            <li><img src="images/4.jpg" alt=""></li>
+            <li><img src="images/5.jpg" alt=""></li>
+        </ul>
+    </div>
+	<script src="js/changeskin.js"></script>
+2、<a href="">选中和取消选中</a>
+	<div id="panel" class="nws">
+        <section class="panel-header">
+            <h2>歌曲排行版</h2>
+            <hr>
+        </section>
+        <section class="panel-content">
+            <input type="checkbox">1.时间都去哪了<br>
+            <input type="checkbox">2.海阔天空<br>
+            <input type="checkbox">3真的爱你<br>
+            <input type="checkbox">4.不再犹豫<br>
+            <input type="checkbox">5.光辉岁月<br>
+            <input type="checkbox">6.喜欢妳<br>
+            <input type="checkbox">7.偏偏喜欢你<br>
+            <input type="checkbox">8.爱拼才会赢<br>
+            <input type="checkbox">9.老街<br>
+        </section>
+        <section class="panel-footer">
+            <hr>
+            <button id="allSelect">全选</button>
+            <button id="cancelSelect">取消选中</button>
+            <button id="reverseSelect">反选</button>
+        </section>
+    </div>
+	<script src="js/select.js"></script>
+3、输入框焦点处理，处理获取焦点和失去焦点的样式变化
+	<input id="name1" type="text" placeholder="请输入你的姓名">
+	<script src="js/focus.js"></script>
+4、表单验证
+	<div class="nws">
+        <label>您的成绩:
+        <input id="score" type="text" placeholder="请输入分数">
+        <span id="prompt">请输入您的成绩!</span>
+		</label>
+    </div>
+	<script src="js/formverificate.js"></script>
+5、Tab选项卡
+    <div id="tab" class="nws">
+        <!--头部-->
+        <div id="tab_header">
+            <ul>
+                <li class="selected">公告</li>
+                <li>规则</li>
+                <li>论坛</li>
+                <li>安全</li>
+                <li>公益</li>
+            </ul>
+        </div>
+        <!--内容-->
+        <div id="tab_content">
+            <div class="dom" style="display: block">
+                <ul>
+                    <li><a href="#">数据七夕:金牛爱送玫瑰</a></li>
+                    <li><a href="#"> 阿里打造"互联网监管"</a></li>
+                    <li><a href="#">10万家店60万新品</a></li>
+                    <li><a href="#">全球最大网上时装周</a></li>
+                </ul>
+            </div>
+            <div class="dom">
+                <ul>
+                    <li>
+                        <a href="#">“全额返现”要管控啦</a>
+                    </li>
+                    <li>
+                        <a href="#">淘宝新规发布汇总(7月)</a>
+                    </li>
+                    <li>
+                        <a href="#">炒信规则调整意见反馈</a>
+                    </li>
+                    <li>
+                        <a href="#">质量相关规则近期变更</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dom">
+                <ul>
+                    <li>
+                        <a href="#">阿里建商家全链路服务</a>
+                    </li>
+                    <li>
+                        <a href="#">个性化的消费时代来临</a>
+                    </li>
+                    <li>
+                        <a href="#">跨境贸易是中小企业机</a>
+                    </li>
+                    <li>
+                        <a href="#">美妆行业虚假信息管控</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dom">
+                <ul>
+                    <li>
+                        <a href="#">接次文件，毁了一家店</a>
+                    </li>
+                    <li>
+                        <a href="#">账号安全神器阿里钱盾</a>
+                    </li>
+                    <li>
+                        <a href="#">新版阿里110上线了</a>
+                    </li>
+                    <li>
+                        <a href="#">卖家学违禁避免被处罚</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dom">
+                <ul>
+                    <li>
+                        <a href="#">为了公益high起来</a>
+                    </li>
+                    <li>
+                        <a href="#">魔豆妈妈在线申请</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	<script src="js/tab.js"></script>
+6、发表评论
+	<div id="comment" class="nws">
+		<textarea rows="4" cols="40"></textarea>
+		<br>
+		<button id="btn1">发表</button>
+		<ul id="content"></ul>
+	</div>
+	<script src="js/comment.js"></script>
+7、多列布局
+	<div class="nws">
+	<div id="top">
+        <button>3列</button>
+        <button>4列</button>
+        <button>5列</button>
+    </div>
+    <div id="bottom">
+        <div class="box">
+            <img src="images/01.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/02.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/03.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/04.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/05.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/06.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/07.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/08.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/09.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/10.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/11.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/12.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/13.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/14.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+        <div class="box">
+            <img src="images/15.jpg" alt="">
+            <p>因为遇见你</p>
+            <p>孙怡邓伦牵手演绎刺绣奇缘</p>
+        </div>
+    </div>
+	</div>
+	<script src="js/layout.js"></script>
+</body>
+</html>

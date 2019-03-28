@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cookie&hash</title>
+	<link href="css/index.css" rel="stylesheet">
+	<script src="js/index.js"></script>
+</head>
+<body>
+	<h1>分页式网页页码的两种保存和获取方式</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3>1、cookie: 客户端会话跟踪</h3>
+	1.1、作用：将网页中的数据保存到浏览器中
+	1.2、获取cookie：使用document.cookie可以直接获取cookie保存的所有数据
+	1.3、设置cookie值：document.cookie = "name=value;";
+		设置cookie的完整属性：document.cookie = "name=value;domain=域名;path=路径;expires=过期时间;...";
+	1.4、生命周期:
+	    默认情况下生命周期是一次会话(浏览器被关闭)
+	    如果通过expires设置了过期时间, 并且没到过期时间, 那么下次打开浏览器数据还存在,如果到了过期时间,则浏览器会立即删除保存的数据
+		设置立即过期程序示例：
+		var date = new Date();
+		date.setDate(date.getDate() - 1);
+		document.cookie = "age=33;expires="+date.toGMTString()+";";
+	1.5、作用范围:同一个浏览器的同一个路径下访问
+		如果在同一个浏览器中, 默认情况下,下级路径可以访问上级路径的cookie值
+		如果在同一个浏览器中, 想让上级目录也能访问下级路径保存的cookie,只需设置path属性为根目录
+		同一个域名不同站点cookie互访还需要设置域名：document.cookie = "name=value;path=/;domain=域名;";
+	1.6、注意点:
+		cookie默认不会保存任何的数据
+		cookie不能一次性保存多条数据, 要想保存多条数据,只能一条一条的设置
+		cookie有大小和个数的限制
+			个数限制: 20~50;大小限制: 4KB左右
+	1.7、cookie函数封装：
+		function addCookie(key, value, day, path, domain) {
+			// 1.处理默认保存的路径
+			var index = window.location.pathname.lastIndexOf("/")
+			var currentPath = window.location.pathname.slice(0, index);
+			path = path || currentPath;
+			// 2.处理默认保存的domain
+			domain = domain || document.domain;
+			// 3.处理默认的过期时间
+			if(!day){
+				document.cookie = key+"="+value+";path="+path+";domain="+domain+";";
+			}else{
+				var date = new Date();
+				date.setDate(date.getDate() + day);
+				document.cookie = key+"="+value+";expires="+date.toGMTString()+";path="+path+";domain="+domain+";";
+			}
+		}
+		function getCookie(key) {
+			var res = document.cookie.split(";");
+			for(var i = 0; i &lt; res.length; i++){
+				var temp = res[i].split("=");
+				if(temp[0].trim() === key){
+					return temp[1];
+				}
+			}
+		}
+		// 默认情况下只能删除默认路径中保存的cookie, 如果想删除指定路径保存的cookie, 那么必须在删除的时候指定路径才可以
+		function delCookie(key, path) {
+			addCookie(key, getCookie(key), -1, path);
+		}
+		将cookie函数封装成jQuery插件：
+		;(function ($, window) {
+			$.extend({
+				addCookie: function (key, value, day, path, domain) {
+					···
+				},
+				getCookie:function (key) {
+					···
+				},
+				delCookie:function (key, path) {
+					···
+				}
+			});
+		})(jQuery, window);
+		封装后可直接使用$.语法调用其中的函数
+	1.8、cookie保存和获取网页页码思路：
+		在获取页面时，如果设置了cookie值pageNumber，则获取pageNumber值得页码，否则获取第一页
+		在获取到分页后设置cookie:document.cookie("pageNumber=当前页码;");
+		<h3>2、hash：URI中#部分的数据</h3>
+	2.1、设置hash：window.location.hash=value;
+	2.2、获取hash值：window.location.hash.substring(1);
+		说明：通过window.location.hash获取到的值带有#号开头
+	2.3、hash保存和获取网页页码思路：
+		在获取页面时，如果设置了hash值，则获取hash值的页码，否则获取第一页
+		在获取到分页后设置hash:window.location.hash=当前页码;
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

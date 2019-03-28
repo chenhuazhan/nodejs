@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Javascript基本介绍</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	</style>
+	<script src="js/index.js"></script>
+</head>
+
+<body>
+	<h1>JavaScript的基本使用</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、什么是javascript</a></h3>
+	javascript是一种在浏览器中解释执行的脚本语言。
+		<h3><a href="">2、javascript的组成</a></h3>
+	2.1、ECMAScript：javascript的语法标准
+	2.2、DOM：javascript操作网页元素的API
+	2.3、BOM：javascript操作浏览器部分功能的API（弹窗、前进、后退）
+		<h3><a href="">3、javascript的特点</a></h3>
+	简单易用、区分大小写、解释执行、基于对象
+		<h3><a href="">4、如何使用javascript</a></h3>
+	4.1、行内式:直接嵌入javascript代码 <button onclick="alert('行内式使用javascript')">行内式</button>
+		代码示例：&lt;button onclick="alert('行内式使用javascript')"&gt;行内式&lt;/button&gt;
+	4.2、页内式：将javascript代码置于一对script标签中 <button id="btn">页内式</button>
+		代码示例：
+		&lt;button id="btn"&gt;页内式&lt;/button&gt;
+		&lt;script&gt;
+			var btn=document.getElementById("btn");
+			btn.onclick=function(){
+				alert("页内式使用javascript");
+			}
+		&lt;/script&gt;
+	4.3、外链式：将javascript代码写在一个后缀为.js的文件中，使用一对script标签链接该文件，将script标签的src属性设置为js文件的url，
+		且该script标签不能再次用作页内式的javascript书写。
+	注意：script标签可置于文档中的任何位置，但包含同样代码的标签置于不同位置效果可能不一样，位置不对代码甚至会失效。
+		<h3><a href="">5、常用用户交互方式</a></h3>
+<table class="nws">
+	<thead>
+		<th>交互界面</th><th>方法</th><th>示例</th>
+	</thead>
+	<tbody>
+		<tr><td>弹窗</td><td>alert('提示');</td><td><button id="btn1">弹窗输出</button></td></tr>
+		<tr><td>弹窗</td><td>prompt("请求输入:");</td><td><button id="btn2">输入弹框</button></td></tr>
+		<tr><td>弹窗</td><td>confirm("请求确认！");</td><td><button id="btn3">确认弹框</button></td></tr>
+		<tr><td>控制台</td><td>console.log('打印内容!');</td><td><button id="btn4">控制台输出</button></td></tr>
+		<tr><td>控制台</td><td>console.warn("警告输出！");</td><td><button id="btn5">警告输出</button></td></tr>
+		<tr><td>控制台</td><td>console.error("错误输出！");</td><td><button id="btn6">错误输出</button></td></tr>
+	</tbody>
+</table><script src="js/show.js"></script>
+		<h3><a href="">6、注释</a></h3>
+	6.1、单行注释：//后面的内容被注释掉
+	6.2、多行注释：/*和*/之间的内容被注释掉
+		<h3><a href="">7、常量、变量</a></h3>
+	7.1、常量：即直接使用的数据值，例如字符串常量（"12abc"、"我是谁"等）、数值常量（1、110等）、布尔常量（true、false）、特殊字符常量（换行(\n)、制表符(\t)等）。
+	7.2、变量：用于存储一些可以变化的数据值，变量需要使用标识符来表示。
+		<h3><a href="">8、关键字、保留字、标识符</a></h3>
+	8.1、关键字：JavaScript语言用于程序控制或者执行特定操作的英语单词，它们被JavaScript语言赋予了特殊含义。
+	8.2、保留字：JavaScript预留的英语单词，虽然现在它们没有作为关键字，但在以后的升级版本中有可能作为关键字。
+		注意点：关键字和保留字都不能用作变量名、函数名，并且严格区分大小写。
+	8.3、标识符：在JS中所有的可以由我们自主命名的都可以称为是标识符，比如变量名、函数名、属性名都属于标识符。
+		命名一个标识符时需要遵守如下的规则：
+		a.标识符中可以含有字母 、数字 、下划线_ 、$符号
+		b.标识符不能以数字开头
+		c.标识符不能是ES中的关键字或保留字
+		d.严格区分大小写，比如name和Name是2个不同的标识符
+		e.标识符一般都采用驼峰命名法
+		<h3><a href="">9、分号和空白字符</a></h3>
+	在js代码中，有分号时浏览器按分号划分解释代码，无法解释时自动添加分号，不过会消耗一定的系统资源，且自动添加的分号不一定是正确的；JS程序会被忽略掉标识之间的空格和大部分换行符。
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

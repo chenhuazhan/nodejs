@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard &laquo; Admin</title>
+    <link rel="stylesheet" href="/baixiu/assets/vendors/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/baixiu/assets/vendors/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/baixiu/assets/vendors/nprogress/nprogress.css">
+    <link rel="stylesheet" href="/baixiu/assets/css/admin.css">
+    {{block 'style'}}
+    {{/block}}
+    <script src="/baixiu/assets/vendors/nprogress/nprogress.js"></script>
+</head>
+<body>
+<script>NProgress.start()</script>
+
+<div class="main">
+    {{ include './navbar.html'}}
+    {{block 'content'}}
+    默认内容
+    {{/block}}
+</div>
+
+{{ include './sidebar.html'}}
+
+<script src="/baixiu/assets/vendors/jquery/jquery.js"></script>
+<script src="/baixiu/assets/vendors/bootstrap/js/bootstrap.js"></script>
+{{block 'script'}}
+{{/block}}
+<script>NProgress.done()</script>
+</body>
+</html>

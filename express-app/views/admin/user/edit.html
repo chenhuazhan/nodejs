@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student management system</title>
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{ include './css/index.css.html'}}
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 main">
+            <h2 class="sub-header">编辑用户信息</h2>
+            <form action="/user/edit" method="post">
+                <input type="hidden" name="id" value="{{ user._id }}">
+                <div class="form-group">
+                    <label for="">昵称</label>
+                    <input type="text" class="form-control" id="" name="name" required minlength="2" maxlength="10"
+                           value="{{ user.nickname }}">
+                </div>
+                <div class="form-group">
+                    <label for="">邮箱</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required value="{{ user.email }}">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PHP File System</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+	
+	</style>
+	<script src="js/index.js"></script>
+</head>
+<body>
+<h1>PHP文件系统</h1>
+<!--文章内容开始-->
+	<section class="pws" id="content">
+	<h3>1、文件检测</h3>
+	1.1、存在性检测：bool  file_exists(string $filename);
+	1.2、类型检测：
+		string filetype(string $filename)，可能的返回值有 fifo，char，dir，block，link，file 和 unknown，出错返回false
+		bool  is_file(string $filename);判断是否是文件
+		bool  is_dir(string $filename);判断是否是目录
+	1.3、文件大小检测：filesize(string $filename);文件大小或目录大小
+	<h3>2、打开和关闭文件</h3>
+	2.1、resource fopen(string filename,string mode):打开文件或URL,mode可设置文件的打开模式
+		打开模式：	
+			"r"   只读方式打开,将文件指针指向文件头
+			"r+"  读写方式打开,将文件指针指向文件头
+			"w"   写入方式打开,将文件指针指向文件头并将文件大小截为零,文件不存在则新建文件
+			"w+"  读写方式打开,将文件指针指向文件头并将文件大小截为零，文件不存在则新建文件
+			"a"   写入方式打开,将文件指针指向文件结尾，如果文件不存在则创建文件
+			"a+"  读写方式打开,将文件指针指向文件结尾，如果文件不存在则创建文件
+		返回值：函数执行成功返回一个文件句柄，否则返回 FALSE。
+		fopen()函数也用于创建文件:如果用 fopen() 打开并不存在的文件，则会创建文件
+		例：创建名为 "testfile.txt" 的新文件：$myfile = fopen("testfile.txt", "w");
+	2.2、bool fclose(resource $handle)：关闭一个已打开的文件
+	<h3>3、文件指针操作</h3>
+	3.1、bool rewind(resource $handle);将指针设为文件流的开头
+	3.2、int fseek(resource $handle,int $offset[,int $whence = SEEK_SET] );将指针在文件中定位,成功则返回 0；否则返回 -1
+	3.3\ftell(resource $handle);返回文件指针的读/写位置
+	<h3>4、读取文件内容</h3>
+	4.1、读取相关检测函数
+		is_readable(string $filename);判断给定文件名是否可读
+		feof(resource $handle);检查是否已到达文件末尾 "end-of-file" (EOF)
+		如果文件指针到了 EOF 或者出错时则返回 TRUE，否则返回一个错误（包括 socket 超时），其它情况则返回 FALSE。
+	4.2、读取fopen打开的文件资源
+		string fread(resource $handle,int $length)
+			从文件读取最多length个字节。length参数常搭配filesize()函数使用
+			应用：读取图片内容并输出
+				header('content-type:image/jpeg');
+				$file='test.jpg';
+				$fr=fopen($file,'r') or die("Unable to open file!");
+				echo fread($fr,filesize($file));
+				fclose($fr);
+		string fgets(resource $handle[, int $length ])
+			从文件资源中读取一行，调用此函数后，文件指针会移动到下一行。
+			拓展：fgetss函数从文件指针中读取一行并过滤掉 HTML 标记
+		string fgetc(resource $handle)
+			从文件资源中读取一个字符，调用此函数后，文件指针会移动到下一个字符。
+			应用：逐字符读取文件，直到 end-of-file：
+				$myfile = fopen("test.txt", "r") or die("Unable to open file!");
+				while(!feof($myfile)) {
+					echo fgetc($myfile);
+				}
+				fclose($myfile);
+	4.3、不需要资源，直接读取
+		int readfile(string $filename[, bool $use_include_path = false[,resource $context ]])
+			读取文件并写入到输出缓冲，不用echo，读取后直接输出
+		array file(string $filename);将文件的每一行作为一个元素存入数组中返回
+			$f_arr = file('test.txt');
+			foreach($f_arr as $cont){
+				echo $cont."<br>";
+			}
+		string file_get_contents(string $filename[,bool $use_include_path=false[,resource $context[,int $offset = -1[,int $maxlen ]]]])
+			将整个文件读入一个字符串，此函数性能比fread函数性能好
+			应用：网站数据采集器
+				$url='http://www.baidu.com';
+				$str=file_get_contents($url);
+				echo $str;
+	<h3>5、写入文件</h3>
+	5.1、int fwrite(resource $handle,string $string[,int $length ])
+		将字符串写入指定文件，返回写入的字符数，出现错误时则返回 FALSE 
+	5.2、int file_put_contents(string $filename, mixed $data[,int $flags=0[,resource $context]])
+		覆盖写入：file_put_contents($file,'abc');
+		追加写入：file_put_contents($file,'abc',FILE_APPEND);
+		等同于依次调用 fopen()，fwrite()以及fclose() 
+		应用：页面静态化
+			$url='http://www.baidu.com';
+			$str=file_get_contents($url);
+			file_put_contents('baidu.html',$str);
+	
+	<h3>6、重命名、复制、删除、移动</h3>
+	重命名：bool rename(string $oldname,string $newname[,resource $context])
+	复制：bool copy(string $source,string $dest[,resource $context])
+	删除：bool unlink(string $filename[,resource $context])
+	移动（先复制，再删除）
+		$sfile='1.jpg'; $dfile='img/'.$sfile;
+		copy($sfile,$dfile);sleep(3);
+		unlink($sfile);
+	<h3>7、文件上传与下载</h3>
+	7.1、常见数据格式
+		图片文件			image/gif、image/jpg、image/jpeg、image/png
+		纯文件和html		text/plain、text/html
+		二进制文件			application/octet-stream
+		音频格式			audio/mpeg
+		视频格式			video/avi、video/x-ms-wmv
+	7.2、HTML部分
+		7.1.1、上传文件一般使用POST方法提交
+		7.1.2、上传文件必须设置enctype="multipart/form-data"
+	&lt;form action="upload.php" method="post" enctype="multipart/form-data">
+		&lt;input type="file" name="upFile">&lt;input type="submit" value="上传">
+	&lt;/form>
+	7.3、PHP部分
+		7.3.1、上传的文件在PHP中可以通过$_FILES获取
+			超全局数组$_FILES存储的相关数据：
+				$_FILES['myfile']['name']
+				$_FILES['myfile']['type']
+				$_FILES['myfile']['size']
+				$_FILES['myfile']['tmp_name']
+				$_FILES['myfile']['error']
+					0   //表示没有发生任何错误
+					1   //表示上传文件的大小超出了约定值,约定值是upload的值，但不能超过post的值
+					2   //上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值
+					3   //文件只有部分被上传
+					4   //表示没有上传任何文件
+		7.3.2、PHP中文件默认会上传到一个临时目录, 接收完毕之后会自动删除
+		7.3.3、PHP上传文件四部曲
+			a.获取上传文件对应的信息：$fileInfo = $_FILES["upFile"];
+			b.获取上传文件的名称：$fileName = $fileInfo["name"];
+			c.获取上传文件保存的临时路径：$filePath = $fileInfo["tmp_name"];
+			d.移动文件：move_uploaded_file($filePath, "./source/".$fileName);
+	7.4、限制上传
+		7.3.1、php文件上传相关配置(pho.ini)
+			file_uploads = On				; 是否允许上传文件 On/Off 默认是On
+			upload_max_filesize = 2048M 	; 上传文件的最大限制
+			post_max_size = 2048M			; 通过Post提交的最多数据
+			max_execution_time = 30000		; 脚本最长的执行时间 单位为秒
+			max_input_time = 3000			; 接收提交的数据的时间限制 单位为秒
+			memory_limit = 2048M			; 最大的内存消耗
+		7.3.2、限制大小
+			客户端限制：&lt;input type="hidden" name="MAX_FILE_SIZE" value="1000000" /&gt;
+			服务端限制：
+				$filesize=$_FILES['files']['size'];
+				if($filesize>1000000){
+					echo "对不起,您上传的文件超过规定的大小!!";
+					echo "&lt;meta http-equiv=\"Refresh\" content=\"3;url=index.php\">将在3秒钟后返回前页...";
+				}
+		7.3.3、限制类型
+			获取文件后缀
+				$farr=explode('.',$_FILES['upFile']['name']);
+				$fext=array_pop($farr);
+			限制文件上传类型
+				$allows=array('jpg','png','gif');
+				if(in_array($fext,$allows)){
+					···
+				}else{
+					echo "&lt;script>alert('文件类型不允许，只允许上传png|jpg|gif!')&lt;/script>";
+				}
+	7.5、上传文件管理
+		创建上传日期目录
+			$year=date('Y');
+			$month=date('m');
+			$day=date('d');
+			$datedir=$uploaddir.'/'.$year.'-'.$month.'-'.$day;
+			if(!file_exists($datedir)){
+				mkdir($datedir);
+			}
+		获取文件后缀
+			$farr=explode('.',$_FILES['img']['name']);
+			$fext=array_pop($farr);
+		文件名中加入时间戳和随机数，预防文件同名和猜测攻击
+			$frand=time().mt_rand();
+		最终上传路径和文件名
+			$dfile=$datedir.'/'.$frand.'.'.$fext;
+	7.6、多文件上传
+		使用数组格式的表单元素，例：
+		&lt;form action="" method="post" enctype="multipart/form-data">
+			&lt;input name="u_file[]" type="file">
+			&lt;input name="u_file[]" type="file">
+			&lt;input name="u_file[]" type="file">
+			&lt;input name="u_file[]" type="file">
+			&lt;input type="submit" value="上传" />
+		&lt;/form>
+		&lt;?php
+		if(!empty($_FILES['u_file']['name'])){
+			$file_name = $_FILES['u_file']['name'];
+			$file_tmp_name = $_FILES['u_file']['tmp_name'];
+			for($i = 0; $i < count($file_name); $i++){
+				if($file_name[$i] != ''){
+					move_uploaded_file($file_tmp_name[$i],$i.$file_name[$i]);
+					echo '文件'.$file_name[$i].'上传成功。更名为'.$i.$file_name[$i].'&lt;br>';
+				}
+			}
+		}
+		?>
+	7.7、文件下载
+		$file=$_GET['file'];
+		$downfile='img/'.$file;		
+		$filesize=filesize($downfile);		
+		header('content-type:application/octet-stream');		
+		header("content-disposition:attachment;filename={$file}");		
+		header("content-length:{$filesize}");		
+		readfile($downfile);	
+	<h3>8、目录操作</h3>
+	8.1、创建目录
+		bool mkdir(string $pathname[,int $mode=0777[,bool $recursive=false[,resource $context]]])
+		尝试新建一个由 pathname 指定的目录
+			$dir='css';
+			file_exists($dir)||mkdir($dir);
+	8.2、遍历目录
+		resource opendir(string $path [,resource $context ]);打开目录句柄
+		string readdir([resource $dir_handle]);
+		返回目录中下一个文件的文件名。文件名以在文件系统中的排序返回，失败时返回 FALSE 
+		closedir(resource $dir_handle);关闭目录句柄
+		array scandir(string $directory[,int $sorting_order[,resource $context]])
+		返回指定路径中的文件和目录数组,，失败返回false
+			$arr=scandir($dir);
+			foreach($arr as $key=>$val){
+				if($key>1){
+					echo $val.'&lt;br>';
+				}
+			}
+	8.3、删除空目录rmdir(string $pathname);		
+		file_exists($dir)||mkdir($dir);
+		sleep(3);rmdir($dir);	
+	8.4、删除非空目录	
+		操作步骤：遍历、递归
+			function delDir($dir){
+				$files=scandir($dir);
+				foreach($files as $key=>$val){
+					if($key>1){
+						$file=$dir.'/'.$val;
+						if(is_dir($file))
+							delDir($file);
+						else
+							unlink($file);
+					}
+				}
+				rmdir($dir);
+			}
+		延伸：清空目录及所有子目录文件
+			function clearDir($dir){
+				$files=scandir($dir);
+				foreach($files as $key=>$val){
+					if($key>1){
+						$file=$dir.'/'.$val;
+						if(is_dir($file)){
+							clearDir($file);
+						}else{
+							unlink($file);
+						}
+					}
+				}
+			}
+	8.5、复制完整目录	
+		function copyDir($dir1,$dir2){
+			mkdir($dir2);
+			$files=scandir($dir1);
+			foreach($files as $key=>$val){
+				if($key>1){
+					$file1=$dir1.'/'.$val;
+					$file2=$dir2.'/'.$val;
+					if(is_dir($file1)){
+						copyDir($file1,$file2);
+					}else{
+						copy($file1,$file2);
+					}
+				}
+			}
+		}
+	8.6、移动完整目录=>先执行8.5->后执行8.4	
+	8.7、取得当前工作目录：string getcwd ( void )
+	8.8、改变当前目录：bool chdir(string $directory)
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

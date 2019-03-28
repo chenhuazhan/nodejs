@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>嵌入内容</title>
+<meta charset="utf-8">
+<style>
+	body{font-size:16px;}
+	h1{text-align:center;}
+	summary{font-size: 24px;
+</style>
+</head>
+<body>
+<pre>
+<h1>丰富HTML页面</h1>
+<details>
+<summary>1、嵌入图像</summary>
+  使用img元素在HTML文档中嵌入图像,alt属性定义备用内容，此内容在图像无法呈现时显示。图像会在HTML标记处理完毕后才会加载，如果省略width和height属性，浏览器就不知道为图像预留多少空间，从而造成页面晃动。width和height如果只设置其中一个，另一个会按图像本身比例等比拉伸，如果同时设置，可能导致图像比例不协调。结合a标签可以设计出基于图像的超链接。
+  <img src="imgs/img.png">
+  设计分区响应图：
+  涉及元素：map、area（略）
+</details>
+<details>
+<summary>2、嵌入另一张HTML文档</summary>
+  使用iframe元素
+  <img src="imgs/iframe.png">
+  <iframe src="http://www.baidu.com"></iframe>
+</details>
+<details>
+<summary>3、通过插件嵌入内容</summary>
+  使用embed和object元素
+  <img src="imgs/embed.png">
+  src属性指定内容地址，type属性指定内容的MIME类型，还可以加个allowfullscreen="true"启用全屏观看功能。
+  示例：<img src="imgs/embedexample.png">
+  <img src="imgs/object.png">
+  data属性提供内容地址，object元素需要配合param元素使用，param元素定义将要传递给插件的参数。name和value属性定义参数的name和value值。
+  <img src="imgs/param.png">
+  object元素还可在结束标签之前插入备用显示内容，当指定内容无法显示时显示备用内容。
+  示例：<img src="imgs/objectexample.png">
+  当type属性不存在时，浏览器尝试从数据本身判断类型。对于某些浏览器，即使插件内容不存在也会加载插件，显示一片空白区域而不是备用内容。
+</details>
+<details>
+<summary>4、object元素的用途用途</summary>
+4.1、嵌入图像&lt;object data="test.png" type="image/png"&gt;&lt;/object&gt;
+4.2、创建分区响应图（浏览器支持性差，略）
+4.3、创建浏览器上下文（类似iframe），type设置为text/html，浏览器不普遍支持
+</details>
+<details>
+<summary>5、嵌入数字表现形式</summary>
+5.1、显示进度
+<img src="imgs/progress.png">
+<progress id="myprogress" value="10" max="100"></progress>
+<button type="button" value="30">30%</button><button type="button" value="60">60%</button><button type="button" value="90">90%</button>
+<script>
+	var buttons=document.getElementsByTagName("button");
+	var progress=document.getElementById("myprogress");
+	for(var i=0;i<buttons.length;i++){
+		buttons[i].onclick=function(e){
+			progress.value=e.target.value;
+		}
+	}
+</script>
+5.2、显示范围值
+<img src="imgs/meter.png">
+<meter id="mymeter" value="90" min ="10" max="100" low="40" high="80" optimum="60"></meter>
+<button type="button" value="30">30%</button><button type="button" value="60">60%</button><button type="button" value="90">90%</button>
+<script>
+	var buttons=document.getElementsByTagName("button");
+	var meter=document.getElementById("mymeter");
+	for(var i=0;i<buttons.length;i++){
+		buttons[i].onclick=function(e){
+			meter.value=e.target.value;
+		}
+	}
+</script>
+</details>
+<details>
+<summary>6、嵌入音频、视频、图形</summary>
+audio、video、source、track、canvas详见后文。
+</details>
+</pre>
+</body>
+</html>

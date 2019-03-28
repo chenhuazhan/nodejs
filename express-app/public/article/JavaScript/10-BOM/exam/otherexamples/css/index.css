@@ -1,0 +1,11 @@
+*{
+   	margin: 0;
+    padding: 0;
+	list-style: none;
+ }
+body{white-space:pre;}
+.nws{white-space:normal;}
+.ibdiv{
+   	position: relative;
+   	display: inline-block;
+}

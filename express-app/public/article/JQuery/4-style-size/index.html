@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery CSS样式和尺寸操作</title>
+	<link href="css/index.css" rel="stylesheet">
+	<style>
+		#box{
+			width:800px;
+			height:400px;
+			position:absolute;
+			left:100px;
+			top:100px;
+			background:pink;
+			display:none;
+		}
+		div{
+			width:250px;
+			height:30px;
+			background:green;
+			text-align:center;
+			margin:0 auto;
+		}
+		#box div:nth-of-type(odd){
+			background:red;
+		}
+	</style>
+	<script src="js/jQuery-1.12.4.js"></script>
+	<script src="js/index.js"></script>
+<script>
+	$(function(){
+		$("#example").mouseenter(function(){
+			$("#box").css("display","block");
+			return false;
+		});
+		$("#div1").click(function(){
+			alert($(this).width());
+			$(this).width(500);
+		});
+		
+		$("#div2").click(function(){
+			alert("left:"+$(this).offset().left+" top:"+$(this).offset().top);
+			$(this).offset({left:"300",top:300});
+		});
+		$("#div3").click(function(){
+			alert("left:"+$(this).position().left+" top:"+$(this).offset().top);
+		});
+		
+		$("#div4").click(function(){
+			$(this).parent().css("display","none");
+		});
+		
+	});
+</script>
+</head>
+
+<body>
+<h1>jQuery CSS样式和尺寸操作</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、操作CSS样式方法css()</a></h3>
+	1.1、获取：jqobj.css(cssattr);
+	1.2、逐个设置jqobj.css(cssattr,value);
+	1.3、链式设置jqobj.css(cssattr1,value1).css(cssattr2,value2);
+	1.4、批量设置jqobj.css({cssattr1:value1,cssattr2,value2});
+	1.5、注意点：CSS属性名和属性值均以字符串形式传入，属性值带单位的要带上单位传入。
+		<h3><a href="">2、元素宽高</a></h3>
+	width()、height()
+		获取：jqobj.width()，jqobj.height()，获取到的值是以px为单位的数值<button onclick="alert(typeof $(this).width());">typeof $(this).width()</button>
+		设置宽度：jqobj.width(30)==jqobj.width("30")==jqobj.width("30px")!=jqobj.width("30pt")
+		设置高度同理
+	获取只读宽高（包括内边距）：innerWidth()/innerHeight()
+	获取只读宽高（包括内边距和边框）：outerWidth()/outerHeight()
+	获取只读宽高（包括内边距、边框和外边距）：outerWidth(true)/outerHeight(true)
+		<h3><a href="">3、定位偏移量</a></h3>
+	offset()：获取元素距离DOM文档左边界和上边界的偏移量：offset().left、offset().top
+		设置：offset({left:10,top:20});设置后该元素position属性值被设置为relative; 
+		且left和top属性值被设置为经计算后会满足偏移量的值
+		offset()方法获取到的是数值，设置时left和top及其属性值可带可不带引号，且属性值不能带单位
+	position():获取元素距离定位元素的偏移量，即读取css属性的left和top值，只能获取不能设置
+		<h3><a href="">4、滚动偏移量</a></h3>
+	scrollTop()、scrollLeft()
+	注意点: 为了保证浏览器的兼容,
+		获取网页滚动偏移位需按照如下写法：$("body").scrollTop()+$("html").scrollTop();
+		设置网页滚动偏移位需按照如下写法：$("html,body").scrollTop(300);
+	总结：操作2、3、4点的相关方法时，传参时最好统一格式为不带引号和单位
+		<h3><a href="" id="example">5、综合案例</a></h3>
+		<div id="box">
+			<div id="div1">点我获取并改变宽度</div>
+			<div id="div2">点我获取并改变窗口偏移量</div>
+			<div id="div3">点我获取最近定位元素偏移量</div>
+			<div id="div4">关闭案例演示</div>
+		</div>
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>

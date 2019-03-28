@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JS面向对象编程</title>
+	<link href="css/index.css" rel="stylesheet">
+
+<script src="js/index.js"></script>
+</head>
+<body>
+	<h1>Javascript面向对象</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3><a href="">1、面向对象三大特性</a></h3>
+	1.1、封装：属性私有化，只能通过接口访问
+	1.2、继承：子类继承父类的属性和方法
+	1.3、多态：两个或多个属于不同类的对象，对同一个方法调用有不同的处理方式
+		<h3><a href="">2、构造函数</a></h3>
+	首字母大写，能够自己或配合new关键字返回一个独立的新对象。
+	关键字new能将函数内部的this指向函数本身，将函数变成对象返回（实际上函数也是一个对象）。
+		<h3><a href="">3、构造器constructor</a></h3>
+	用于找到创建对象的构造函数的引用
+	var arr=new Array();
+	console.log(arr.constructor);	//Array(){}
+	console.log(Array.constructor);	//Function(){}
+		<h3><a href="">4、原型属性prototype</a></h3>
+	4.1、JavaScript是基于原型来面向对象的。
+	4.2、prototype可以动态给对象添加属性和方法
+		Array.prototype.test = "测试";
+		Array.prototype.sya = function () {
+			alert("hello,I am Array.");
+		};
+		var arr = new Array();
+		console.log(arr.test);
+		arr.say();
+	4.3、prototype相当于一个共享库，用prototype添加的属性和方法在多个对象实例中只占用一份内存。
+		其中的所有内容发生变化都会作用在所有对象实例上，故需要独占一份内存的属性不能用prototype来添加。
+	4.4、通过prototype添加的方法属于实例方法，如：Class.prototype.method=function(){};只能通过实例对象来调用;
+		而通过类名直接添加的方法属于静态方法，如Class.method=function(){};则可以直接通过类名来调用
+	4.5、prototype实际上是对象的一个对象属性，像下面的用法会覆盖原有的prototype值
+		Dog.prototype = {
+			eat: function (someThing) {
+				console.log(this.name + "在吃" + someThing);
+			},
+			run: function (someWhere) {
+				console.log(this.name + "跑" + someWhere)
+			}
+		};
+	4.6、prototype中的this指向
+		共享库中的所有方法的this默认指向将要产生的对象
+		以下两种情况下会发生变化：
+			a.在事件函数作用域中，this会指向事件源
+			b.在定时器作用域中，this会指向window对象
+		<h3><a href="">5、面向对象的一般写法</a></h3>
+	// 构造函数
+	function Dog(option) {
+		this._init(option);
+	}
+	Dog.prototype = {
+		//公共属性
+		kind:"二哈",
+		//方法
+		_init: function (option) {
+			// 私有属性
+			this.name = option.name;
+			this.age = option.age;
+		},
+		eat: function (someThing) {
+			console.log(this.name + "在吃" + someThing);
+		},
+		run: function (someWhere) {
+			console.log(this.name + "跑" + someWhere)
+		}
+	};
+	一个矩形类示例：
+		function Rect(option) {
+			this._init(option);
+		}
+		Rect.prototype = {
+			_init: function (option) {
+				option = option || {};
+				// 父标签的id
+				this.parentId = option.parentId;
+				// 位置
+				this.left = option.left || 100;
+				this.top = option.top || 100;
+				// 自身属性
+				this.width = option.width || 100;
+				this.height = option.height || 50;
+				this.backgroundColor = option.backgroundColor || 'blue';
+				this.border = option.border || 0;
+				this.borderRadius = option.borderRadius || 0;
+			},
+			// 绘制矩形
+			render: function () {
+				var parentNode = document.getElementById(this.parentId);
+				var childNode = document.createElement("div");
+				childNode.style.position = "absolute";
+				childNode.style.left = this.left + "px";
+				childNode.style.top = this.top + "px";
+				childNode.style.width = this.width + "px";
+				childNode.style.height = this.height + "px";
+				childNode.style.backgroundColor = this.backgroundColor;
+				childNode.style.border = this.border;
+				childNode.style.borderRadius = this.borderRadius + "px";
+				parentNode.appendChild(childNode);
+		
+			}
+		};
+		// 实例化
+		var rect = new Rect({
+			parentId: "main",
+			left: 100,
+			top:200,
+			width: 400,
+			height: 450,
+			backgroundColor: 'red',
+			border: "20px solid #000",
+			borderRadius: 0
+		});
+		rect.render();
+		<h3><a href="">6、面向对象的高级写法</a></h3>
+	function Dog(option) {
+		return new Dog.prototype._init(option);
+	}
+	Dog.prototype = {
+		constructor: Dog,
+		//公共属性
+		kind:"二哈",
+		//方法
+		_init: function (option) {
+			// 私有属性
+			this.name = option.name;
+			this.age = option.age;
+		},
+		eat: function (someThing) {
+			console.log(this.name + "在吃" + someThing);
+		},
+		run: function (someWhere) {
+			console.log(this.name + "跑" + someWhere)
+		}
+	}
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+
+</body>
+</html>

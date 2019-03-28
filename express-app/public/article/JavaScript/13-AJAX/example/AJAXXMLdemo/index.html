@@ -1,0 +1,17 @@
+<html>
+<head>
+	<script src="selectcd.js"></script>
+</head>
+<body>
+	<form> 
+		Select a CD:<select name="cds" onchange="showCD(this.value)">
+		<option style="display:none;"></option>
+		<option value="Bob Dylan">Bob Dylan</option>
+		<option value="Joe Cocker">Joe Cocker</option>
+		<option value="Cat Stevens">Cat Stevens</option>
+		
+		</select>
+	</form>
+	<div id="txtHint"><b>CD info will be listed here.</b></div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LAMP</title>
+	<link href="css/index.css" rel="stylesheet">
+	<script src="js/index.js"></script>
+</head>
+<body>
+	<h1>搭建LAMP环境</h1>
+	<!--文章内容开始-->
+	<section class="pws" id="content">
+		<h3>1、安装Apache</h3>
+	sudo apt-get install apache2
+		• 测试： 浏览器访问http://Ubuntu的IP，出现It Works!网页。
+	• 查看状态： service apache2 status/start/stop/restart
+	• Web目录： /var/www
+	• 安装目录： /etc/apache2/
+	• 全局配置： /etc/apache2/apache2.conf
+	• 监听端口： /etc/apache2/ports.conf
+	• 虚拟主机： /etc/apache2/sites-enabled/000-default.conf
+	• 修改根目录：  /etc/apache2/sites-available/000-default.conf 
+	DocumentRoot /var/www/ 修改为想要的目录
+	• 修改默认访问页面：/etc/apache2/mods-available/dir.conf
+	&lt;IfModule mod_dir.c>
+		DirectoryIndex index.php index.cgi index.pl index.html index.xhtml index.htm /wordpress
+	&lt;/IfModule>
+		<h3>2、安装MySQL</h3>
+	sudo apt-get install mysql-server mysql-client
+	• 测试：mysql -u root -p
+	• 查看状态：service mysql status/start/stop/retart
+	• 查看监听端口的情况：netstat -tunpl 或 netstat -tap
+ 
+		<h3>3、安装PHP</h3>
+	sudo apt-get install php7.0
+	• 测试：php7.0 -v
+	Php.ini:/etc/php/p.0/apache2/php.ini
+		<h3>4、安装其他模块</h3>
+	sudo apt-get install libapache2-mod-php7.0
+	sudo apt-get install php7.0-mysql
+	• 重启服务
+		○ service apache2 restart
+		○ service mysql restart
+	• 测试Apache能否解析PHP
+		○ vim /var/www/html/phpinfo.php
+		○ 文件中写：&lt;?php echo phpinfo();?>
+		○ 浏览器访问：http://ubuntu地址/phpinfo.php，出现PHP Version网页
+		<h3>5、修改权限</h3>
+	sudo chmod 777 /var/www
+		<h3>6、安装phpMyAdmin</h3>
+	sudo apt-get install phpmyadmin
+	• 安装：选择apache2，点击确定。下一步选择是要配置数据库，并输入密码。
+	• 创建phpMyAdmin快捷方式：sudo ln -s /usr/share/phpmyadmin /var/www/html
+	• 启用Apache mod_rewrite模块：sudo a2enmod rewrite
+	• 重启服务：
+		○ service php7.0-fpm restart
+		○ service apache2 restart
+	测试：浏览器访问：http://ubuntu地址/phpmyadmin
+		<h3>7、配置Apache</h3>
+	vim /etc/apache2/apache2.conf
+	• 添加：
+	• AddType application/x-httpd-php .php .htm .html
+	• AddDefaultCharset UTF-8
+	• 重启Apache服务
+	</section>
+	<!--文章内容结束-->
+	<!--侧边栏开始-->
+	<aside id="rightaside">
+		<ul id="asidenav">
+		</ul>
+	</aside>
+	<!--侧边栏结束-->
+</body>
+</html>
